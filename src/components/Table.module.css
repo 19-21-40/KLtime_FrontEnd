@@ -94,6 +94,8 @@ body {
     box-sizing: border-box;
 }
 
+
+
 .timeTableDayViewer{
     background: none;
 
@@ -107,6 +109,9 @@ body {
     position: relative;
     height: 100%;
 }
+
+
+
 
 /* width */
 ::-webkit-scrollbar {

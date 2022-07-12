@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import styles from "./Time.module.css"
 
 function Time({
-    isCardMode,
     id,
+    isCardMode,
+    onClick,
     lectureName,
     professor,
     startTime,
@@ -13,47 +14,59 @@ function Time({
     level,
     property,
     credit,
-    notes
-    }){
+    notes,
+    width="150px",
+    height="100px",
+    top="",
+    backgroundColor="rgb(255, 187, 59)"
+}) {
     return (
-        <button className={isCardMode?styles.cardList:styles.lineList}>
-            <div>
-                <span>학정번호 : </span>
-                <span>{id}</span>
+        <div className={styles.selectedTime}
+            style={{
+                width,
+                height,
+                top,
+                left: '0%',
+                borderRadius: '10px',
+                borderLeft: '3px solid rgb(255, 187, 59)',
+                marginLeft: '0px',
+                color: 'rgb(255, 255, 255)',
+                backgroundColor,
+                opacity: '1',
+                zIndex: '0',
+            }}
+        >
+            <div className={styles.selectedTimeContent} height='100%'>
+                <div className={styles.time}>
+                    <div>
+                        <strong>{lectureName}</strong>
+                    </div>
+                    <div>
+                        {professor}
+                    </div>
+                    <div>
+                        {startTime}
+                    </div>
+                    <div>
+                        {endTime}
+                    </div>
+                    <div>
+                        {level}
+                    </div>
+                    <div>
+                        {property}
+                    </div>
+                    <div>
+                        {credit}
+                    </div>
+                    <div style={{
+                        display:isCardMode?'none':'block'
+                    }}>
+                        {notes}
+                    </div>
+                </div>
             </div>
-            <div>
-                <span>강의명 : </span>
-                <span>{lectureName}</span>
-            </div>
-            <div>
-                <span>교수명 : </span>
-                <span>{professor}</span>
-            </div>
-            <div>
-                <span>강의 시작시간 : </span>
-                <span>{startTime}</span>
-            </div>
-            <div>
-                <span>강의 종료시간 : </span>
-                <span>{endTime}</span>
-            </div>
-            <div>
-                <span>난이도 : </span>
-                <span>{level}</span>
-            </div>
-            <div>
-                <span>구분 : </span>
-                <span>{property}</span>
-            </div>
-            <div>
-                <span>이수학점 : </span>
-                <span>{credit}</span>
-            </div>
-            <div>
-                <span>유의사항 : </span>
-                <span>{notes}</span>
-            </div>
-        </button>
+        </div>
     )
 }
 
@@ -65,8 +78,8 @@ Time.propTypes = {
     endTime: PropTypes.string.isRequired,
     level: PropTypes.number,
     property: PropTypes.string.isRequired,
-    credit:PropTypes.number.isRequired,
-    notes:PropTypes.string
-  };
+    credit: PropTypes.number.isRequired,
+    notes: PropTypes.string
+};
 
 export default Time;

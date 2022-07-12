@@ -3,7 +3,7 @@ import TimeList from "./TimeList";
 import styles from "./Table.module.css"
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const test = [
@@ -54,8 +54,38 @@ function Table() {
         "21시 00분",
         "22시 30분",
     ]
-    const [selectedTimes, setSeletedTimes] = useState([]);
+    const [selectedTimes, setSeletedTimes] = useState({
+        mon:[{}],
+        tue:[{}],
+        wed:[{}],
+        thu:[{}],
+        fri:[{}],
+        sat:[{}]
+    });
+    useEffect(()=>{
+        setSeletedTimes(
+            {...selectedTimes,
+            tue:[
+                {
+                    id: "456",
+                    lectureName: "테스트",
+                    professor: "tester",
+                    startTime: "1",
+                    endTime: "3",
+                    level: 3,
+                    property: "전공",
+                    credit: 3,
+                    notes: "테스트"
+                },
+            ]}
+        )
+    },[])
+    const onClick=(e)=>{
+        console.log(e);
+    }
 
+    const keys=Object.keys(selectedTimes);
+    
 
     return (
         <div id={styles.table} height="600px">
@@ -113,7 +143,7 @@ function Table() {
                                         <div 
                                         className={styles.tableTimeZonePiece}
                                         style={{
-                                            height: '52px',
+                                            height: '72px',
                                             color: '#bbb',
                                             fontWeight: 'normal'
                                         }}
@@ -131,12 +161,12 @@ function Table() {
                                             className={styles.timeTableGridLine}
                                             key={index}
                                             style={{
-                                                height: "54px",
+                                                height: "72px",
                                                 borderBottom: "1px solid #e5e5e5"}}
                                             >
-                                                <div className={styles.timeTableGridLineThird} style={{height: "18px",borderBottom: "none"}}></div>
-                                                <div className={styles.timeTableGridLineThird} style={{height: "18px",borderBottom: "none"}}></div>
-                                                <div className={styles.timeTableGridLineThird} style={{height: "18px",borderBottom: "none"}}></div>
+                                                <div className={styles.timeTableGridLineThird} style={{height: "24px",borderBottom: "none"}}></div>
+                                                <div className={styles.timeTableGridLineThird} style={{height: "24px",borderBottom: "none"}}></div>
+                                                <div className={styles.timeTableGridLineThird} style={{height: "24px",borderBottom: "none"}}></div>
                                             </div>
                                         ))
                                     }
@@ -154,7 +184,71 @@ function Table() {
                                                     backgroundcolor: 'inherit',
                                                 }}
                                                 >
-                                                    <div className={styles.timeTableDayBlock} style={{marginRight: "8px"}}>                                                    </div>
+                                                    <div className={styles.timeTableDayBlock} style={{marginRight: "8px"}}>
+                                                        {selectedTimes[keys[index]].map((dayTime)=>{
+                                                            console.log(dayTime)
+                                                            Object.keys(dayTime).length!==0?
+                                                            <Time
+                                                            key={dayTime.id}
+                                                            // width='100%'
+                                                            // height='10%'
+                                                            // top='1/seletedTimes[keys[index]].length*100%'
+                                                            id={dayTime.id}
+                                                            isCardMode={true}
+                                                            lectureName={dayTime.lectureName}
+                                                            professor={dayTime.professor}
+                                                            startTime={dayTime.startTime}
+                                                            endTime={dayTime.endTime}
+                                                            level={dayTime.level}
+                                                            property={dayTime.property}
+                                                            credit={dayTime.credit}
+                                                            notes={dayTime.notes}
+                                                            />
+                                                            :
+                                                            <></>
+                                                        })}
+                                                        {/* <div className={styles.selectedTime}
+                                                        style={{
+                                                            width: 'calc(100% - 0px)',
+                                                            height: '10%',
+                                                            top: '69.8333%',
+                                                            left: '0%',
+                                                            borderRadius: '10px',
+                                                            borderLeft: '3px solid rgb(255, 187, 59)',
+                                                            marginLeft: '0px',
+                                                            color: 'rgb(255, 255, 255)',
+                                                            backgroundColor: 'rgb(255, 187, 59)',
+                                                            opacity: '1',
+                                                            zIndex: '0',
+                                                        }}
+                                                        >
+                                                            <div className={styles.selectedTimeContent} height='100%'>
+                                                                <div className={styles.time}>
+                                                                    <div>
+                                                                        <strong>lectureName</strong>
+                                                                    </div>
+                                                                    <div>
+                                                                        professor
+                                                                    </div>
+                                                                    <div>
+                                                                        startTime
+                                                                    </div>
+                                                                    <div>
+                                                                        endTime
+                                                                    </div>
+                                                                    <div>
+                                                                        level
+                                                                    </div>
+                                                                    <div>
+                                                                        property
+                                                                    </div>
+                                                                    <div>
+                                                                        credit
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> */}
+                                                    </div>
                                                 </div>
                                             ))
                                         }
@@ -164,7 +258,7 @@ function Table() {
                             </div>
                         </div>
                     </div>
-                    <TimeList isCardMode={true}/>
+                    <TimeList isCardMode={true} onClick={onClick}/>
                 </div>
             </div>
             

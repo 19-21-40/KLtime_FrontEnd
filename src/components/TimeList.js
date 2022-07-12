@@ -27,21 +27,22 @@ const test = [
     },
 ];
 
-function TimeList({isCardMode}) {
+function TimeList({
+    isCardMode,
+    onClick
+    }) {
     // const [timeList,setTimeList]=useState([]);
     // setTimeList(test);
 
     
-    const onClick=()=>{
-
-    }
     return (
         <div className={isCardMode?styles.cardList:styles.lineList}>
             {
             test.map((time)=>(
                 <Time
-                    isCardMode={isCardMode}
                     key={time.id}
+                    isCardMode={isCardMode}
+                    onClick={onClick}
                     id={time.id}
                     lectureName={time.lectureName}
                     professor={time.professor}
