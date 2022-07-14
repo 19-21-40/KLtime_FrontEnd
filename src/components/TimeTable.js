@@ -1,5 +1,5 @@
-import Time from "./Time";
-import TimeList from "./TimeList";
+import Lecture from "./Lecture";
+import LectureList from "./LectureList";
 import styles from "./Table.module.css"
 
 
@@ -40,7 +40,7 @@ level={t.level}/>
 
 */}
 
-function Table() {
+function TimeTable() {
     const dayNames = ["월", "화", "수", "목", "금", "토"];
     const times=[
         "9시 00분",
@@ -188,7 +188,7 @@ function Table() {
                                                         {selectedTimes[keys[index]].map((dayTime)=>{
                                                             console.log(dayTime)
                                                             Object.keys(dayTime).length!==0?
-                                                            <Time
+                                                            <Lecture
                                                             key={dayTime.id}
                                                             // width='100%'
                                                             // height='10%'
@@ -258,7 +258,7 @@ function Table() {
                             </div>
                         </div>
                     </div>
-                    <TimeList isCardMode={true} onClick={onClick}/>
+                    <LectureList isCardMode={true} onClick={onClick}/>
                 </div>
             </div>
             
@@ -267,4 +267,4 @@ function Table() {
     )
 }
 
-export default Table;
+export default TimeTable;

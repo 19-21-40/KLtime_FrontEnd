@@ -1,33 +1,8 @@
 import { useEffect, useState } from "react";
-import Time from "./Time";
-import styles from "./TimeList.module.css"
+import Lecture from "./Lecture";
+import styles from "./LectureList.module.css"
 
-const test = [
-    {
-        id: "123",
-        lectureName: "테스트",
-        professor: "tester",
-        startTime: "1",
-        endTime: "3",
-        level: 3,
-        property: "전공",
-        credit: 3,
-        notes: "테스트"
-    },
-    {
-        id: "456",
-        lectureName: "테스트",
-        professor: "tester",
-        startTime: "1",
-        endTime: "3",
-        level: 3,
-        property: "전공",
-        credit: 3,
-        notes: "테스트"
-    },
-];
-
-function TimeList({
+function LectureList({
     isCardMode,
     onClick
     }) {
@@ -39,7 +14,7 @@ function TimeList({
         <div className={isCardMode?styles.cardList:styles.lineList}>
             {
             test.map((time)=>(
-                <Time
+                <Lecture
                     key={time.id}
                     isCardMode={isCardMode}
                     onClick={onClick}
@@ -58,4 +33,4 @@ function TimeList({
     );
 }
 
-export default TimeList;
+export default LectureList;

@@ -1,18 +1,18 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-import styles from "./Time.module.css"
+import styles from "./Lecture.module.css"
 
-function Time({
+function Lecture({
     id,
     isCardMode,
     onClick,
     lectureName,
     professor,
-    startTime,
-    endTime,
+    department,
+    lectureTimes,
     level,
-    property,
+    section,
     credit,
     notes,
     width="150px",
@@ -45,16 +45,20 @@ function Time({
                         {professor}
                     </div>
                     <div>
-                        {startTime}
+                        {department}
                     </div>
                     <div>
-                        {endTime}
+                        {lectureTimes.map((lectureTime)=>(
+                            <span>
+                                {`${lectureTime.day} ${lectrueTime.startTime} ${lectrueTime.endTime}`}
+                            </span>
+                        ))}
                     </div>
                     <div>
                         {level}
                     </div>
                     <div>
-                        {property}
+                        {section}
                     </div>
                     <div>
                         {credit}
@@ -70,16 +74,16 @@ function Time({
     )
 }
 
-Time.propTypes = {
-    id: PropTypes.string,
+Lecture.propTypes = {
+    id: PropTypes.string.isRequired,
     lectureName: PropTypes.string.isRequired,
     professor: PropTypes.string,
-    startTime: PropTypes.string.isRequired,
-    endTime: PropTypes.string.isRequired,
+    department:PropTypes.string,
+    lectureTimes: PropTypes.array.isRequired,
     level: PropTypes.number,
-    property: PropTypes.string.isRequired,
+    section: PropTypes.string.isRequired,
     credit: PropTypes.number.isRequired,
     notes: PropTypes.string
 };
 
-export default Time;
+export default Lecture;
