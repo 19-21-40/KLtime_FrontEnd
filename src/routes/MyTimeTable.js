@@ -99,13 +99,12 @@ function MyTimeTable() {
             credit: 3,
             notes: ""
         },
-
     ];
 
     return (
         <div>
             <TimeTable />
-            <LectureList />
+            {/* <LectureList /> */}
         </div>
 
     )

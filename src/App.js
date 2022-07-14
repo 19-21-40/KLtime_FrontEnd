@@ -6,13 +6,13 @@ import {
 
 import Login from "./routes/Login"
 import Home from "./routes/Home"
-import TimeTable from "./routes/TimeTable";
+import MyTimeTable from "./routes/MyTimeTable";
 
 function App() {
   return <Router>
     <Switch>
       <Route path="/">
-        <TimeTable />
+        <MyTimeTable />
       </Route>
       <Route path="/Login">
         <Login />

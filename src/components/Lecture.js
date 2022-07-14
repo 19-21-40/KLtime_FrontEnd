@@ -50,7 +50,7 @@ function Lecture({
                     <div>
                         {lectureTimes.map((lectureTime)=>(
                             <span>
-                                {`${lectureTime.day} ${lectrueTime.startTime} ${lectrueTime.endTime}`}
+                                {`${lectureTime.day} ${lectureTime.startTime} ${lectureTime.endTime}`}
                             </span>
                         ))}
                     </div>
