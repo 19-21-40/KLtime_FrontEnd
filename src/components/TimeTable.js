@@ -5,12 +5,10 @@ import styles from "./TimeTable.module.css"
 import { useEffect, useState } from "react";
 
 
+
 function TimeTable({
     selectedLectures
 }) {
-
-    
-
     const dayNames = ["월", "화", "수", "목", "금", "토", "일"];
     const times = [
         "00:00",
@@ -23,6 +21,7 @@ function TimeTable({
         "07:00",
         "08:00",
         "09:00",
+        "10:00",
         "11:00",
         "12:00",
         "13:00",
@@ -37,19 +36,40 @@ function TimeTable({
         "22:00",
         "23:00"
     ];
-    const periods = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    const periods = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 
     const [seletedTable, SetSeletedTable] = useState({
         dayNames: dayNames.slice(0, 5),
         times: times.slice(9, 24),
-        periods: periods.slice(1, 12)
+        periods: periods.slice(2, 15)
     });
 
+    useEffect(() => {
+        let maxDay = 5;
+        let minTime = 9;
+        let minPeriod = 2;
+        selectedLectures.forEach((lecture) => {
+            lecture.lectureTimes.forEach((time) => {
+                const dayIndex = dayNames.indexOf(time.day) + 1;
+                const timeIndex = time.startTime.split(":")[0];
+                if (timeIndex < minTime) minTime = timeIndex;
+                if (dayIndex > maxDay) maxDay = dayIndex;
+            })
+        })
+        if (minTime === 8) minPeriod = 1;
+        else if (minTime < 8) minPeriod = 0;
+        SetSeletedTable({
+            dayNames: dayNames.slice(0, maxDay),
+            times: times.slice(minTime, 24),
+            periods: periods.slice(minPeriod, 15)
+        })
+    }, [selectedLectures])
     const onClick = (e) => {
         console.log(e);
     };
 
+    const timeToMinute = (time) => parseInt(time.split(':')[0] * 60) + parseInt(time.split(':')[1]);
 
 
     return (
@@ -69,7 +89,7 @@ function TimeTable({
                             <div className={styles.dayNameLeftMargin}>
                                 {seletedTable.dayNames.map((dayName, index) => (
                                     <div className={styles.dayName}
-                                        key={index}
+                                        key={dayName}
                                         style={{
                                             width: (1 / seletedTable.dayNames.length * 100).toString() + '%',
                                             left: ((index) / seletedTable.dayNames.length * 100).toString() + '%',
@@ -104,16 +124,21 @@ function TimeTable({
                                 >
                                     {seletedTable.periods.map((period) => (
                                         <div
+                                            key={period}
                                             className={styles.tablePeriodPiece}
                                             style={{
-                                                height: period>0&&period<7?'72px':'36px',
+                                                height: period === 0 ? (seletedTable.times.length === 16 ? '48px' : '72px')
+                                                    : period === -1 ? ((seletedTable.times.length - 17) * 48 + 24).toString() + 'px'
+                                                        : period === 12 ? '88px'
+                                                            : period < 7 ? '72px'
+                                                                : '40px',
                                                 color: '#bbb',
                                                 fontWeight: 'normal',
                                                 textAlign: 'center',
 
                                             }}
                                         >
-                                            {`${period}교시`}
+                                            {(period === -1 || period === 12) ? '' : `${period}교시`}
                                         </div>
                                     ))}
                                 </div>
@@ -121,10 +146,10 @@ function TimeTable({
                             <div className={styles.tableMiddleGrid} style={{ marginLeft: '42px', marginRight: '50px' }}>
                                 <div>
                                     {
-                                        seletedTable.times.map((time, index) => (
+                                        seletedTable.times.map((time) => (
                                             <div
                                                 className={styles.timeTableGridLine}
-                                                key={index}
+                                                key={time}
                                                 style={{
                                                     height: "48px",
                                                     borderBottom: "1px solid #e5e5e5"
@@ -149,36 +174,35 @@ function TimeTable({
                                                 }}
                                             >
                                                 <div className={styles.timeTableDayBlock} style={{ marginRight: "8px" }}>
-                                                    {/* {selectedTimes[keys[index]].map((dayTime)=>{
-                                                            console.log(dayTime)
-                                                            Object.keys(dayTime).length!==0?
-                                                            <Lecture
-                                                            key={dayTime.id}
-                                                            // width='100%'
-                                                            // height='10%'
-                                                            // top='1/seletedTimes[keys[index]].length*100%'
-                                                            id={dayTime.id}
-                                                            isCardMode={true}
-                                                            lectureName={dayTime.lectureName}
-                                                            professor={dayTime.professor}
-                                                            startTime={dayTime.startTime}
-                                                            endTime={dayTime.endTime}
-                                                            level={dayTime.level}
-                                                            property={dayTime.property}
-                                                            credit={dayTime.credit}
-                                                            notes={dayTime.notes}
-                                                            />
-                                                            :
-                                                            <></>
-                                                        })} */}
+                                                    {
+                                                        selectedLectures.map((lecture)=>(
+                                                            lecture.lectureTimes.map((time)=>(
+                                                                day!==time.day?false:
+                                                                <Lecture
+                                                                key={lecture.id}
+                                                                width='100%'
+                                                                height={((timeToMinute(time.endTime)-timeToMinute(time.startTime))*0.8-1).toString()+'px'}
+                                                                top={((timeToMinute(time.startTime)-(timeToMinute(seletedTable.times[0])))*0.8).toString()+'px'}
+                                                                isCardMode={true}
+                                                                id={lecture.id}
+                                                                lectureName={lecture.lectureName}
+                                                                professor={lecture.professor}
+                                                                department={lecture.department}
+                                                                lectureTimes={lecture.lectureTimes}
+                                                                level={lecture.level}
+                                                                section={lecture.section}
+                                                                credit={lecture.credit}
+                                                                notes={lecture.notes}
+                                                                />
+                                                            ))
+                                                        ))
+                                                    }
                                                 </div>
                                             </div>
                                         ))
                                     }
 
                                 </div>
-
-                                {/* <div className={styles.timeTableMarker}></div> */}
                             </div>
                             <div className={styles.tableRightGrid}
                                 style={{
@@ -190,8 +214,9 @@ function TimeTable({
                                 }}
                             >
                                 {
-                                    seletedTable.times.map((time) => (
+                                    seletedTable.times.map((time, index) => (
                                         <div
+                                            key={index}
                                             className={styles.tableTimePiece}
                                             style={{
                                                 height: '48px',

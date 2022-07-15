@@ -1,5 +1,6 @@
 import TimeTable from "../components/TimeTable"
 import LectureList from "../components/LectureList";
+import { useEffect, useState } from "react";
 
 function MyTimeTable() {
     const test = [
@@ -8,7 +9,7 @@ function MyTimeTable() {
             lectureName: "디지털논리",
             professor: "김진우",
             department:"소프트웨어학부",
-            lectureTime: [
+            lectureTimes: [
                 { day: "월", startTime: "15:00", endTime: "16:30" },
                 { day: "수", startTime: "16:30", endTime: "18:00" },
             ],
@@ -22,7 +23,7 @@ function MyTimeTable() {
             lectureName: "법과생활",
             professor: "손명지",
             department:"전체공통",
-            lectureTime: [
+            lectureTimes: [
                 { day: "화", startTime: "12:00", endTime: "13:30" },
                 { day: "목", startTime: "13:30", endTime: "15:00" },
             ],
@@ -36,7 +37,7 @@ function MyTimeTable() {
             lectureName: "이산구조",
             professor: "최민규",
             department:"소프트웨어학부",
-            lectureTime: [
+            lectureTimes: [
                 { day: "금", startTime: "9:00", endTime: "12:00" }
             ],
             level: 2,
@@ -49,7 +50,7 @@ function MyTimeTable() {
             lectureName: "고급프로그래밍",
             professor: "이강훈",
             department:"소프트웨어학부",
-            lectureTime: [
+            lectureTimes: [
                 { day: "화", startTime: "16:30", endTime: "18:00" },
                 { day: "목", startTime: "15:00", endTime: "16:30" },
             ],
@@ -63,7 +64,7 @@ function MyTimeTable() {
             lectureName: "데이터베이스",
             professor: "문승현",
             department:"소프트웨어학부",
-            lectureTime: [
+            lectureTimes: [
                 { day: "화", startTime: "15:00", endTime: "16:30" },
                 { day: "목", startTime: "16:30", endTime: "18:00" },
             ],
@@ -77,7 +78,7 @@ function MyTimeTable() {
             lectureName: "리눅스활용실습",
             professor: "박병준",
             department:"소프트웨어학부",
-            lectureTime: [
+            lectureTimes: [
                 { day: "금", startTime: "15:00", endTime: "18:00" },
             ],
             level: 2,
@@ -90,7 +91,7 @@ function MyTimeTable() {
             lectureName: "빅데이터언어",
             professor: "임동혁",
             department:"정보융합학부",
-            lectureTime: [
+            lectureTimes: [
                 { day: "월", startTime: "16:30", endTime: "18:00" },
                 { day: "수", startTime: "15:00", endTime: "16:30" },
             ],
@@ -101,9 +102,14 @@ function MyTimeTable() {
         },
     ];
 
+    const [selectedLectures,setSeletedLectures]=useState(test);
+    // useEffect(()=>{
+    //     setSeletedLectures(test);
+    // },[]);
+
     return (
         <div>
-            <TimeTable />
+            <TimeTable selectedLectures={selectedLectures}/>
             {/* <LectureList /> */}
         </div>
 

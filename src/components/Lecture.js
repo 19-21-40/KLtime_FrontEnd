@@ -48,8 +48,8 @@ function Lecture({
                         {department}
                     </div>
                     <div>
-                        {lectureTimes.map((lectureTime)=>(
-                            <span>
+                        {lectureTimes.map((lectureTime,index)=>(
+                            <span key={index}>
                                 {`${lectureTime.day} ${lectureTime.startTime} ${lectureTime.endTime}`}
                             </span>
                         ))}
