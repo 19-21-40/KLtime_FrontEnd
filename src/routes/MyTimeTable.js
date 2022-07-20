@@ -24,7 +24,7 @@ function MyTimeTable() {
             professor: "손명지",
             department:"전체공통",
             lectureTimes: [
-                { day: "화", startTime: "12:00", endTime: "13:30" },
+                { day: "화", startTime: "07:00", endTime: "13:30" },
                 { day: "목", startTime: "13:30", endTime: "15:00" },
             ],
             level: 1,
@@ -102,14 +102,20 @@ function MyTimeTable() {
         },
     ];
 
-    const [selectedLectures,setSeletedLectures]=useState(test);
+    const [selectedLectures,setSelectedLectures]=useState(test);
+    const [hoveredLecture,setHoveredLecture]=useState(test[0]);
+    
     // useEffect(()=>{
     //     setSeletedLectures(test);
     // },[]);
 
     return (
         <div>
-            <TimeTable selectedLectures={selectedLectures}/>
+            <TimeTable
+            selectedLectures={selectedLectures}
+            setSelectedLectures={setSelectedLectures}
+            hoveredLecture={hoveredLecture}
+            />
             {/* <LectureList /> */}
         </div>
 
