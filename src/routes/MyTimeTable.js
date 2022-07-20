@@ -102,7 +102,8 @@ function MyTimeTable() {
         },
     ];
 
-    const [selectedLectures,setSeletedLectures]=useState(test);
+    const [selectedLectures,setSelectedLectures]=useState(test.slice(1,2));
+    const [totalLectures,setTotalLectures] = useState(test);
     // useEffect(()=>{
     //     setSeletedLectures(test);
     // },[]);
@@ -110,7 +111,7 @@ function MyTimeTable() {
     return (
         <div>
             <TimeTable selectedLectures={selectedLectures}/>
-            {/* <LectureList /> */}
+            <LectureList totalLectures={totalLectures} setSelectedLectures={setSelectedLectures} isCardMode={false}/>
         </div>
 
     )

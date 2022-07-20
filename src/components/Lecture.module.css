@@ -31,9 +31,10 @@
     background: #228be6;
     overflow: hidden;
 }
+*/
 
 
-.lineList{
+/* .lineList{
     display: inline-flex;
     outline: none;
     border: none;
@@ -48,5 +49,21 @@
     font-size: 1rem;
   
     background: #228be6;
+} */
+
+
+/* 추가 */
+.lineList .linecontent div{
+    width: 100px;
+    overflow: hidden;
+    padding: 1px 0 0 3px;
+    font-size: 12px;
+    /* float: left; */
+    display: inline-flex;
+    padding-right: 12px;
 }
-*/
+
+.lineList span{
+    padding-right: 5px;
+    font-size: 10px;
+}

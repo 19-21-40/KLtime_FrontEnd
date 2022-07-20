@@ -183,7 +183,7 @@ function TimeTable({
                                                                 width='100%'
                                                                 height={((timeToMinute(time.endTime)-timeToMinute(time.startTime))*0.8-1).toString()+'px'}
                                                                 top={((timeToMinute(time.startTime)-(timeToMinute(seletedTable.times[0])))*0.8).toString()+'px'}
-                                                                isCardMode={true}
+                                                                isCardMode={true}//수정?
                                                                 id={lecture.id}
                                                                 lectureName={lecture.lectureName}
                                                                 professor={lecture.professor}
