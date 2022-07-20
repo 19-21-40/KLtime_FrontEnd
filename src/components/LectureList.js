@@ -2,28 +2,35 @@ import { useEffect, useState } from "react";
 import Lecture from "./Lecture";
 import styles from "./LectureList.module.css";
 
-function LectureList({ totalLectures, isCardMode, setSelectedLectures}) {
+function LectureList({
+    searchedLectures,
+    setSelectedLectures,
+    setHoveredLecture
+}) {
   // const [timeList,setTimeList]=useState([]);
   // setTimeList(test);
+
   const onMouseOver = (index,event,Selected) => {
     if(!Selected[index]){
+        // setHoveredLecture(searchedLectures[index]);
         event.currentTarget.style.background = "#f8f8f8";
     }
   };
   const onMouseOut = (index,event,Selected) => {
     if(!Selected[index]){
+        // setHoveredLecture();
         event.currentTarget.style.background = "white";
     }
   };
-  const [Selected,setSelected]=useState(totalLectures.map((totalLecture,index)=>false));
+  const [isCardMode,setIsCardMode]=useState(false);
+  const [Selected,setSelected]=useState(searchedLectures.map((totalLecture,index)=>false));
 //   console.log(Selected);
   const onClick = (index,event,Selected) => {
-    setSelectedLectures((current) => [...current, totalLectures[index]]);
+    setSelectedLectures((current) => [...current, searchedLectures[index]]);
     // setSelected(Selected[index]=true);//오류뜸...
-    console.log(Selected);
-    event.currentTarget.style.background = "grey";
+    console.log(event);
+    // event.currentTarget.style.background = "grey";
   };
-
 //   const onChildClick=(e)=>{
 //     e.stopPropagation();
 //   }
@@ -61,7 +68,7 @@ function LectureList({ totalLectures, isCardMode, setSelectedLectures}) {
             height:'300px'
         }} 
         >
-            {totalLectures.map((totalLecture, index) => (
+            {searchedLectures.map((totalLecture, index) => (
             <li
                 key={index}
                 onMouseOver={(event)=>onMouseOver(index,event,Selected)}
@@ -69,9 +76,9 @@ function LectureList({ totalLectures, isCardMode, setSelectedLectures}) {
                 onClick={(event) => onClick(index,event,Selected)}
             >
                 <Lecture
-                key={totalLecture.id} //?
+                key={totalLecture.id} //
                 isCardMode={isCardMode}
-                onClick={onClick}//
+                // onClick={onClick}
                 id={totalLecture.id}
                 lectureName={totalLecture.lectureName}
                 professor={totalLecture.professor}

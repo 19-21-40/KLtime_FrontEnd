@@ -197,6 +197,7 @@ function TimeTable({
                                             >
                                                 <div className={styles.timeTableDayBlock} style={{ marginRight: "8px" }}>
                                                     {
+
                                                         selectedLectures.map((lecture,index)=>(
                                                             lecture.lectureTimes.map((time)=>(
                                                                 day!==time.day?false:

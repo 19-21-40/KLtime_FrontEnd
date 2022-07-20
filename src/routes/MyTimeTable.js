@@ -117,8 +117,9 @@ function MyTimeTable() {
         },
     ];
 
-    const [selectedLectures,setSelectedLectures]=useState(test);
+    const [selectedLectures,setSelectedLectures]=useState(test.slice(0,1));
     const [totalLectures, setTotalLectures]=useState(test);
+    const [searchedLectures, setSearchedLectures]=useState(test);
     const [hoveredLecture,setHoveredLecture]=useState(test[0]);
 
     // useEffect(()=>{
@@ -127,15 +128,20 @@ function MyTimeTable() {
 
     return (
         <div>
-
-            
             <TimeTable
             selectedLectures={selectedLectures}
             setSelectedLectures={setSelectedLectures}
             hoveredLecture={hoveredLecture}
             />
-            <Search totalLectures={totalLectures}/>
-            <LectureList totalLectures={totalLectures} setSelectedLectures={setSelectedLectures} isCardMode={false}/>
+            <Search
+            totalLectures={totalLectures}
+            setSearchedLectures={setSearchedLectures}
+            />
+            <LectureList
+            searchedLectures={searchedLectures}
+            setSelectedLectures={setSelectedLectures}
+            setHoveredLecture={setHoveredLecture}
+            />
         </div>
 
     )

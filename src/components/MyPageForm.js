@@ -1,8 +1,5 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
-import { renderMatches } from "react-router-dom";
 import styles from "./MyPageForm.module.css";
-import uuid from "react-uuid";
 
 function MyPageForm({studentnumber,pw,department,email}){
   const multiMajors=['심화전공', '복수전공','복수심화전공','부전공','연계전공','*해당없음*'];

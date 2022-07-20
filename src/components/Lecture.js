@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
 import styles from "./Lecture.module.css"
 
 function Lecture({
@@ -25,6 +23,7 @@ function Lecture({
     const [isOnHovered, setIsOnHovered] = useState(false);
 
 
+
     return (
         <div className={isCardMode?styles.selectedTime:styles.lineList}
             style={isCardMode?{
@@ -39,10 +38,9 @@ function Lecture({
                 backgroundColor,
                 opacity: '1',
                 zIndex: '0',
-            }:{}}
+            }:{}} //#####맨마지막에 뒤집을것
             onMouseEnter={() => setIsOnHovered(true)}
             onMouseLeave={() => setIsOnHovered(false)}
-            onClick={onClick}
         >
             <div className={styles.selectedTimeContent}
                 style={{
@@ -51,7 +49,7 @@ function Lecture({
                     backgroundColor:isOnHovered?'rgba(55,53,47,0.25)':backgroundColor
                 }}
                 >
-                <div className={isCardMode?styles.time:styles.linecontent}}>
+                <div className={isCardMode?styles.time:styles.linecontent}>
                     <div>
                         <strong>{lectureName}</strong>
                         <button
@@ -59,7 +57,7 @@ function Lecture({
                             style={{
                                 display: isOnHovered ? '' : 'none'
                             }}
-                            onClick={()=>onCancleClick(id)}
+                            onClick={()=>onCancleClick(id)} //#####
                         >x</button>
                     </div>
                     <div>

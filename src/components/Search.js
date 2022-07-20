@@ -1,39 +1,38 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import styles from "./Search.module.css"
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 
-function LectureList({searchedLectures}) {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [lecturesPerPage, setLecturesPerPage] = useState(5);
+// function LectureList({searchedLectures}) {
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [lecturesPerPage, setLecturesPerPage] = useState(5);
 
 
-    // Get current lectures
-    const indexOfLastLecture = currentPage * lecturesPerPage;
-    const indexOfFirstLecture = indexOfLastLecture - lecturesPerPage;
-    const currentLectures = searchedLectures.slice(indexOfFirstLecture, indexOfLastLecture)
+//     // Get current lectures
+//     const indexOfLastLecture = currentPage * lecturesPerPage;
+//     const indexOfFirstLecture = indexOfLastLecture - lecturesPerPage;
+//     const currentLectures = searchedLectures.slice(indexOfFirstLecture, indexOfLastLecture)
 
-    // Change page
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+//     // Change page
+//     const paginate = (pageNumber) => {
+//         setCurrentPage(pageNumber);
+//     };
 
-    return (
-        <div className={styles.contents}>
-            <div className={styles.lecturelist}>
-            {currentLectures.map (searchedLecture => (
-                <li key={searchedLecture.id}>
-                    [{searchedLecture.section}] {searchedLecture.lectureName} ({searchedLecture.professor}) {searchedLecture.credit}학점 
-                </li>
-            ))}
-            </div>
-            <Pagination lecturesPerPage={lecturesPerPage} searchedLectures={searchedLectures.length} paginate={paginate} currentPage={currentPage}/>
-        </div>
-    );
-}
+//     return (
+//         <div className={styles.contents}>
+//             <div className={styles.lecturelist}>
+//             {currentLectures.map (searchedLecture => (
+//                 <li key={searchedLecture.id}>
+//                     [{searchedLecture.section}] {searchedLecture.lectureName} ({searchedLecture.professor}) {searchedLecture.credit}학점 
+//                 </li>
+//             ))}
+//             </div>
+//             <Pagination lecturesPerPage={lecturesPerPage} searchedLectures={searchedLectures.length} paginate={paginate} currentPage={currentPage}/>
+//         </div>
+//     );
+// }
 
-function Search({totalLectures}) 
+function Search({totalLectures,setSearchedLectures}) 
 {
-    const [searchedLectures, setSearchedLectures]=useState(totalLectures);
     const [searchItem, setSearchItem]=useState('강의명');
     const [input, setInput] = useState('');
     const [credit, setCredit] = useState('null');
@@ -54,8 +53,6 @@ function Search({totalLectures})
     }
     
     useEffect(()=> {
-
-
 
         // 검색어 입력에 의한 처리
          let result = totalLectures.filter((lecture)=> {
@@ -159,7 +156,6 @@ return (
                 </select>
             </div>
         </div>
-        <LectureList searchedLectures={searchedLectures} />
     </div>
 );
 
