@@ -1,6 +1,7 @@
 import TimeTable from "../components/TimeTable"
 import LectureList from "../components/LectureList";
 import { useEffect, useState } from "react";
+import Search from "../components/Search";
 
 function MyTimeTable() {
     const test = [
@@ -100,11 +101,26 @@ function MyTimeTable() {
             credit: 3,
             notes: ""
         },
+        {
+            id: "1160-1-3415-01",
+            lectureName: "대학화학및실험1",
+            professor: "양재규",
+            department:"환경공학과",
+            lectureTimes: [
+                { day: "월", startTime: "09:00", endTime: "12:30" },
+                { day: "수", startTime: "10:30", endTime: "12:00" },
+            ],
+            level: 1,
+            section: "기필",
+            credit: 3,
+            notes: ""
+        },
     ];
 
-    const [selectedLectures,setSelectedLectures]=useState(test);
+    const [selectedLectures,setSeletedLectures]=useState(test);
+    const [totalLectures, setTotalLectures]=useState(test);
     const [hoveredLecture,setHoveredLecture]=useState(test[0]);
-    
+
     // useEffect(()=>{
     //     setSeletedLectures(test);
     // },[]);
@@ -117,6 +133,7 @@ function MyTimeTable() {
             hoveredLecture={hoveredLecture}
             />
             {/* <LectureList /> */}
+            <Search totalLectures={totalLectures}/>
         </div>
 
     )
