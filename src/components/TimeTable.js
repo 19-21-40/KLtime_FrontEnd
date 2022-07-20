@@ -67,7 +67,7 @@ function TimeTable({
                 if (dayIndex > maxDay) maxDay = dayIndex;
             })
         })
-        hoveredLecture.lectureTimes.map((time)=>{
+        hoveredLecture.lectureTimes.forEach((time)=>{
             const dayIndex = dayNames.indexOf(time.day) + 1;
             const timeIndex = time.startTime.split(":")[0];
             if (timeIndex < minTime) minTime = timeIndex;
