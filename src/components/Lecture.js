@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./Lecture.module.css"
 
 function Lecture({
     id,
-    isCardMode,
-    onClick,
-    // onMouseOver,//추가
     lectureName,
     professor,
     department,
@@ -16,11 +14,17 @@ function Lecture({
     section,
     credit,
     notes,
-    width="150px",
-    height,//수정
-    top="",
-    backgroundColor="rgb(255, 187, 59)"
+    width = "150px",
+    height,
+    top = "",
+    backgroundColor = "rgb(255, 187, 59)",
+    isCardMode,
+    onClick,
+    onCancleClick,
 }) {
+    const [isOnHovered, setIsOnHovered] = useState(false);
+
+
     return (
         <div className={isCardMode?styles.selectedTime:styles.lineList}
             style={isCardMode?{
@@ -28,20 +32,35 @@ function Lecture({
                 height,
                 top,
                 left: '0%',
-                borderRadius: '10px',
-                borderLeft: '3px solid rgb(255, 187, 59)',
+                borderRadius: '5px',
+                border: `3px solid ${backgroundColor}`,
                 marginLeft: '0px',
                 color: 'rgb(255, 255, 255)',
                 backgroundColor,
                 opacity: '1',
                 zIndex: '0',
             }:{}}
-            // onClick={onClick}
+            onMouseEnter={() => setIsOnHovered(true)}
+            onMouseLeave={() => setIsOnHovered(false)}
+            onClick={onClick}
         >
-            <div className={styles.selectedTimeContent} height='100%'>
-                <div className={isCardMode?styles.time:styles.linecontent}>
+            <div className={styles.selectedTimeContent}
+                style={{
+                    height:'100%',
+                    borderRadius:'5px',
+                    backgroundColor:isOnHovered?'rgba(55,53,47,0.25)':backgroundColor
+                }}
+                >
+                <div className={isCardMode?styles.time:styles.linecontent}}>
                     <div>
                         <strong>{lectureName}</strong>
+                        <button
+                            className={styles.LectureDelBtn}
+                            style={{
+                                display: isOnHovered ? '' : 'none'
+                            }}
+                            onClick={()=>onCancleClick(id)}
+                        >x</button>
                     </div>
                     <div>
                         {professor}
@@ -50,7 +69,7 @@ function Lecture({
                         {department}
                     </div>
                     <div>
-                        {lectureTimes.map((lectureTime,index)=>(
+                        {lectureTimes.map((lectureTime, index) => (
                             <span key={index}>
                                 {`${lectureTime.day} ${lectureTime.startTime} ${lectureTime.endTime}`}
                             </span>
@@ -66,12 +85,13 @@ function Lecture({
                         {credit}
                     </div>
                     <div style={{
-                        display:isCardMode?'none':'block'
+                        display: isCardMode ? 'none' : 'block'
                     }}>
                         {notes}
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }
@@ -80,7 +100,7 @@ Lecture.propTypes = {
     id: PropTypes.string.isRequired,
     lectureName: PropTypes.string.isRequired,
     professor: PropTypes.string,
-    department:PropTypes.string,
+    department: PropTypes.string,
     lectureTimes: PropTypes.array.isRequired,
     level: PropTypes.number,
     section: PropTypes.string.isRequired,
