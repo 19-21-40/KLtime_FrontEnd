@@ -117,7 +117,7 @@ function MyTimeTable() {
         },
     ];
 
-    const [selectedLectures,setSeletedLectures]=useState(test);
+    const [selectedLectures,setSelectedLectures]=useState(test);
     const [totalLectures, setTotalLectures]=useState(test);
     const [hoveredLecture,setHoveredLecture]=useState(test[0]);
 
@@ -127,13 +127,15 @@ function MyTimeTable() {
 
     return (
         <div>
+
+            
             <TimeTable
             selectedLectures={selectedLectures}
             setSelectedLectures={setSelectedLectures}
             hoveredLecture={hoveredLecture}
             />
-            {/* <LectureList /> */}
             <Search totalLectures={totalLectures}/>
+            <LectureList totalLectures={totalLectures} setSelectedLectures={setSelectedLectures} isCardMode={false}/>
         </div>
 
     )

@@ -1,0 +1,30 @@
+.lineList{
+  /* 10+700+10 */
+  width: 720px;
+}
+
+.lineList ul{
+  list-style: none;
+  padding:0px;
+}
+
+.lineTablehead{
+
+}
+
+.lineTablehead span{
+  width: 100px;
+  /* float: left; */
+  display: inline-flex;
+  padding-right: 12px;
+  font-size: 14px;
+  /* background-color: aqua; */
+}
+
+/* 수정해야함 */
+.lineList li{
+  /* background-color: blue; */
+  font-size: 16px;
+  border-top: 1px solid rgba(167, 168, 169, 0.8);
+  padding: 12px 0 12px 10px;
+}

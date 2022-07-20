@@ -15,7 +15,7 @@ function Lecture({
     credit,
     notes,
     width = "150px",
-    height = "100px",
+    height,
     top = "",
     backgroundColor = "rgb(255, 187, 59)",
     isCardMode,
@@ -26,8 +26,8 @@ function Lecture({
 
 
     return (
-        <div className={styles.selectedTime}
-            style={{
+        <div className={isCardMode?styles.selectedTime:styles.lineList}
+            style={isCardMode?{
                 width,
                 height,
                 top,
@@ -39,7 +39,7 @@ function Lecture({
                 backgroundColor,
                 opacity: '1',
                 zIndex: '0',
-            }}
+            }:{}}
             onMouseEnter={() => setIsOnHovered(true)}
             onMouseLeave={() => setIsOnHovered(false)}
             onClick={onClick}
@@ -51,7 +51,7 @@ function Lecture({
                     backgroundColor:isOnHovered?'rgba(55,53,47,0.25)':backgroundColor
                 }}
                 >
-                <div className={styles.time}>
+                <div className={isCardMode?styles.time:styles.linecontent}}>
                     <div>
                         <strong>{lectureName}</strong>
                         <button
