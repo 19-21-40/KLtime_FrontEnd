@@ -55,14 +55,14 @@ function Search({totalLectures,setSearchedLectures})
     useEffect(()=> {
 
         // 검색어 입력에 의한 처리
-         let result = totalLectures.filter((lecture)=> {
+        let result = totalLectures.filter((lecture)=> {
             if (searchItem === '강의명'){
                 return lecture.lectureName.includes(input);
             }
             else if (searchItem === '교수명'){
                 return lecture.professor.includes(input);
             }
-        }); 
+        });
 
         // 학점 입력에 의한 처리
         if(credit !== 'null')
