@@ -47,6 +47,7 @@ function TimeTable({
         'rgb(158, 95, 255)',
         'rgb(187, 220, 0)',
         'rgb(255, 64, 64)',
+        'red','green','blue','orange','yellow','pink','skyblue'
     ];
 
     const [seletedTable, SetSeletedTable] = useState({
@@ -54,22 +55,23 @@ function TimeTable({
         times: times.slice(9, 24),
         periods: periods.slice(2, 15)
     });
-
+    
     useEffect(() => {
         let maxDay = 5;
         let minTime = 9;
         let minPeriod = 2;
-        selectedLectures.forEach((lecture) => {
+        selectedLectures?.forEach((lecture) => {
             lecture.lectureTimes.forEach((time) => {
                 const dayIndex = dayNames.indexOf(time.day) + 1;
-                const timeIndex = time.startTime.split(":")[0];
+                const timeIndex = parseInt(time.startTime.split(":")[0]);
                 if (timeIndex < minTime) minTime = timeIndex;
                 if (dayIndex > maxDay) maxDay = dayIndex;
             })
         })
-        hoveredLecture.lectureTimes.forEach((time)=>{
+        console.log(hoveredLecture)
+        hoveredLecture?.lectureTimes.forEach((time)=>{
             const dayIndex = dayNames.indexOf(time.day) + 1;
-            const timeIndex = time.startTime.split(":")[0];
+            const timeIndex = parseInt(time.startTime.split(":")[0]);
             if (timeIndex < minTime) minTime = timeIndex;
             if (dayIndex > maxDay) maxDay = dayIndex;
         })
@@ -81,6 +83,7 @@ function TimeTable({
             periods: periods.slice(minPeriod, 15)
         })
     }, [selectedLectures,hoveredLecture])
+
     const onClick=(e)=>{
         console.log(e.currentTarget)
     }
@@ -197,7 +200,7 @@ function TimeTable({
                                             >
                                                 <div className={styles.timeTableDayBlock} style={{ marginRight: "8px" }}>
                                                     {
-
+                                                        selectedLectures?.length?
                                                         selectedLectures.map((lecture,index)=>(
                                                             lecture.lectureTimes.map((time)=>(
                                                                 day!==time.day?false:
@@ -219,13 +222,12 @@ function TimeTable({
                                                                 notes={lecture.notes}
                                                                 onClick={onClick}
                                                                 onCancleClick={onCancleClick}
-                                                                
                                                                 />
                                                             ))
-                                                        ))
+                                                        )):<></>
                                                     }
                                                     {
-                                                        hoveredLecture.lectureTimes.map((time)=>(
+                                                        hoveredLecture?.lectureTimes?.map((time)=>(
                                                             day!==time.day?false:
                                                             <Lecture
                                                             key={hoveredLecture.id}
