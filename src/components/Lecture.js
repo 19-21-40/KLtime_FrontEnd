@@ -18,7 +18,7 @@ function Lecture({
     backgroundColor = "rgb(255, 187, 59)",
     isCardMode,
     onClick,
-    onCancleClick,
+    onDeleteClick,
 }) {
     const [isOnHovered, setIsOnHovered] = useState(false);
 
@@ -41,6 +41,7 @@ function Lecture({
             }:{}} //#####맨마지막에 뒤집을것
             onMouseEnter={() => setIsOnHovered(true)}
             onMouseLeave={() => setIsOnHovered(false)}
+            onClick={onClick}
         >
             <div className={styles.selectedTimeContent}
                 style={{
@@ -57,7 +58,7 @@ function Lecture({
                             style={{
                                 display: isOnHovered ? '' : 'none'
                             }}
-                            onClick={()=>onCancleClick(id)} //#####
+                            onClick={()=>onDeleteClick(id)} //#####
                         >x</button>
                     </div>
                     <div>

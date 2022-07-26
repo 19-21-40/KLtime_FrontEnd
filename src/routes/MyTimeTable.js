@@ -129,6 +129,8 @@ function MyTimeTable() {
     return (
         <div>
             <TimeTable
+            width={'1200px'}
+            height={'600px'}
             selectedLectures={selectedLectures}
             setSelectedLectures={setSelectedLectures}
             hoveredLecture={hoveredLecture}
