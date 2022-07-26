@@ -118,10 +118,12 @@ function MyTimeTable() {
         },
     ];
 
+
     const [selectedLectures, setSelectedLectures] = useState(test.slice(0, 1));
     const [totalLectures, setTotalLectures] = useState(test);
     const [searchedLectures, setSearchedLectures] = useState(test);
-    const [hoveredLecture, setHoveredLecture] = useState(test[0]);
+    const [hoveredLecture, setHoveredLecture] = useState();
+
 
 ////////////////////////////////////////////////////////시간표 선택기능//////////////////////////////////////////////////////////////////////////////////
     const [currentTableName, setCurrentTableName] = useState("시간표1");

@@ -47,6 +47,7 @@ function TimeTable({
         'rgb(158, 95, 255)',
         'rgb(187, 220, 0)',
         'rgb(255, 64, 64)',
+        'red','green','blue','orange','yellow','pink','skyblue'
     ];
 
     const [seletedTable, SetSeletedTable] = useState({
@@ -54,22 +55,22 @@ function TimeTable({
         times: times.slice(9, 24),
         periods: periods.slice(2, 15)
     });
-
+    
     useEffect(() => {
         let maxDay = 5;
         let minTime = 9;
         let minPeriod = 2;
-        selectedLectures.forEach((lecture) => {
+        selectedLectures?.forEach((lecture) => {
             lecture.lectureTimes.forEach((time) => {
                 const dayIndex = dayNames.indexOf(time.day) + 1;
-                const timeIndex = time.startTime.split(":")[0];
+                const timeIndex = parseInt(time.startTime.split(":")[0]);
                 if (timeIndex < minTime) minTime = timeIndex;
                 if (dayIndex > maxDay) maxDay = dayIndex;
             })
         })
-        hoveredLecture.lectureTimes.forEach((time)=>{
+        hoveredLecture?.lectureTimes.forEach((time)=>{
             const dayIndex = dayNames.indexOf(time.day) + 1;
-            const timeIndex = time.startTime.split(":")[0];
+            const timeIndex = parseInt(time.startTime.split(":")[0]);
             if (timeIndex < minTime) minTime = timeIndex;
             if (dayIndex > maxDay) maxDay = dayIndex;
         })
@@ -82,9 +83,9 @@ function TimeTable({
         })
 
     }, [selectedLectures,hoveredLecture])
-    
+
     const onClick=(e)=>{
-        console.log(e.currentTarget);
+        // console.log(e.currentTarget)
     }
     const onCancleClick = (id) => {
         if(window.confirm("강의를 삭제하시겠습니까?")){
@@ -199,7 +200,7 @@ function TimeTable({
                                             >
                                                 <div className={styles.timeTableDayBlock} style={{ marginRight: "8px" }}>
                                                     {
-
+                                                        selectedLectures?.length?
                                                         selectedLectures.map((lecture,index)=>(
                                                             lecture.lectureTimes.map((time)=>(
                                                                 day!==time.day?false:
@@ -210,6 +211,7 @@ function TimeTable({
                                                                 top={((timeToMinute(time.startTime)-(timeToMinute(seletedTable.times[0])))*0.8).toString()+'px'}
                                                                 backgroundColor={colors[index]}
                                                                 isCardMode={true}
+                                                                isListMode={false}//수정
                                                                 id={lecture.id}
                                                                 lectureName={lecture.lectureName}
                                                                 professor={lecture.professor}
@@ -221,13 +223,12 @@ function TimeTable({
                                                                 notes={lecture.notes}
                                                                 onClick={onClick}
                                                                 onCancleClick={onCancleClick}
-                                                                
                                                                 />
                                                             ))
-                                                        ))
+                                                        )):<></>
                                                     }
                                                     {
-                                                        hoveredLecture.lectureTimes.map((time)=>(
+                                                        hoveredLecture?.lectureTimes?.map((time)=>(
                                                             day!==time.day?false:
                                                             <Lecture
                                                             key={hoveredLecture.id}
@@ -235,6 +236,7 @@ function TimeTable({
                                                             height={((timeToMinute(time.endTime)-timeToMinute(time.startTime))*0.8-1).toString()+'px'}
                                                             top={((timeToMinute(time.startTime)-(timeToMinute(seletedTable.times[0])))*0.8).toString()+'px'}
                                                             isCardMode={true}
+                                                            isListMode={false}//수정
                                                             id={hoveredLecture.id}
                                                             lectureName={hoveredLecture.lectureName}
                                                             professor={hoveredLecture.professor}
@@ -244,7 +246,7 @@ function TimeTable({
                                                             section={hoveredLecture.section}
                                                             credit={hoveredLecture.credit}
                                                             notes={hoveredLecture.notes}
-                                                            backgroundColor='gray'
+                                                            backgroundColor='rgba(190, 190, 191, 0.8)'
                                                             />
                                                         ))
                                                     }
