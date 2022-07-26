@@ -20,8 +20,9 @@ function Lecture({
     isCardMode,
     isListMode,//수정
     onClick,
-    onCancleClick,
+    onDeleteClick,
     onHovered//추가
+
 }) {
     const [isOnHovered, setIsOnHovered] = useState(false);
     const [Clicked,setClicked]=useState(false);
@@ -80,11 +81,11 @@ function Lecture({
                         <></>
                         :
                         <button
-                        className={styles.LectureDelBtn}
-                        style={{
-                            display: isOnHovered ? '' : 'none'
-                        }}
-                        onClick={()=>onCancleClick(id)} //#####
+                            className={styles.LectureDelBtn}
+                            style={{
+                                display: isOnHovered ? '' : 'none'
+                            }}
+                            onClick={()=>onDeleteClick(id)} //#####
                         >x</button>
                         }
                         

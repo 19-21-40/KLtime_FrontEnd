@@ -3,10 +3,14 @@ import styles from "./TimeTable.module.css"
 
 
 import { useEffect, useState } from "react";
+import LectureDetail from "./LectureDetail";
+import EditLecture from "./EditLecture";
 
 
 
 function TimeTable({
+    width,
+    height,
     selectedLectures,
     setSelectedLectures,
     hoveredLecture
@@ -39,7 +43,7 @@ function TimeTable({
         "23:00"
     ];
     const periods = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    const colors=[
+    const colors = [
         'rgb(255, 187, 59)',
         'rgb(3, 189, 158)',
         'rgb(0, 169, 255)',
@@ -47,7 +51,8 @@ function TimeTable({
         'rgb(158, 95, 255)',
         'rgb(187, 220, 0)',
         'rgb(255, 64, 64)',
-        'red','green','blue','orange','yellow','pink','skyblue'
+        'red', 'green', 'blue', 'orange', 'yellow', 'pink', 'skyblue'
+
     ];
 
     const [seletedTable, SetSeletedTable] = useState({
@@ -55,7 +60,8 @@ function TimeTable({
         times: times.slice(9, 24),
         periods: periods.slice(2, 15)
     });
-    
+    const [clickedLecture, setClickedLecture] = useState();
+
     useEffect(() => {
         let maxDay = 5;
         let minTime = 9;
@@ -68,7 +74,8 @@ function TimeTable({
                 if (dayIndex > maxDay) maxDay = dayIndex;
             })
         })
-        hoveredLecture?.lectureTimes.forEach((time)=>{
+        hoveredLecture?.lectureTimes.forEach((time) => {
+
             const dayIndex = dayNames.indexOf(time.day) + 1;
             const timeIndex = parseInt(time.startTime.split(":")[0]);
             if (timeIndex < minTime) minTime = timeIndex;
@@ -81,15 +88,18 @@ function TimeTable({
             times: times.slice(minTime, 24),
             periods: periods.slice(minPeriod, 15)
         })
+    }, [selectedLectures, hoveredLecture])
 
-    }, [selectedLectures,hoveredLecture])
-
-    const onClick=(e)=>{
-        // console.log(e.currentTarget)
+    const onClick = (dayIndex, lectureIndex, dayLength, e) => {
+        setClickedLecture({
+            ...selectedLectures[lectureIndex],
+            backgroundColor: colors[lectureIndex],
+            });
     }
-    const onCancleClick = (id) => {
-        if(window.confirm("강의를 삭제하시겠습니까?")){
-            setSelectedLectures(selectedLectures.filter((lecture)=>lecture.id!==id));
+
+    const onDeleteClick = (id) => {
+        if (window.confirm("강의를 삭제하시겠습니까?")) {
+            setSelectedLectures(selectedLectures.filter((lecture) => lecture.id !== id));
         }
     };
 
@@ -97,9 +107,9 @@ function TimeTable({
 
 
     return (
-        <div id={styles.table} height="600px">
+        <div id={styles.table} style={{ height }}>
             <div className={styles.tableViewer} backgroundcolor='white'>
-                <div className={styles.tableContainer}>
+                <div className={styles.tableContainer} style={{ width }}>
                     <div className={styles.dayNameLayout}>
                         <div
                             style={{
@@ -123,7 +133,7 @@ function TimeTable({
                                         }}
                                     >
                                         <span>
-                                            {dayName}요일
+                                            {`${dayName}요일`}
                                         </span>
                                     </div>
                                 ))}
@@ -159,7 +169,6 @@ function TimeTable({
                                                 color: '#bbb',
                                                 fontWeight: 'normal',
                                                 textAlign: 'center',
-
                                             }}
                                         >
                                             {(period === -1 || period === 12) ? '' : `${period}교시`}
@@ -188,66 +197,66 @@ function TimeTable({
                                 </div>
                                 <div className={styles.timeTableSchedules}>
                                     {
-                                        seletedTable.dayNames.map((day, index) => (
+                                        seletedTable.dayNames.map((day, dayIndex) => (
                                             <div className={styles.timeTableDayViewer}
-                                                key={index}
+                                                key={dayIndex}
                                                 style={{
                                                     width: (1 / seletedTable.dayNames.length * 100).toString() + '%',
-                                                    left: (index / seletedTable.dayNames.length * 100).toString() + '%',
+                                                    left: (dayIndex / seletedTable.dayNames.length * 100).toString() + '%',
                                                     borderLeft: '1px solid rgb(229, 229, 229)',
                                                     backgroundcolor: 'inherit',
                                                 }}
                                             >
                                                 <div className={styles.timeTableDayBlock} style={{ marginRight: "8px" }}>
                                                     {
-                                                        selectedLectures?.length?
-                                                        selectedLectures.map((lecture,index)=>(
-                                                            lecture.lectureTimes.map((time)=>(
-                                                                day!==time.day?false:
-                                                                <Lecture
-                                                                key={lecture.id}
-                                                                width='100%'
-                                                                height={((timeToMinute(time.endTime)-timeToMinute(time.startTime))*0.8-1).toString()+'px'}
-                                                                top={((timeToMinute(time.startTime)-(timeToMinute(seletedTable.times[0])))*0.8).toString()+'px'}
-                                                                backgroundColor={colors[index]}
-                                                                isCardMode={true}
-                                                                isListMode={false}//수정
-                                                                id={lecture.id}
-                                                                lectureName={lecture.lectureName}
-                                                                professor={lecture.professor}
-                                                                department={lecture.department}
-                                                                lectureTimes={lecture.lectureTimes}
-                                                                level={lecture.level}
-                                                                section={lecture.section}
-                                                                credit={lecture.credit}
-                                                                notes={lecture.notes}
-                                                                onClick={onClick}
-                                                                onCancleClick={onCancleClick}
-                                                                />
-                                                            ))
-                                                        )):<></>
+                                                        selectedLectures?.length ?
+                                                            selectedLectures.map((lecture, lectureIndex) => (
+                                                                lecture.lectureTimes.map((time) => (
+                                                                    day !== time.day ? false :
+                                                                        <Lecture
+                                                                            key={lecture.id}
+                                                                            width='100%'
+                                                                            height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
+                                                                            top={((timeToMinute(time.startTime) - (timeToMinute(seletedTable.times[0]))) * 0.8).toString() + 'px'}
+                                                                            backgroundColor={colors[lectureIndex]}
+                                                                            isCardMode={true}
+                                                                            isListMode={false}//수정
+                                                                            id={lecture.id}
+                                                                            lectureName={lecture.lectureName}
+                                                                            professor={lecture.professor}
+                                                                            department={lecture.department}
+                                                                            lectureTimes={lecture.lectureTimes}
+                                                                            level={lecture.level}
+                                                                            section={lecture.section}
+                                                                            credit={lecture.credit}
+                                                                            notes={lecture.notes}
+                                                                            onClick={(e) => onClick(dayIndex, lectureIndex, seletedTable.dayNames.length, e)}
+                                                                            onDeleteClick={onDeleteClick}
+                                                                        />
+                                                                ))
+                                                            )) : <></>
                                                     }
                                                     {
-                                                        hoveredLecture?.lectureTimes?.map((time)=>(
-                                                            day!==time.day?false:
-                                                            <Lecture
-                                                            key={hoveredLecture.id}
-                                                            width='100%'
-                                                            height={((timeToMinute(time.endTime)-timeToMinute(time.startTime))*0.8-1).toString()+'px'}
-                                                            top={((timeToMinute(time.startTime)-(timeToMinute(seletedTable.times[0])))*0.8).toString()+'px'}
-                                                            isCardMode={true}
-                                                            isListMode={false}//수정
-                                                            id={hoveredLecture.id}
-                                                            lectureName={hoveredLecture.lectureName}
-                                                            professor={hoveredLecture.professor}
-                                                            department={hoveredLecture.department}
-                                                            lectureTimes={hoveredLecture.lectureTimes}
-                                                            level={hoveredLecture.level}
-                                                            section={hoveredLecture.section}
-                                                            credit={hoveredLecture.credit}
-                                                            notes={hoveredLecture.notes}
-                                                            backgroundColor='rgba(190, 190, 191, 0.8)'
-                                                            />
+                                                        hoveredLecture?.lectureTimes?.map((time) => (
+                                                            day !== time.day ? false :
+                                                                <Lecture
+                                                                    key={hoveredLecture.id}
+                                                                    width='100%'
+                                                                    height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
+                                                                    top={((timeToMinute(time.startTime) - (timeToMinute(seletedTable.times[0]))) * 0.8).toString() + 'px'}
+                                                                    isCardMode={true}
+                                                                    isListMode={false}//수정
+                                                                    id={hoveredLecture.id}
+                                                                    lectureName={hoveredLecture.lectureName}
+                                                                    professor={hoveredLecture.professor}
+                                                                    department={hoveredLecture.department}
+                                                                    lectureTimes={hoveredLecture.lectureTimes}
+                                                                    level={hoveredLecture.level}
+                                                                    section={hoveredLecture.section}
+                                                                    credit={hoveredLecture.credit}
+                                                                    notes={hoveredLecture.notes}
+                                                                    backgroundColor='rgba(190, 190, 191, 0.8)'
+                                                                />
                                                         ))
                                                     }
                                                 </div>
@@ -263,7 +272,7 @@ function TimeTable({
                                     right: '10px',
                                     top: '0',
                                     backgroundcolor: 'inherit',
-                                    borderLeft: '1px solid rgb(229, 229, 229)',
+                                    borderLeft: '1px solid rgb(229, 229, 229)'
                                 }}
                             >
                                 {
@@ -286,7 +295,33 @@ function TimeTable({
                     </div>
                 </div>
             </div>
-
+            <div className={styles.floatingLayer}>
+                <div className={styles.popupContainer}
+                // style={{
+                //     top:
+                //     left:
+                // }}
+                >
+                    {
+                        clickedLecture ?
+                            <LectureDetail
+                                backgroundColor={clickedLecture.backgroundColor}
+                                id={clickedLecture.id}
+                                lectureName={clickedLecture.lectureName}
+                                professor={clickedLecture.professor}
+                                department={clickedLecture.department}
+                                lectureTimes={clickedLecture.lectureTimes}
+                                level={clickedLecture.level}
+                                section={clickedLecture.section}
+                                credit={clickedLecture.credit}
+                                notes={clickedLecture.notes}
+                                onClickOutside={() => setClickedLecture(false)}
+                                onDeleteClick={() => { onDeleteClick(clickedLecture.id); setClickedLecture(false); }}
+                            /> : <></>
+                    }
+                    {/* <EditLecture editAble={false} setSelectedLectures={setSelectedLectures}/> */}
+                </div>
+            </div>
         </div>
 
     )

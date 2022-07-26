@@ -26,7 +26,7 @@ function MyTimeTable() {
             professor: "손명지",
             department: "전체공통",
             lectureTimes: [
-                { day: "화", startTime: "07:00", endTime: "13:30" },
+                { day: "화", startTime: "08:00", endTime: "13:30" },
                 { day: "목", startTime: "13:30", endTime: "15:00" },
             ],
             level: 1,
@@ -118,11 +118,11 @@ function MyTimeTable() {
         },
     ];
 
+    const [selectedLectures,setSelectedLectures]=useState([]);
+    const [totalLectures, setTotalLectures]=useState(test);
+    const [searchedLectures, setSearchedLectures]=useState(test);
+    const [hoveredLecture,setHoveredLecture]=useState();
 
-    const [selectedLectures, setSelectedLectures] = useState(test.slice(0, 1));
-    const [totalLectures, setTotalLectures] = useState(test);
-    const [searchedLectures, setSearchedLectures] = useState(test);
-    const [hoveredLecture, setHoveredLecture] = useState();
 
 
 ////////////////////////////////////////////////////////시간표 선택기능//////////////////////////////////////////////////////////////////////////////////
@@ -203,9 +203,11 @@ function MyTimeTable() {
     return (
         <div>
             <TimeTable
-                selectedLectures={selectedLectures}
-                setSelectedLectures={setSelectedLectures}
-                hoveredLecture={hoveredLecture}
+            width={'1200px'}
+            height={'600px'}
+            selectedLectures={selectedLectures}
+            setSelectedLectures={setSelectedLectures}
+            hoveredLecture={hoveredLecture}
             />
             <div>
                 <select ref={selectTimeTableOption} onChange={e => selectTimeTable(e)}>
