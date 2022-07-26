@@ -1,37 +1,146 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import styles from "./Search.module.css"
-// import Pagination from "./Pagination";
-
-// function LectureList({searchedLectures}) {
-//     const [currentPage, setCurrentPage] = useState(1);
-//     const [lecturesPerPage, setLecturesPerPage] = useState(5);
 
 
-//     // Get current lectures
-//     const indexOfLastLecture = currentPage * lecturesPerPage;
-//     const indexOfFirstLecture = indexOfLastLecture - lecturesPerPage;
-//     const currentLectures = searchedLectures.slice(indexOfFirstLecture, indexOfLastLecture)
+// const SelectTimeTable = ({selectedLectures, setSelectedLectures})=>{
 
-//     // Change page
-//     const paginate = (pageNumber) => {
-//         setCurrentPage(pageNumber);
+
+//     const [currentTableName, setCurrentTableName] = useState("시간표1");
+//     const [myTableList, setMyTableList] = useState([]);
+
+    
+
+//     const selectTimeTableOption = useRef(null);
+
+//     const selectTimeTable = (e) => {
+        
+//     //     console.log(e.target.value);
+//         const idx = e.target.selectedIndex;
+//         const option = e.target.querySelectorAll('option')[idx];
+//         const name = option.getAttribute('name');
+
+//         // console.log(name);
+
+//         setCurrentTableName(name);
+// // selectTimeTableOption.current.value
 //     };
+     
+//     useEffect(() => {
+//         if(JSON.parse(localStorage.getItem('시간표')) === undefined)
+//         {
+//             setMyTableList([
+//             {
+//                 tableName: "시간표1",
+//                 lectureList: [],
+//             },
+//             {
+//                 tableName: "시간표2",
+//                 lectureList: [],
+//             }]);
+//         }
+//         else
+//         {
+//             setMyTableList(JSON.parse(localStorage.getItem('시간표')));
+//         }
+//     }, []);
+
+//     useEffect(() => {   
+
+
+        
+//         setMyTableList(JSON.parse(localStorage.getItem('시간표')));
+        
+//         // console.log(JSON.parse(localStorage.getItem('시간표')));
+        
+//         let Table = myTableList.map(table => table.tableName === currentTableName ? {...table, lectureList: selectedLectures} : table);
+//         setMyTableList(Table);
+
+        
+//         localStorage.setItem('시간표', JSON.stringify(Table));
+
+            
+//         // console.log(myTableList);   
+        
+
+//     }, [selectedLectures]);
+
+      
+//     useEffect(() => {
+        
+//         myTableList.map(table => {
+//             if(table.tableName === currentTableName)
+//             {
+//                 setSelectedLectures(table.lectureList);
+//             }
+//         })
+
+//     }, [currentTableName])
+
 
 //     return (
-//         <div className={styles.contents}>
-//             <div className={styles.lecturelist}>
-//             {currentLectures.map (searchedLecture => (
-//                 <li key={searchedLecture.id}>
-//                     [{searchedLecture.section}] {searchedLecture.lectureName} ({searchedLecture.professor}) {searchedLecture.credit}학점 
-//                 </li>
-//             ))}
-//             </div>
-//             <Pagination lecturesPerPage={lecturesPerPage} searchedLectures={searchedLectures.length} paginate={paginate} currentPage={currentPage}/>
-//         </div>
+//     <div className={styles.selectTimeTableOption}>
+//         <select ref={selectTimeTableOption} onChange={e => selectTimeTable(e)}>
+//             <option name={'시간표1'} > 시간표1 </option>
+//             <option name={'시간표2'} > 시간표2 </option>
+//         </select>
+//     </div>
 //     );
-// }
+// };
 
-function Search({totalLectures,setSearchedLectures}) 
+
+const SearchIcon = ({
+    iconList, 
+    setIconList,
+    setCredit,
+    setSection,
+    setDepartment,
+    setLevel
+}) => {
+
+    function removeIcon(e) {
+        const type = e.target.value;
+        setIconList(iconList.filter( icon => { return icon.type !== type } ) );
+
+        switch(type) {
+            case 'credit':
+                setCredit('null');
+                break;
+            case 'section':
+                setSection('null');
+                break;
+            case 'department':
+                setDepartment('null');
+                break;
+            case 'level':
+                setLevel('null');
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    return(
+    <div>
+        <div className={styles.iconContainer}> 
+            {
+            iconList.map((icon, i) => (
+            <div
+                className={styles.icon}
+                key={i}
+                style={{ backgroundColor: icon.backgroundColor}}
+            >
+                <span className={styles.content}> {icon.value} </span>
+                <button className={styles.button} onClick={(e)=>removeIcon(e)} value={icon.type} > X </button>
+            </div>
+            ))}
+        </div>
+        
+    </div>
+    );
+}
+
+function Search({totalLectures, selectedLectures, setSelectedLectures, setSearchedLectures}) 
 {
     const [searchItem, setSearchItem]=useState('강의명');
     const [input, setInput] = useState('');
@@ -39,6 +148,8 @@ function Search({totalLectures,setSearchedLectures})
     const [section, setSection] = useState('null');
     const [department, setDepartment] = useState('null');
     const [level, setLevel] = useState('null');
+
+    const [iconList, setIconList] = useState([]);
 
     const inputref = useRef(null);
 
@@ -52,57 +163,125 @@ function Search({totalLectures,setSearchedLectures})
 
     }
     
+
+
     useEffect(()=> {
 
+        let newIconList = iconList;
+
+
+        let result = totalLectures;
+
+
         // 검색어 입력에 의한 처리
-         let result = totalLectures.filter((lecture)=> {
-            if (searchItem === '강의명'){
-                return lecture.lectureName.includes(input);
-            }
-            else if (searchItem === '교수명'){
-                return lecture.professor.includes(input);
-            }
-        }); 
+        if(input !== ''){
+            result = totalLectures.filter((lecture)=> {
+                if (searchItem === '강의명'){
+                    return lecture.lectureName.includes(input);
+                }
+                else if (searchItem === '교수명'){
+                    return lecture.professor.includes(input);
+                }
+            }); 
+        }
+         
 
         // 학점 입력에 의한 처리
         if(credit !== 'null')
         {
-            setCredit(Number(credit));
             result = result.filter((lecture)=> {
                 return lecture.credit == credit;                
             })
+
+            if(iconList.some(obj => obj.type === "credit")){ 
+                
+                newIconList = newIconList.filter(obj => { return obj.type !== "credit"; } );
+                newIconList = newIconList.concat({ type: "credit", value: `${credit}학점`, backgroundColor: '#d9534f'});
+                
+            }
+            else{
+                newIconList = newIconList.concat({ type: "credit", value: `${credit}학점`, backgroundColor: '#d9534f' });
+
+            }
+
+        }else {
+            newIconList = newIconList.filter(obj => {return obj.type !== "credit";});
+
         }
 
         // 구분 입력에 의한 처리
         if(section !== 'null')
         {
             result = result.filter((lecture)=> {
-                return lecture.section == section;                
+                return lecture.section === section;                
             })
+
+
+            if(iconList.some(obj => obj.type === "section")){ 
+                
+                newIconList = newIconList.filter(obj => { return obj.type !== "section"; } );
+                newIconList = newIconList.concat({ type: "section", value: section, backgroundColor: '#5ab85c'});
+            }
+            else{
+                newIconList = newIconList.concat({ type: "section", value: section, backgroundColor: '#5ab85c' });
+            }
+           
+        }else{
+            newIconList = newIconList.filter(obj => {return obj.type !== "section";});
         }
+
 
         // 소속 입력에 의한 처리
         if(department !== 'null')
         {
             result = result.filter((lecture)=> {
-                return lecture.department == department;                
+                return lecture.department === department;                
             })
+
+            if(iconList.some(obj => obj.type === "department")){ 
+                
+                newIconList = newIconList.filter(obj => { return obj.type !== "department"; } );
+                newIconList = newIconList.concat({ type: "department", value: department, backgroundColor: '#5bc0de'});
+                
+            }
+            else{
+                newIconList = newIconList.concat({ type: "department", value: department, backgroundColor: '#5bc0de' });
+
+            }
+
+        }else {
+            newIconList = newIconList.filter(obj => {return obj.type !== "department";});
         }
 
 
         // 난이도 입력에 의한 처리
         if(level !== 'null')
         {
-            setLevel(Number(level));
             result = result.filter((lecture)=> {
-                return lecture.level == level;                
+                return lecture.level === level;                
             })
+            
+
+            if(iconList.some(obj => obj.type === "level")){ 
+                
+                newIconList = newIconList.filter(obj => { return obj.type !== "level"; } );
+                newIconList = newIconList.concat({ type: "level", value: `난이도: ${level}`, backgroundColor: '#f0ad4e'});
+            }
+            else{
+                newIconList = newIconList.concat({ type: "level", value: `난이도: ${level}`, backgroundColor: '#f0ad4e' });
+            }
+           
+        }else{
+            newIconList = newIconList.filter(obj => {return obj.type !== "level";});
         }
+
+
+        
 
         // searchedLectures state 관리
         setSearchedLectures(result);
 
-
+        setIconList(newIconList);
         
     }, [input, credit, section, department, level]);    
 
@@ -110,6 +289,7 @@ function Search({totalLectures,setSearchedLectures})
 
 return (
     <div>
+        {/* <SelectTimeTable selectedLectures={selectedLectures} setSelectedLectures={setSelectedLectures}/> */}
         <div className={styles.searchCollection}>
             <div>
                 <select value={searchItem} onChange={resetSearchItem}>
@@ -156,6 +336,7 @@ return (
                 </select>
             </div>
         </div>
+        <SearchIcon iconList={iconList} setIconList={setIconList} setCredit={setCredit} setSection={setSection} setDepartment={setDepartment} setLevel={setLevel} />
     </div>
 );
 

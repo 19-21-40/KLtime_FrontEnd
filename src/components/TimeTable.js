@@ -81,6 +81,7 @@ function TimeTable({
             times: times.slice(minTime, 24),
             periods: periods.slice(minPeriod, 15)
         })
+
     }, [selectedLectures,hoveredLecture])
 
     const onClick=(e)=>{
