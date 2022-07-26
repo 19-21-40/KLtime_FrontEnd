@@ -52,6 +52,7 @@ function TimeTable({
         'rgb(187, 220, 0)',
         'rgb(255, 64, 64)',
         'red', 'green', 'blue', 'orange', 'yellow', 'pink', 'skyblue'
+
     ];
 
     const [seletedTable, SetSeletedTable] = useState({
@@ -59,7 +60,6 @@ function TimeTable({
         times: times.slice(9, 24),
         periods: periods.slice(2, 15)
     });
-
     const [clickedLecture, setClickedLecture] = useState();
 
     useEffect(() => {
@@ -75,6 +75,7 @@ function TimeTable({
             })
         })
         hoveredLecture?.lectureTimes.forEach((time) => {
+
             const dayIndex = dayNames.indexOf(time.day) + 1;
             const timeIndex = parseInt(time.startTime.split(":")[0]);
             if (timeIndex < minTime) minTime = timeIndex;
@@ -219,6 +220,7 @@ function TimeTable({
                                                                             top={((timeToMinute(time.startTime) - (timeToMinute(seletedTable.times[0]))) * 0.8).toString() + 'px'}
                                                                             backgroundColor={colors[lectureIndex]}
                                                                             isCardMode={true}
+                                                                            isListMode={false}//수정
                                                                             id={lecture.id}
                                                                             lectureName={lecture.lectureName}
                                                                             professor={lecture.professor}
@@ -243,6 +245,7 @@ function TimeTable({
                                                                     height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
                                                                     top={((timeToMinute(time.startTime) - (timeToMinute(seletedTable.times[0]))) * 0.8).toString() + 'px'}
                                                                     isCardMode={true}
+                                                                    isListMode={false}//수정
                                                                     id={hoveredLecture.id}
                                                                     lectureName={hoveredLecture.lectureName}
                                                                     professor={hoveredLecture.professor}
@@ -252,7 +255,7 @@ function TimeTable({
                                                                     section={hoveredLecture.section}
                                                                     credit={hoveredLecture.credit}
                                                                     notes={hoveredLecture.notes}
-                                                                    backgroundColor='gray'
+                                                                    backgroundColor='rgba(190, 190, 191, 0.8)'
                                                                 />
                                                         ))
                                                     }

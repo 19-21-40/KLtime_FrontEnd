@@ -1,5 +1,6 @@
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Lecture.module.css"
 
 function Lecture({
@@ -17,10 +18,18 @@ function Lecture({
     top = "",
     backgroundColor = "rgb(255, 187, 59)",
     isCardMode,
+    isListMode,//수정
     onClick,
     onDeleteClick,
+    onHovered//추가
+
 }) {
     const [isOnHovered, setIsOnHovered] = useState(false);
+    const [Clicked,setClicked]=useState(false);
+
+    useEffect(()=>{
+        if(isListMode) onHovered(isOnHovered);
+    },[isOnHovered]);
 
 
 
@@ -39,20 +48,38 @@ function Lecture({
                 opacity: '1',
                 zIndex: '0',
             }:{}} //#####맨마지막에 뒤집을것
-            onMouseEnter={() => setIsOnHovered(true)}
-            onMouseLeave={() => setIsOnHovered(false)}
-            onClick={onClick}
+            onMouseEnter={() => {
+                setIsOnHovered(true);
+                
+                // console.log(hoveredLecture);
+            }}
+            onMouseLeave={() => {
+                setIsOnHovered(false);
+                
+                // console.log(hoveredLecture);
+            }}
+            onClick={Clicked?()=>{}: //false에서 오류떠서 수정
+                ()=>{
+                    onClick();
+                    setClicked(true);
+                    }} 
         >
             <div className={styles.selectedTimeContent}
-                style={{
+            // isCardMode이름 바꾸기
+                style={isCardMode?{
                     height:'100%',
                     borderRadius:'5px',
                     backgroundColor:isOnHovered?'rgba(55,53,47,0.25)':backgroundColor
+                }:{backgroundColor:
+                    Clicked? 'rgba(190, 190, 191, 0.8)':(isOnHovered?"#f8f8f8":'white')
                 }}
                 >
                 <div className={isCardMode?styles.time:styles.linecontent}>
                     <div>
                         <strong>{lectureName}</strong>
+                        {isListMode?
+                        <></>
+                        :
                         <button
                             className={styles.LectureDelBtn}
                             style={{
@@ -60,6 +87,8 @@ function Lecture({
                             }}
                             onClick={()=>onDeleteClick(id)} //#####
                         >x</button>
+                        }
+                        
                     </div>
                     <div>
                         {professor}
