@@ -80,9 +80,11 @@ function TimeTable({
             times: times.slice(minTime, 24),
             periods: periods.slice(minPeriod, 15)
         })
+
     }, [selectedLectures,hoveredLecture])
+    
     const onClick=(e)=>{
-        console.log(e.currentTarget)
+        console.log(e.currentTarget);
     }
     const onCancleClick = (id) => {
         if(window.confirm("강의를 삭제하시겠습니까?")){
