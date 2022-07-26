@@ -117,10 +117,10 @@ function MyTimeTable() {
         },
     ];
 
-    const [selectedLectures,setSelectedLectures]=useState(test.slice(0,1));
+    const [selectedLectures,setSelectedLectures]=useState([]); //test.slice(0,1)
     const [totalLectures, setTotalLectures]=useState(test);
     const [searchedLectures, setSearchedLectures]=useState(test);
-    const [hoveredLecture,setHoveredLecture]=useState(test[0]);
+    const [hoveredLecture,setHoveredLecture]=useState(undefined);//수정?
 
     // useEffect(()=>{
     //     setSeletedLectures(test);

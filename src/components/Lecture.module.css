@@ -50,16 +50,22 @@
     background: #228be6;
 } */
 
+.linecontent{
+    /* 추가 */
+    border-top: 1px solid rgba(167, 168, 169, 0.8);
+    padding: 12px 0 12px 10px;
+}
 
 /* 추가 */
 .lineList .linecontent div{
-    width: 100px;
+    width: 110px;
     overflow: hidden;
     padding: 1px 0 0 3px;
     font-size: 12px;
     /* float: left; */
     display: inline-flex;
     padding-right: 12px;
+
 }
 
 .lineList span{
