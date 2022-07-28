@@ -3,6 +3,8 @@ import LectureList from "../components/LectureList";
 import { useEffect, useState, useRef } from "react";
 import Search from "../components/Search";
 import ModifyTimeTable from "../components/ModifyTimeTable";
+import SelectTimeTable  from "../components/SelectTimeTable"
+
 
 function MyTimeTable() {
     const test = [
@@ -123,109 +125,23 @@ function MyTimeTable() {
     const [searchedLectures, setSearchedLectures]=useState(test);
     const [hoveredLecture,setHoveredLecture]=useState();
 
-
-
 ////////////////////////////////////////////////////////시간표 선택기능//////////////////////////////////////////////////////////////////////////////////
-    const [currentTableName, setCurrentTableName] = useState("시간표1");
-    const [myTableList, setMyTableList] = useState(
-        [
-            {
-                number: 1,  
-                tableName: "시간표1",
-                lectureList: [],
-            },
-            {
-                number: 2,
-                tableName: '시간표2',
-                lectureList: [],
-            }]
-    );
+    
 
-
-    const selectTimeTableOption = useRef(null);
-
-    const selectTimeTable = (e) => {
-        
-
-        const idx = e.target.selectedIndex;
-        const option = e.target.querySelectorAll('option')[idx];
-        const name = option.getAttribute('name');
-
-
-
-        setCurrentTableName(name);
-
-    };
-   
-    useEffect(() => {   
-
-        let Table = myTableList.map(table => table.tableName === currentTableName ? {...table, lectureList: selectedLectures} : table);
-        setMyTableList(Table);
-
-        localStorage.setItem('시간표', JSON.stringify(Table));
-
-    }, [selectedLectures]);
-
-      
-    useEffect(() => {
-        
-        myTableList.map(table => {
-            if(table.tableName === currentTableName)
-            {
-                setSelectedLectures(table.lectureList);
-            }
-        })
-
-    }, [currentTableName])
-
-
-    const nextNumber = useRef(3);
-
-    const addTimeTable = () => {
-
-        const newTable = {
-            number: nextNumber.current,
-            tableName: `시간표${nextNumber.current}`,
-            lectureList: [],
-        };
-
-        setMyTableList(myTableList.concat(newTable));
-        
-        nextNumber.current += 1;
-
-    }
-
-    const [isModifyTimeTable, setIsModifyTimeTable] = useState(false);
-
-    const handleClick = () => {
-        setIsModifyTimeTable(true);
-    }
+    
     return (
         <div>
             <TimeTable
-            width={'1200px'}
-            height={'600px'}
-            selectedLectures={selectedLectures}
-            setSelectedLectures={setSelectedLectures}
-            hoveredLecture={hoveredLecture}
+                width={'1200px'}
+                height={'600px'}
+                selectedLectures={selectedLectures}
+                setSelectedLectures={setSelectedLectures}
+                hoveredLecture={hoveredLecture}
             />
-            <div>
-                <select ref={selectTimeTableOption} onChange={e => selectTimeTable(e)}>
-                    {myTableList.map((table)=> { return (
-                        <option name={`시간표${table.number}`} key={table.number}> 시간표{table.number} </option>
-                    )})}
-                </select>
-                <button onClick={addTimeTable}> + </button>
-                <button onClick={handleClick}> 수정 </button>
-                <ModifyTimeTable 
-                  currentTableName={currentTableName}
-                  setCurrentTableName={currentTableName}
-                  myTableList={myTableList}
-                  setMyTableList={setMyTableList}
-                  isModifyTimeTable={isModifyTimeTable}
-                  setIsModifyTimeTable={setIsModifyTimeTable}
-                />
-            </div>
+            <SelectTimeTable 
+                selectedLectures={selectedLectures}
+                setSelectedLectures={setSelectedLectures}    
+            />
             <Search
                 totalLectures={totalLectures}
                 setSearchedLectures={setSearchedLectures}

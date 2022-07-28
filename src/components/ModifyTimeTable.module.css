@@ -1,27 +1,54 @@
-.modalBackground :fullscreen{
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(200, 200, 200);
-    position: fixed;
+.modalBackground{
+    background-color: rgba(0,0,0,.3);
+    justify-content:center;
+    align-items:center;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    
+}
+
+.modalContainer{
+    position: relative;
+    width:100%;               
+    max-width:400px;     
+    overflow:hidden;          
+    border-radius: 10px;
+    background-color:#264db5; 
+    box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3); 
+}
+
+.title{
+    width:100%;
+    max-width:400px;              
+    overflow:hidden;         
+    background-color:#9fcbfa;
+    justify-content:center;
+    align-items:center;
+    color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.modalContainer {
-    width: 500px;
-    height: 500px;
-    border-radius: 12px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    display: flex;
-    flex-direction: column;
-    padding: 25px;
+.title button {
+    position: absolute;
+    background: none;
+    border:none;
+    font-size: 20px;
+    color: white;
+    top: 3%;
+    right: 5%;
+    cursor: pointer;
 }
 
-.modalContainer .title{
-    display: inline-block;
-    text-align: center;
-    margin-top: 10px;
+.body{
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    background-color: #ffffff;
 }
 
+.tableName{
+    font-size: 25px;
+}
