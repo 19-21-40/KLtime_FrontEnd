@@ -2,10 +2,11 @@ import Lecture from "./Lecture";
 import styles from "./TimeTable.module.css"
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserTable } from "../routes/MyTimeTable";
 import LectureDetail from "./LectureDetail";
 import EditLecture from "./EditLecture";
-
+import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 
 
 function TimeTable({
@@ -15,6 +16,9 @@ function TimeTable({
     setSelectedLectures,
     hoveredLecture,
 }) {
+
+    const dispatch=useUserTableDispatch()
+
     const dayNames = ["월", "화", "수", "목", "금", "토", "일"];
     const times = [
         "00:00",
@@ -91,6 +95,10 @@ function TimeTable({
     }, [selectedLectures, hoveredLecture])
 
     const onClick = (dayIndex, lectureIndex, dayLength, e) => {
+        dispatch({
+            type:'READ_TABLE',
+            id:1
+        });
         setClickedLecture({
             ...selectedLectures[lectureIndex],
             backgroundColor: colors[lectureIndex],
