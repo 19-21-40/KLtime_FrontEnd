@@ -46,7 +46,6 @@ function LectureList({
       type: 'ADD_LECTURE',
       lecture:state.searchedLectures[index],
     })
-    // setSelectedLectures((current) => [...current, searchedLectures[index]]);
   };
 
   const onHovered=(index,isOnHovered)=>{
@@ -55,11 +54,6 @@ function LectureList({
       type: 'PREVIEW_LECTURE',
       id:state.searchedLectures[index].id,
     })
-    // if(isOnHovered) setHoveredLecture(state.searchedLectures[index]);
-    // else setHoveredLecture();
-
-    // if(isOnHovered) setHoveredLecture(searchedLectures[index]);
-    // else setHoveredLecture();
   }
 
   return (
