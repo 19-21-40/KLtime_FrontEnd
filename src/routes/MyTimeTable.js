@@ -151,12 +151,8 @@ function MyTimeTable() {
                     totalLectures={totalLectures}
                     setSearchedLectures={setSearchedLectures}
                 />
-                <LectureList
-                    searchedLectures={searchedLectures}
-                    selectedLectures={selectedLectures} // 리스트에서 선택했을때 selectedLectures를 set하기 위해 불러옴
-                    setSelectedLectures={setSelectedLectures}
-                    setHoveredLecture={setHoveredLecture}
-                />
+                {/* 수정 */}
+                <LectureList/>
             </UserTableProvider>
         </div>
 

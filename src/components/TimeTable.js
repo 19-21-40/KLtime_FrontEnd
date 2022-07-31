@@ -7,6 +7,7 @@ import { UserTable } from "../routes/MyTimeTable";
 import LectureDetail from "./LectureDetail";
 import EditLecture from "./EditLecture";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
+import { toContainHTML } from "@testing-library/jest-dom/dist/matchers";
 
 
 function TimeTable({
@@ -18,6 +19,7 @@ function TimeTable({
 }) {
 
     const dispatch=useUserTableDispatch()
+    const state=useUserTableState();//추가
 
     const dayNames = ["월", "화", "수", "목", "금", "토", "일"];
     const times = [
@@ -217,11 +219,12 @@ function TimeTable({
                                             >
                                                 <div className={styles.timeTableDayBlock} style={{ marginRight: "8px" }}>
                                                     {
-                                                        selectedLectures?.length ?
-                                                            selectedLectures.map((lecture, lectureIndex) => (
+                                                        selectedLectures?.length ? //수정
+                                                            selectedLectures.map((lecture, lectureIndex) => ( //수정
                                                                 lecture.lectureTimes.map((time) => (
                                                                     day !== time.day ? false :
                                                                         <Lecture
+                                                                            lecture={lecture}//추가
                                                                             key={lecture.id}
                                                                             width='100%'
                                                                             height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
@@ -229,15 +232,15 @@ function TimeTable({
                                                                             backgroundColor={colors[lectureIndex]}
                                                                             isCardMode={true}
                                                                             isListMode={false}//수정
-                                                                            id={lecture.id}
-                                                                            lectureName={lecture.lectureName}
-                                                                            professor={lecture.professor}
-                                                                            department={lecture.department}
-                                                                            lectureTimes={lecture.lectureTimes}
-                                                                            level={lecture.level}
-                                                                            section={lecture.section}
-                                                                            credit={lecture.credit}
-                                                                            notes={lecture.notes}
+                                                                            // id={lecture.id}
+                                                                            // lectureName={lecture.lectureName}
+                                                                            // professor={lecture.professor}
+                                                                            // department={lecture.department}
+                                                                            // lectureTimes={lecture.lectureTimes}
+                                                                            // level={lecture.level}
+                                                                            // section={lecture.section}
+                                                                            // credit={lecture.credit}
+                                                                            // notes={lecture.notes}
                                                                             onClick={(e) => onClick(dayIndex, lectureIndex, seletedTable.dayNames.length, e)}
                                                                             onDeleteClick={onDeleteClick}
                                                                         />
@@ -248,21 +251,22 @@ function TimeTable({
                                                         hoveredLecture?.lectureTimes?.map((time) => (
                                                             day !== time.day ? false :
                                                                 <Lecture
+                                                                    lecture={hoveredLecture}//추가
                                                                     key={hoveredLecture.id}
                                                                     width='100%'
                                                                     height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
                                                                     top={((timeToMinute(time.startTime) - (timeToMinute(seletedTable.times[0]))) * 0.8).toString() + 'px'}
                                                                     isCardMode={true}
                                                                     isListMode={false}//수정
-                                                                    id={hoveredLecture.id}
-                                                                    lectureName={hoveredLecture.lectureName}
-                                                                    professor={hoveredLecture.professor}
-                                                                    department={hoveredLecture.department}
-                                                                    lectureTimes={hoveredLecture.lectureTimes}
-                                                                    level={hoveredLecture.level}
-                                                                    section={hoveredLecture.section}
-                                                                    credit={hoveredLecture.credit}
-                                                                    notes={hoveredLecture.notes}
+                                                                    // id={hoveredLecture.id}
+                                                                    // lectureName={hoveredLecture.lectureName}
+                                                                    // professor={hoveredLecture.professor}
+                                                                    // department={hoveredLecture.department}
+                                                                    // lectureTimes={hoveredLecture.lectureTimes}
+                                                                    // level={hoveredLecture.level}
+                                                                    // section={hoveredLecture.section}
+                                                                    // credit={hoveredLecture.credit}
+                                                                    // notes={hoveredLecture.notes}
                                                                     backgroundColor='rgba(190, 190, 191, 0.8)'
                                                                 />
                                                         ))
