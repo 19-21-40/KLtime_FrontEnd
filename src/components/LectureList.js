@@ -33,6 +33,7 @@ function LectureList({
 }) {
   
   const [isCardMode,setIsCardMode]=useState(false); //토글버튼 만들 때 쓰일 것
+  
 
   //추가
   const dispatch=useUserTableDispatch();
@@ -48,7 +49,7 @@ function LectureList({
     })
   };
 
-  const onHovered=(index,isOnHovered)=>{
+  const onHovered=(index)=>{
     //추가
     dispatch({
       type: 'PREVIEW_LECTURE',
