@@ -2,7 +2,6 @@ import TimeTable from "../components/TimeTable";
 import LectureList from "../components/LectureList";
 import { useEffect, useState, useRef, useReducer, createContext } from "react";
 import Search from "../components/Search";
-import ModifyTimeTable from "../components/ModifyTimeTable";
 import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
 
@@ -148,15 +147,9 @@ function MyTimeTable() {
                     setSelectedLectures={setSelectedLectures}    
                 />
                 <Search
-                    totalLectures={totalLectures}
-                    setSearchedLectures={setSearchedLectures}
+                    totalLectures={testtotalLectures}
                 />
-                <LectureList
-                    searchedLectures={searchedLectures}
-                    selectedLectures={selectedLectures} // 리스트에서 선택했을때 selectedLectures를 set하기 위해 불러옴
-                    setSelectedLectures={setSelectedLectures}
-                    setHoveredLecture={setHoveredLecture}
-                />
+                <LectureList />
             </UserTableProvider>
         </div>
 
