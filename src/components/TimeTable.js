@@ -76,7 +76,7 @@ const TimeTableZoneLayout = styled.div`
 
 
 `
-
+    
 const TimeTableDayLayout=styled.div`
     background: none;
     position: absolute;
