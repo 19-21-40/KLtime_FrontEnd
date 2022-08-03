@@ -5,15 +5,7 @@ function LectureDetail({
     top,
     left,
     backgroundColor,
-    id,
-    lectureName,
-    professor,
-    department,
-    lectureTimes,
-    level,
-    section,
-    credit,
-    notes,
+    lecture,
     editAble = true,
     onEditClick,
     onDeleteClick,
@@ -38,10 +30,10 @@ function LectureDetail({
             <div className={styles.lectureDetailContainer} ref={ref}>
                 <div className={`${styles.sectionHeader} ${styles.section}`}>
                     <div className={styles.detailLectureTitle}>
-                        <span>{`${lectureName} (${id})`}</span>
+                        <span>{`${lecture.lectureName} (${lecture.id})`}</span>
                     </div>
                     <div className={styles.detailContent}>
-                        {lectureTimes?.map((lectureTime, index) => <span key={index}> {`${lectureTime.day}:${lectureTime.startTime}~${lectureTime.endTime}`}</span>)}
+                        {lecture.lectureTimes?.map((lectureTime, index) => <span key={index}> {`${lectureTime.day}:${lectureTime.startTime}~${lectureTime.endTime}`}</span>)}
                     </div>
                 </div>
                 <div className={`${styles.sectionDetail} ${styles.section}`}>
@@ -50,7 +42,7 @@ function LectureDetail({
                         {/* <span className={styles.icon}></span> */}
                         <span className={styles.detailContent}>
                             <span>
-                                {professor}
+                                {lecture.professor}
                             </span>
                         </span>
                     </div>
@@ -58,7 +50,7 @@ function LectureDetail({
                         {/* <span className={styles.icon}></span> */}
                         <span className={styles.detailContent}>
                             <span>
-                                {department}
+                                {lecture.department}
                             </span>
                         </span>
                     </div>
@@ -69,7 +61,7 @@ function LectureDetail({
                         <span>편집</span>
                     </button>
                     <div className={styles.vertialLine}></div>
-                    <button type="button" className={styles.delBtn} onClick={() => onDeleteClick(id)} >
+                    <button type="button" className={styles.delBtn} onClick={() => onDeleteClick(lecture.id)} >
                         <span>삭제</span>
                     </button>
                 </div>

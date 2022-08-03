@@ -6,6 +6,34 @@ import ModifyTimeTable from "../components/ModifyTimeTable";
 import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
 
+// [
+//     {
+//         id: "H030-2-0448-02",
+//         lectureName: "디지털논리",
+//         professor: "김진우",
+//         department: "소프트웨어학부",
+//         day: "월",
+//         startTime: "15:00",
+//         endTime: "16:30" ,
+//         level: 2,
+//         section: "전선",
+//         credit: 3,
+//         notes: ""
+//     },
+//     {
+//     id: "H030-2-0448-02",
+//     lectureName: "디지털논리",
+//     professor: "김진우",
+//     department: "소프트웨어학부",
+//     day: "수",
+//     startTime: "16:30",
+//     endTime: "18:00" ,
+//     level: 2,
+//     section: "전선",
+//     credit: 3,
+//     notes: ""
+//     }
+// ],
 
 const testtotalLectures=[
     {
@@ -137,11 +165,8 @@ function MyTimeTable() {
         <div>
             <UserTableProvider>
                 <TimeTable
-                    width={'1200px'}
-                    height={'600px'}
-                    selectedLectures={selectedLectures}
-                    setSelectedLectures={setSelectedLectures}
-                    hoveredLecture={hoveredLecture}
+                    width={1200}
+                    height={650}
                 />
                 <SelectTimeTable 
                     selectedLectures={selectedLectures}

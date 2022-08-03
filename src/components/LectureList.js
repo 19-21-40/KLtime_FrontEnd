@@ -57,15 +57,7 @@ function LectureList({
                 isCardMode={isCardMode}
                 isListMode={true}//수정
                 onClick={(event) => onClick(index,event)}
-                id={totalLecture.id}
-                lectureName={totalLecture.lectureName}
-                professor={totalLecture.professor}
-                department={totalLecture.department}
-                lectureTimes={totalLecture.lectureTimes} 
-                level={totalLecture.level}
-                section={totalLecture.section}
-                credit={totalLecture.credit}
-                notes={totalLecture.notes}
+                lecture={totalLecture}
                 onHovered={(isOnHovered)=>onHovered(index,isOnHovered)}//수정
                 />
             ))}

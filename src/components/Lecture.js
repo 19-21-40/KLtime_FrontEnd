@@ -4,15 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./Lecture.module.css"
 
 function Lecture({
-    id,
-    lectureName,
-    professor,
-    department,
-    lectureTimes,
-    level,
-    section,
-    credit,
-    notes,
+    lecture,
     width = "150px",
     height,
     top = "",
@@ -76,7 +68,7 @@ function Lecture({
                 >
                 <div className={isCardMode?styles.time:styles.linecontent}>
                     <div>
-                        <strong>{lectureName}</strong>
+                        <strong>{lecture.lectureName}</strong>
                         {isListMode?
                         <></>
                         :
@@ -85,37 +77,37 @@ function Lecture({
                             style={{
                                 display: isOnHovered ? '' : 'none'
                             }}
-                            onClick={()=>onDeleteClick(id)} //#####
+                            onClick={()=>onDeleteClick(lecture.id)} //#####
                         >x</button>
                         }
                         
                     </div>
                     <div>
-                        {professor}
+                        {lecture.professor}
                     </div>
                     <div>
-                        {department}
+                        {lecture.department}
                     </div>
                     <div>
-                        {lectureTimes.map((lectureTime, index) => (
+                        {lecture.lectureTimes.map((lectureTime, index) => (
                             <span key={index}>
                                 {`${lectureTime.day} ${lectureTime.startTime} ${lectureTime.endTime}`}
                             </span>
                         ))}
                     </div>
                     <div>
-                        {level}
+                        {lecture.level}
                     </div>
                     <div>
-                        {section}
+                        {lecture.section}
                     </div>
                     <div>
-                        {credit}
+                        {lecture.credit}
                     </div>
                     <div style={{
                         display: isCardMode ? 'none' : 'block'
                     }}>
-                        {notes}
+                        {lecture.notes}
                     </div>
                 </div>
             </div>
@@ -125,15 +117,15 @@ function Lecture({
 }
 
 Lecture.propTypes = {
-    id: PropTypes.string.isRequired,
-    lectureName: PropTypes.string.isRequired,
-    professor: PropTypes.string,
-    department: PropTypes.string,
-    lectureTimes: PropTypes.array.isRequired,
-    level: PropTypes.number,
-    section: PropTypes.string.isRequired,
-    credit: PropTypes.number.isRequired,
-    notes: PropTypes.string
+    // id: PropTypes.string.isRequired,
+    // lectureName: PropTypes.string.isRequired,
+    // professor: PropTypes.string,
+    // department: PropTypes.string,
+    // lectureTimes: PropTypes.array.isRequired,
+    // level: PropTypes.number,
+    // section: PropTypes.string.isRequired,
+    // credit: PropTypes.number.isRequired,
+    // notes: PropTypes.string
 };
 
 export default Lecture;
