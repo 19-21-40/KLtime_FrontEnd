@@ -137,7 +137,7 @@ function timeTableReducer(state,action){
             return{
                 ...state,
                 totalTimeTable:state.totalTimeTable.concat(action.timeTable),
-                selectedId:action.id,
+                selectedId:action.selectedId,
             }
         case 'READ_TABLE'://시간표 선택시 불러오기
             return{

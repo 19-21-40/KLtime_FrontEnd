@@ -299,7 +299,7 @@ function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
             ))
         }
         {
-        userTable.previewId !== -1?.lectureTimes?.map((time) => (
+        userTable.previewId !== -1?previewLecture.lectureTimes?.map((time) => (
             day !== time.day ? false :
                 <Lecture
                     key={previewLecture.id}
@@ -311,7 +311,7 @@ function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
                     lecture={previewLecture}
                     backgroundColor='rgba(190, 190, 191, 0.8)'
                 />
-        ))
+        )):<></>
         }
     </TimeTableDayBlockLayout>);
 }
@@ -403,24 +403,7 @@ function TimeTable({
         });
     }
     const dispatch = useUserTableDispatch();
-    useEffect(() => {
-        dispatch({
-            type: 'ADD_LECTURE', lecture: {
-                id: "H030-2-0448-02",
-                lectureName: "디지털논리",
-                professor: "김진우",
-                department: "소프트웨어학부",
-                lectureTimes: [
-                    { day: "월", startTime: "15:00", endTime: "16:30" },
-                    { day: "수", startTime: "16:30", endTime: "18:00" },
-                ],
-                level: 2,
-                section: "전선",
-                credit: 3,
-                notes: ""
-            }
-        })
-    }, [])
+
 
     useEffect(() => {
         let maxDay = 5;

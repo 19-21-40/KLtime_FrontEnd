@@ -1,5 +1,5 @@
 //추가
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled ,{css}  from "styled-components";
 
 //styled-components
@@ -11,17 +11,17 @@ const DualMode=styled.div`
         overflow: hidden;
         cursor: pointer;
         box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
-        width;
-        height;
-        top;
+        width:${props=>props.width};
+        height:${props=>props.height};
+        top:${props=>props.top};
         left: 0%;
-        borderRadius: 5px;
-        border: 3px solid backgroundColor;
-        marginLeft: 0px;
+        border-radius: 5px;
+        border: 3px solid ${props=>props.backgroundColor};
+        margin-left: 0px;
         color: rgb(255, 255, 255);
-        background-color:backgroundColor;
+        background-color:${props=>props.backgroundColor};
         opacity: 1;
-        zIndex: 0;  
+        z-index: 0;  
     `
     :
     css`
@@ -34,8 +34,8 @@ const ContentBox=styled(DualMode)`
         props.isCardMode ?
         css`
             height:100%;
-            borderRadius:5px;
-            backgroundColor:backgroundColor;
+            border-radius:5px;
+            background-color:${props.backgroundColor};
 
             &:hover{background-color:rgba(55,53,47,0.25);}
         `
@@ -59,6 +59,7 @@ const Content=styled(ContentBox)`
     ${props =>
         props.isCardMode ?
         css`
+            position:relative;
             overflow: hidden;
             padding: 1px 0 0 3px;
             font-size: 12px;
@@ -102,14 +103,18 @@ function Lecture({
     isListMode,//수정
     onClick,
     onDeleteClick,
-    onHovered
+    onHovered,
+    isClicked
 }) {
     const [clicked,setClicked]=useState(false);
 
-    console.log(clicked);
+    useEffect(()=>{
+        setClicked(isClicked);
+    },[isClicked])
+
 
     return (
-        <DualMode isCardMode={isCardMode}
+        <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
             onClick={
@@ -120,7 +125,7 @@ function Lecture({
                 
             }
             >
-            <ContentBox isCardMode={isCardMode} clicked={clicked}>
+            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor}>
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>

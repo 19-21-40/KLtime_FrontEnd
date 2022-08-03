@@ -71,7 +71,7 @@ function SelectTimeTable({
             },
             selectedId: nextNumber.current,
         });
-        
+        selectTimeTableOption.current.value=nextNumber.current.toString()
     };
 
     const deleteTimeTable = () => {

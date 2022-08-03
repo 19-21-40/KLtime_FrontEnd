@@ -32,13 +32,17 @@ function LectureList({
 }) {
   
   const [isCardMode,setIsCardMode]=useState(false); //토글버튼 만들 때 쓰일 것
-  
 
   //추가
   const dispatch=useUserTableDispatch();
   const state=useUserTableState();
+  const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
+  const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
+  useEffect(()=>{
+    setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
+    console.log(clickeds)
+  },[state.selectedId])
 
-  console.log(state);
 
   const onClick = (index) => {
     //추가
@@ -94,6 +98,7 @@ function LectureList({
                 isListMode={true}//수정
                 onClick={() => onClick(index)}
                 onHovered={()=>onHovered(index)}//수정
+                isClicked={clickeds[index]}
                 />
             ))}
         </div>
