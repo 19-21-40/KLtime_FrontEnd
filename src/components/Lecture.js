@@ -1,6 +1,7 @@
 //추가
 import { useEffect, useState } from "react";
 import styled ,{css}  from "styled-components";
+import { useUserTableState } from "../context/UserTableContext";
 
 //styled-components
 const DualMode=styled.div`
@@ -107,10 +108,11 @@ function Lecture({
     isClicked
 }) {
     const [clicked,setClicked]=useState(false);
+    const state=useUserTableState();
 
     useEffect(()=>{
         setClicked(isClicked);
-    },[isClicked])
+    },[state.selectedId,isClicked])
 
 
     return (
