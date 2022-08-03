@@ -32,6 +32,7 @@ function LectureList({
 }) {
   
   const [isCardMode,setIsCardMode]=useState(false); //토글버튼 만들 때 쓰일 것
+  
 
   //추가
   const dispatch=useUserTableDispatch();
@@ -45,20 +46,14 @@ function LectureList({
       type: 'ADD_LECTURE',
       lecture:state.searchedLectures[index],
     })
-    // setSelectedLectures((current) => [...current, searchedLectures[index]]);
   };
 
-  const onHovered=(index,isOnHovered)=>{
+  const onHovered=(index)=>{
     //추가
     dispatch({
       type: 'PREVIEW_LECTURE',
       id:state.searchedLectures[index].id,
     })
-    // if(isOnHovered) setHoveredLecture(state.searchedLectures[index]);
-    // else setHoveredLecture();
-
-    // if(isOnHovered) setHoveredLecture(searchedLectures[index]);
-    // else setHoveredLecture();
   }
 
   return (

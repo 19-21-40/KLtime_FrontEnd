@@ -1,4 +1,5 @@
 //추가
+import { useState } from "react";
 import styled ,{css}  from "styled-components";
 
 //styled-components
@@ -18,7 +19,7 @@ const DualMode=styled.div`
         border: 3px solid backgroundColor;
         marginLeft: 0px;
         color: rgb(255, 255, 255);
-        backgroundColor;
+        background-color:backgroundColor;
         opacity: 1;
         zIndex: 0;  
     `
@@ -35,12 +36,21 @@ const ContentBox=styled(DualMode)`
             height:100%;
             borderRadius:5px;
             backgroundColor:backgroundColor;
+
             &:hover{background-color:rgba(55,53,47,0.25);}
         `
         :
         css`
-            backgroundColor:white;
-            &:hover{background-color:#f8f8f8;}
+            // backgroundColor:white;
+            ${props=>
+                props.clicked?
+                `background-color:rgba(190, 190, 191, 0.8);`
+                :
+                `&:hover{background-color:#f8f8f8;}`
+            };
+            // &:hover{background-color:#f8f8f8;}
+            // 수정해야함
+            // &:active{background-color:rgba(190, 190, 191, 0.8);}
             &:active{background-color:rgba(190, 190, 191, 0.8);}
         `
     }
@@ -94,19 +104,30 @@ function Lecture({
     onDeleteClick,
     onHovered
 }) {
+    const [clicked,setClicked]=useState(false);
+
+    console.log(clicked);
+
     return (
         <DualMode isCardMode={isCardMode}
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
-            onClick={onClick}
+            onClick={
+                clicked?()=>{}:()=>{
+                onClick();
+                setClicked(true);
+                }
+                
+            }
             >
-            <ContentBox isCardMode={isCardMode}>
+            <ContentBox isCardMode={isCardMode} clicked={clicked}>
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>
                         {isListMode?
                         <></>
                         :
+                        //수정해야함
                         <LectureDelBtn onClick={onDeleteClick}>x</LectureDelBtn>
                         }   
                     </div>

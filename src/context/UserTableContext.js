@@ -205,7 +205,7 @@ function timeTableReducer(state,action){
                     }
                     :timeTable)
             }
-        case 'PREVIEW_LECTURE':
+        case 'PREVIEW_LECTURE'://강의 호버
             return{
                 ...state,
                 previewId:state.previewId===-1?action.id:-1
