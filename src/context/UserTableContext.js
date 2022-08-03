@@ -137,13 +137,12 @@ function timeTableReducer(state,action){
             return{
                 ...state,
                 totalTimeTable:state.totalTimeTable.concat(action.timeTable),
-                selectedId:action.timeTable.id,
+                selectedId:action.id,
             }
         case 'READ_TABLE'://시간표 선택시 불러오기
             return{
                 ...state,
-                searchedLectures:state.searchedLectures.map(lecture=>lecture.active=true),
-                selectedId:action.id
+                selectedId:action.id,
             }
         case 'UPDATE_TABLE'://시간표 수정(이름)
             return{
@@ -156,13 +155,22 @@ function timeTableReducer(state,action){
                     }
                         :timeTable),
             }
-        case 'DROP_TABLE'://시간표 삭제
+        case 'DELETE_TABLE'://시간표 삭제
+            let isFirstIndex = false;
+            if(action.id === state.totalTimeTable[0].id){
+                isFirstIndex = true;
+            }
+            if(state.totalTimeTable.length === 1)
+            { return {...state} }
             return {
                 ...state,
-                totalTimeTable:state.totalTimeTable.filter(timeTable=>timeTable.id!==action.id),
-                selectedId:state.totalTimeTable[state.selectedId].id===action.id?
-                    state.totalTimeTable[0].id
-                    :state.selectedId,
+                selectedId: isFirstIndex? state.totalTimeTable[1].id : state.totalTimeTable[0].id,
+                totalTimeTable: state.totalTimeTable.filter(timeTable=>timeTable.id!==action.id),
+            }
+        case 'SEARCH_LECTURE': //강의 검색 // 이성훈이 추가함
+            return{
+                ...state,
+                searchedLectures:action.searchedLectures,
             }
         case 'ADD_LECTURE'://강의 추가
             return{
