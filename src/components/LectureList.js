@@ -5,41 +5,24 @@ import styles from "./LectureList.module.css";
 function LectureList({
     searchedLectures,
     setSelectedLectures,
-    setHoveredLecture
+    setHoveredLecture,
 }) {
-  // const [timeList,setTimeList]=useState([]);
-  // setTimeList(test);
-
-  const onMouseOver = (index,event,Selected) => {
-    if(!Selected[index]){
-        // setHoveredLecture(searchedLectures[index]);
-        event.currentTarget.style.background = "#f8f8f8";
-    }
-  };
-  const onMouseOut = (index,event,Selected) => {
-    if(!Selected[index]){
-        // setHoveredLecture();
-        event.currentTarget.style.background = "white";
-    }
-  };
+  
   const [isCardMode,setIsCardMode]=useState(false);
-  const [Selected,setSelected]=useState(searchedLectures.map((totalLecture,index)=>false));
-//   console.log(Selected);
-  const onClick = (index,event,Selected) => {
+
+
+  const onClick = (index,event) => {
     setSelectedLectures((current) => [...current, searchedLectures[index]]);
-    // setSelected(Selected[index]=true);//오류뜸...
-    console.log(event);
-    // event.currentTarget.style.background = "grey";
   };
-//   const onChildClick=(e)=>{
-//     e.stopPropagation();
-//   }
+
+  const onHovered=(index,isOnHovered)=>{
+    if(isOnHovered) setHoveredLecture(searchedLectures[index]);
+    else setHoveredLecture();
+  }
 
   return (
     <div className={isCardMode ? styles.cardList : styles.lineList}>
-      <ul>
-        <div>
-        <li className={styles.lineTablehead}>
+        <div className={styles.lineTablehead}>
           <span>
             <strong>교과목명</strong>
           </span>
@@ -61,7 +44,6 @@ function LectureList({
           <span>
             <strong>학점</strong>
           </span>
-        </li>
         </div>
         <div style={
             {overflowY: 'scroll',
@@ -69,31 +51,27 @@ function LectureList({
         }} 
         >
             {searchedLectures.map((totalLecture, index) => (
-            <li
-                key={index}
-                onMouseOver={(event)=>onMouseOver(index,event,Selected)}
-                onMouseOut={(event)=>onMouseOut(index,event,Selected)}
-                onClick={(event) => onClick(index,event,Selected)}
-            >
+            
                 <Lecture
                 key={totalLecture.id} //
                 isCardMode={isCardMode}
-                // onClick={onClick}
+                isListMode={true}//수정
+                onClick={(event) => onClick(index,event)}
                 id={totalLecture.id}
                 lectureName={totalLecture.lectureName}
                 professor={totalLecture.professor}
-                department={totalLecture.department} //추가
-                lectureTimes={totalLecture.lectureTimes} //수정
+                department={totalLecture.department}
+                lectureTimes={totalLecture.lectureTimes} 
                 level={totalLecture.level}
-                section={totalLecture.section} //수정
+                section={totalLecture.section}
                 credit={totalLecture.credit}
                 notes={totalLecture.notes}
+                onHovered={(isOnHovered)=>onHovered(index,isOnHovered)}//수정
                 />
-            </li>
             ))}
         </div>
         
-      </ul>
+      {/* </ul> */}
     </div>
   );
 }
