@@ -8,21 +8,21 @@ const DualMode=styled.div`
   ${props =>
     props.isCardMode ?
     css`
-        position: absolute;
+        // position: absolute; //수정
         overflow: hidden;
         cursor: pointer;
         box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
-        width;
+        width:${props=>props.width};
         height;
         top;
         left: 0%;
-        borderRadius: 5px;
+        border-radius: 5px;
         border: 3px solid backgroundColor;
-        marginLeft: 0px;
-        color: rgb(255, 255, 255);
-        background-color:backgroundColor;
+        margin-left: 0px;
+        color: rgb(255, 255, 255)s;
+        background-color:${props=>props.backgroundColor};
         opacity: 1;
-        zIndex: 0;  
+        z-Index: 0;
     `
     :
     css`
@@ -51,7 +51,6 @@ const ContentBox=styled(DualMode)`
             };
             // &:hover{background-color:#f8f8f8;}
             // 수정해야함
-            // &:active{background-color:rgba(190, 190, 191, 0.8);}
             &:active{background-color:rgba(190, 190, 191, 0.8);}
         `
     }
@@ -114,6 +113,8 @@ function Lecture({
 
     return (
         <DualMode isCardMode={isCardMode}
+            width={width}//추가
+            backgroundColor={backgroundColor}//추가
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
             onClick={

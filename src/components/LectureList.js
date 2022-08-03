@@ -13,6 +13,7 @@ const DualMode=styled.div`
       width: 790px; 
     `
   }
+  // width:790px;
 `;
 const LineTablehead=styled.div`
   font-size: 16px;
@@ -27,6 +28,17 @@ const LineTablehead=styled.div`
     font-size: 14px;
     /* background-color: aqua; */
   }
+`;
+const ToggleBtn=styled.button`
+  top: 130px;
+  left: 500px;
+  background-color: #eeeeee;
+  border: 2px solid #172774;
+  border-radius: 10px;
+  width: 70px;
+  height: 30px;
+  // position: absolute;
+  transition: 0.3s;
 `;
 
 function LectureList({
@@ -58,6 +70,8 @@ function LectureList({
   }
 
   return (
+    <div>
+      <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} />
       <DualMode isCardMode={isCardMode}>
         <LineTablehead>
           <span>
@@ -99,7 +113,7 @@ function LectureList({
             ))}
         </div>
       </DualMode>
-
+  </div>
   );
 }
 
