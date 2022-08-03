@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import Login from "./routes/Login"
+import SignUp from "./routes/SignUp";
 import Home from "./routes/Home"
 import MyTimeTable from "./routes/MyTimeTable";
 import MyPage from "./routes/MyPage";
@@ -12,6 +13,8 @@ function App() {
   return (<Router>
     <Routes>
       <Route path="/" element={<MyTimeTable/>}>
+      </Route>
+      <Route path="/SignUp" element={<SignUp />}>
       </Route>
       <Route path="/Login" element={<Login />}>
       </Route>
