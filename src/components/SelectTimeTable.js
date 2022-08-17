@@ -1,30 +1,47 @@
-import { useRef, useState, useEffect } from "react";
-import styles from "./SelectTimeTable.module.css"
-import ModifyTimeTable from "../components/ModifyTimeTable";
+import { useRef, useState } from "react";
+import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
+import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
+import styled from "styled-components";
+
+const ViewTimeTableList = styled.div`
+
+    height: 40px;
+    button{
+
+        height: 25px;
+    }
+`
+const Select = styled.select`
+    width: 100px;
+    height: 25px;
+    margin-right: 10px;
+`
+
+const PlusBtn = styled.button`
+    margin-right: 10px;
+`
+
+const ModifyBtn = styled.button`
+    margin-right: 10px;
+`
+
+const DeleteBtn = styled.button`
+`
+
 
 function SelectTimeTable({
-    selectedLectures,
-    setSelectedLectures,
 }) 
 {
     
-    const [myTableList, setMyTableList] = useState(             // JSON.parse(localStorage.getItem('시간표'))를 하면 새로고침을 해도 유지가 됨, 다만 일부 버그가 존재
-                                                                // useRef를 사용해도 될까?
-        [
-            {
-                number: 1,  
-                tableName: "시간표1",
-                lectureList: [],
-            },
-            {
-                number: 2,
-                tableName: '시간표2',
-                lectureList: [],
-            }]
-    );
-    const [currentTableName, setCurrentTableName] = useState(myTableList[0].tableName);
 
-    const nextNumber = useRef(3);
+    const userTableDispatch = useUserTableDispatch(); //
+    const userTableState = useUserTableState();
+    
+                                                                // JSON.parse(localStorage.getItem('시간표'))를 하면 새로고침을 해도 유지가 됨, 다만 일부 버그가 존재
+                                                                // useRef를 사용해도 될까?
+
+
+    const nextNumber = useRef(2);
     const selectTimeTableOption = useRef(null);
    
     const selectTimeTable = (e) => {
@@ -34,47 +51,38 @@ function SelectTimeTable({
         const option = e.target.querySelectorAll('option')[idx];
         const name = option.getAttribute('name');
 
-        setCurrentTableName(name);
+        userTableDispatch({
+            type: 'READ_TABLE',
+            id: parseInt(e.target.value),
+        });
+
 
     };
 
     const addTimeTable = () => {
 
-        const newTable = {
-            number: nextNumber.current,
-            tableName: `시간표${nextNumber.current}`,
-            lectureList: [],
-        };
-
-        setMyTableList(myTableList.concat(newTable));
-        
         nextNumber.current += 1;
-
+        userTableDispatch({
+            type: 'CREATE_TABLE', 
+            timeTable: {
+                id: nextNumber.current,
+                tableName: `시간표${nextNumber.current}`,
+                lectureList: [],
+            },
+            selectedId: nextNumber.current,
+        });
+        selectTimeTableOption.current.value=nextNumber.current.toString()
     };
 
-    
-    
-    useEffect(() => {   
-
-        
-        let Table = myTableList.map(table => table.tableName === currentTableName ? {...table, lectureList: selectedLectures} : table);
-        setMyTableList(Table);
-
-        localStorage.setItem('시간표', JSON.stringify(Table));
-
-    }, [selectedLectures]);
-
-      
-    useEffect(() => {
-        
-        myTableList.map(table => {
-            if(table.tableName === currentTableName)
-            {
-                setSelectedLectures(table.lectureList);
-            }
+    const deleteTimeTable = () => {
+        userTableDispatch({
+            type: 'DELETE_TABLE',
+            id: parseInt(selectTimeTableOption.current.value),
         });
 
-    }, [currentTableName]);
+        console.log(userTableState.totalTimeTable);
+    }
+
 
     const [isModifyTimeTable, setIsModifyTimeTable] = useState(false);
 
@@ -83,25 +91,22 @@ function SelectTimeTable({
     }
 
     return (
-        <div>
-            <div>
-                <select ref={selectTimeTableOption} onChange={e => selectTimeTable(e)}>
-                    {myTableList.map((table)=> { return (
-                        <option name={table.tableName} key={table.number}> {table.tableName} </option>
+        <>
+            <ViewTimeTableList>
+                <Select ref={selectTimeTableOption} onChange={selectTimeTable}>
+                    {userTableState.totalTimeTable.map((table)=> { return (
+                        <option value={table.id} key={table.id}> {table.tableName} </option>
                     )})}
-                </select>
-                <button onClick={addTimeTable}> + </button>
-                <button onClick={handleClick}> 수정 </button>
-                </div>
-                {isModifyTimeTable ? <ModifyTimeTable 
-                  currentTableName={currentTableName}
-                  setCurrentTableName={setCurrentTableName}
-                  myTableList={myTableList}
-                  setMyTableList={setMyTableList}
+                </Select>
+                <PlusBtn onClick={addTimeTable}> + </PlusBtn>
+                <ModifyBtn onClick={handleClick}> 수정 </ModifyBtn>
+                <DeleteBtn onClick={deleteTimeTable}> 삭제 </DeleteBtn>
+            </ViewTimeTableList>
+                {isModifyTimeTable ? <ModifyTimeTableModal 
                   setIsModifyTimeTable={setIsModifyTimeTable}
                 />
                 : null }
-        </div>
+        </>
     );
 }
 

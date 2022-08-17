@@ -7,19 +7,19 @@ import styled ,{css}  from "styled-components";
 //styled-components
 const DualMode=styled.div`
   ${props =>
-    props.isCardMode ?'':
+    props.isCardMode ?''
+    :
     css`
       /* 10+770+10 */
       width: 790px; 
     `
   }
-  // width:790px;
+  width:790px; //추가
 `;
 const LineTablehead=styled.div`
   font-size: 16px;
   border-top: 1px solid rgba(167, 168, 169, 0.8);
   padding: 12px 0 12px 10px;
-
   span{
     width: 110px;
     /* float: left; */
@@ -40,18 +40,35 @@ const ToggleBtn=styled.button`
   // position: absolute;
   transition: 0.3s;
 `;
+const LineTable=styled.div`
+  ${props=>
+    props.isCardMode?
+    css`
+      display: grid;
+      grid-template-rows:1fr;
+      grid-template-columns:1fr 1fr 1fr;
+    `
+    :
+    ``
+  }
+  
+`;
 
 function LectureList({
 }) {
   
   const [isCardMode,setIsCardMode]=useState(false); //토글버튼 만들 때 쓰일 것
-  
 
   //추가
   const dispatch=useUserTableDispatch();
   const state=useUserTableState();
+  const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
+  const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
+  useEffect(()=>{
+    setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
+    console.log(clickeds)
+  },[state.selectedId,state.totalTimeTable])
 
-  console.log(state);
 
   const onClick = (index) => {
     //추가
@@ -95,12 +112,14 @@ function LectureList({
             <span>
               <strong>학점</strong>
             </span>
-        </LineTablehead>  
+        </LineTablehead>
         <div style={
             {overflowY: 'scroll',
             height:'300px'
         }} 
         >
+        <LineTable isCardMode={isCardMode}>
+        
             {state.searchedLectures.map((searchedLecture, index) => (
                 <Lecture
                 lecture={searchedLecture} //추가
@@ -109,9 +128,12 @@ function LectureList({
                 isListMode={true}//수정
                 onClick={() => onClick(index)}
                 onHovered={()=>onHovered(index)}//수정
+                isClicked={clickeds[index]}
                 />
             ))}
+        </LineTable>
         </div>
+
       </DualMode>
   </div>
   );

@@ -1,28 +1,29 @@
 //추가
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled ,{css}  from "styled-components";
-
+import { useUserTableState } from "../context/UserTableContext";
 
 //styled-components
 const DualMode=styled.div`
   ${props =>
     props.isCardMode ?
     css`
-        // position: absolute; //수정
+        // position: absolute; //리스트에서 카드모드일때는 안되게 해야함
         overflow: hidden;
         cursor: pointer;
         box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
         width:${props=>props.width};
-        height;
-        top;
+        height:${props=>props.height};
+        top:${props=>props.top};
         left: 0%;
         border-radius: 5px;
-        border: 3px solid backgroundColor;
+        border: 3px solid ${props=>props.backgroundColor};
         margin-left: 0px;
-        color: rgb(255, 255, 255)s;
+        color: rgb(255, 255, 255);
         background-color:${props=>props.backgroundColor};
         opacity: 1;
-        z-Index: 0;
+        z-index: 0;
+        ${props=>props.isListMode?`position:relative;`:``}; //추가 
     `
     :
     css`
@@ -35,8 +36,8 @@ const ContentBox=styled(DualMode)`
         props.isCardMode ?
         css`
             height:100%;
-            borderRadius:5px;
-            backgroundColor:backgroundColor;
+            border-radius:5px;
+            background-color:${props.backgroundColor};
 
             &:hover{background-color:rgba(55,53,47,0.25);}
         `
@@ -59,6 +60,7 @@ const Content=styled(ContentBox)`
     ${props =>
         props.isCardMode ?
         css`
+            position:relative; //추가
             overflow: hidden;
             padding: 1px 0 0 3px;
             font-size: 12px;
@@ -70,7 +72,6 @@ const Content=styled(ContentBox)`
             padding: 12px 0 12px 10px;
         `
     }
-
     div{
         width: 110px;
         overflow: hidden;
@@ -79,7 +80,6 @@ const Content=styled(ContentBox)`
         /* float: left; */
         display: inline-flex;
         padding-right: 12px;
-
         span{
             padding-right: 5px;
             font-size: 10px;
@@ -88,8 +88,7 @@ const Content=styled(ContentBox)`
 `;
 const LectureDelBtn=styled.button`
     box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
-    display:none;
-
+    // display:none;
     &:hover{
         display:'';
     }
@@ -105,16 +104,19 @@ function Lecture({
     isListMode,//수정
     onClick,
     onDeleteClick,
-    onHovered
+    onHovered,
+    isClicked
 }) {
     const [clicked,setClicked]=useState(false);
+    const state=useUserTableState();
 
-    console.log(clicked);
+    useEffect(()=>{
+        setClicked(isClicked);
+    },[state.selectedId,isClicked])
+
 
     return (
-        <DualMode isCardMode={isCardMode}
-            width={width}//추가
-            backgroundColor={backgroundColor}//추가
+        <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
             onClick={
@@ -125,7 +127,7 @@ function Lecture({
                 
             }
             >
-            <ContentBox isCardMode={isCardMode} clicked={clicked}>
+            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor}>
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>
@@ -133,7 +135,7 @@ function Lecture({
                         <></>
                         :
                         //수정해야함
-                        <LectureDelBtn onClick={onDeleteClick}>x</LectureDelBtn>
+                        <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
                         }   
                     </div>
                     <div>
