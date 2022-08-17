@@ -1,15 +1,15 @@
 import { useState } from "react";
 import SignupFrom from "../components/SignUp";
+import UserList from "../components/Userinfo";
 import UserInfoProvider from "../context/UserInfoContext";
 
-function SignUp(){
+//유저정보가져와
+function Userinfo(){
     return (
         <div>
-            <UserInfoProvider>
-                <SignupFrom />
-            </UserInfoProvider>
+            <UserInfoProvider />
         </div>
     )
 }
 
-export default SignUp;
+export default Userinfo;

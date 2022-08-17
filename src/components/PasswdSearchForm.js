@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import React, {useState} from "react";
 
 function PasswdSearchFrom() {
 
-  const [info, setInfo] = useState({
+  const [Pwsinfo, setPwsInfo] = useState({
       stdnum: "",
       code: "",
-      email: ""
+      email: "",
   })
   
   const {
       stdnum, email, code
-  } = info;
+  } = Pwsinfo;
   
   const onChange = e => {
-      setInfo({
-          ...info,
+      setPwsInfo({
+          ...Pwsinfo,
           [e.target.name]: e.target.value
       });
   };
@@ -25,17 +25,17 @@ function PasswdSearchFrom() {
     <h1>비밀번호 찾기</h1>
     <div>
       <div>
-        <label htmlFor="stdnum_i">학번<br/></label>
-        <input onChange={onChange} id="stdnum_i" type="text" name="name" value={stdnum} placeholder="학번을 입력하시오." />
+        <label htmlFor="stdnum">학번<br/></label>
+        <input  onChange={onChange} id="stdnum" type="text" name="stdnum" value={stdnum} placeholder="학번을 입력하시오." />
       </div>
       <div>
-        <label htmlFor="pw_i">이메일<br/></label>
-        <input  onChange={onChange} id="pw_i" type="text" name="email" value={email} placeholder="이메일을 입력하시오." />
+        <label htmlFor="Email_i">이메일<br/></label>
+        <input  onChange={onChange} id="Email_i" type="text" name="email" value={email} placeholder="이메일을 입력하시오." />
         <button>인증코드 전송</button>
       </div>
       <div>
-        <label htmlFor="v_code">이메일<br/></label>
-        <input  onChange={onChange} id="v_code" type="text" name="v_code" value={code} placeholder="코드를 입력하시오." />
+        <label htmlFor="code">인증코드<br/></label>
+        <input  onChange={onChange} id="code" type="text" name="code" value={code} placeholder="코드를 입력하시오." />
         <button>인증</button>
       </div>
       </div>

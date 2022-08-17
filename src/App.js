@@ -9,6 +9,9 @@ import SignUp from "./routes/SignUp";
 import Home from "./routes/Home"
 import MyTimeTable from "./routes/MyTimeTable";
 import MyPage from "./routes/MyPage";
+import PasswdSearch from "./routes/PasswdSearch";
+import Userinfo from "./routes/UserInfoTest";
+
 function App() {
   return (<Router>
     <Routes>
@@ -19,6 +22,10 @@ function App() {
       <Route path="/Login" element={<Login />}>
       </Route>
       <Route path="/MyPage" element={<MyPage />}>
+      </Route>
+      <Route path="/PasswdSearch" element={<PasswdSearch />}>
+      </Route>
+      <Route path="/Userinfo" element={<Userinfo />}>
       </Route>
     </Routes>
   </Router>)
