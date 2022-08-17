@@ -41,7 +41,7 @@ function LectureList({
   
   useEffect(()=>{
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
-  },[state.selectedId])
+  },[state.selectedId, state.totalTimeTable])
 
 
   const onClick = (index) => {

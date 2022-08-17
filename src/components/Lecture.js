@@ -88,9 +88,9 @@ const Content=styled(ContentBox)`
 `;
 const LectureDelBtn=styled.button`
     box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
-    display:none;
+    // display:none;
     &:hover{
-        display:'';
+        display:block;
     }
 `;
 

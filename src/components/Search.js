@@ -290,7 +290,7 @@ function Search({totalLectures})
                 </Select>  
                 <Select>
                     학점
-                    <select name="credit" onChange={handle_InputsChange}>
+                    <select value={searchInputs.credit} name="credit" onChange={handle_InputsChange}>
                         <option value={'null'}>전체</option>
                         <option value={2}>2학점</option>
                         <option value={3}>3학점</option>
@@ -298,7 +298,7 @@ function Search({totalLectures})
                 </Select>
                 <Select>
                     구분
-                    <select name="section" onChange={handle_InputsChange}>
+                    <select value={searchInputs.section} name="section" onChange={handle_InputsChange}>
                         <option value={"null"}>전체</option>
                         <option value={"전필"}>전필</option>
                         <option value={"전선"}>전선</option>
@@ -309,7 +309,7 @@ function Search({totalLectures})
                 </Select>
                 <Select>
                     소속
-                    <select name="department" onChange={handle_InputsChange}>
+                    <select value={searchInputs.department} name="department" onChange={handle_InputsChange}>
                         <option value={"null"}>전체</option>
                         <option value={"전체공통"}>전체공통</option>
                         <option value={"소프트웨어학부"}>소프트웨어학부</option>
@@ -318,7 +318,7 @@ function Search({totalLectures})
                 </Select>
                 <Select>
                     난이도
-                    <select name="level" onChange={handle_InputsChange}>
+                    <select value={searchInputs.level} name="level" onChange={handle_InputsChange}>
                         <option value={"null"}>전체</option>
                         <option value={1}>1</option>
                         <option value={2}>2</option>
