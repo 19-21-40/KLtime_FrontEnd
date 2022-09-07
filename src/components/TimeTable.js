@@ -42,7 +42,7 @@ const DayNameLayout = styled.div`
     text-align: left;
 
 
-    .dayNameLeftMargin{
+    .dayNameZone{
         margin-left: 42px;
         margin-right: 50px;
         position: relative;
@@ -71,7 +71,7 @@ const TimeTableZoneLayout = styled.div`
 
     .timeTableGrid .timeTableGridScrollArea{
         position: relative;
-        height: 100%;
+        height: auto;
     }
 
 
@@ -115,8 +115,9 @@ const PeriodZoneLayout = styled.div`
 
 const LecutreZoneLayout = styled.div`
     margin-left: 42px;
+    margin-right:40px;
     position: relative;
-    width: 100%;
+    // width: 100%;
     height: 100%;
     left:0%;
     top:0;
@@ -193,7 +194,7 @@ const colors = [
 function DayNameZone({ selectedTable }) {
     return (
         <DayNameLayout>
-            <div className="dayNameLeftMargin">
+            <div className="dayNameZone">
                 {selectedTable.dayNames.map((dayName, index) => (
                     <div className="dayName"
                         key={dayName}
@@ -287,6 +288,7 @@ function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
                     <Lecture
                         key={lecture.id}
                         lecture={lecture}
+                        width="100%"
                         height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
                         top={((timeToMinute(time.startTime) - (timeToMinute(selectedTable.times[0]))) * 0.8).toString() + 'px'}
                         backgroundColor={colors[lecture.lectureIndex]}

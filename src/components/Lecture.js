@@ -90,7 +90,7 @@ const LectureDelBtn=styled.button`
     box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
     // display:none;
     &:hover{
-        display:'';
+        display:block;
     }
 `;
 
@@ -134,9 +134,10 @@ function Lecture({
                         {isListMode?
                         <></>
                         :
-                        //수정해야함
+
                         <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
                         }   
+
                     </div>
                     <div>
                         {lecture.professor}
