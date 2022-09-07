@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import styled from "styled-components";
@@ -43,10 +43,11 @@ function SelectTimeTable({
 
     const nextNumber = useRef(2);
     const selectTimeTableOption = useRef(null);
-   
+    const isFirstAddTable = useRef(true);
+    
+    
     const selectTimeTable = (e) => {
         
-
         const idx = e.target.selectedIndex;
         const option = e.target.querySelectorAll('option')[idx];
         const name = option.getAttribute('name');
@@ -54,14 +55,13 @@ function SelectTimeTable({
         userTableDispatch({
             type: 'READ_TABLE',
             id: parseInt(e.target.value),
-        });
-
-
+        });  
     };
 
     const addTimeTable = () => {
 
         nextNumber.current += 1;
+
         userTableDispatch({
             type: 'CREATE_TABLE', 
             timeTable: {
@@ -71,7 +71,8 @@ function SelectTimeTable({
             },
             selectedId: nextNumber.current,
         });
-        selectTimeTableOption.current.value=nextNumber.current.toString()
+
+        isFirstAddTable.current = false;
     };
 
     const deleteTimeTable = () => {
@@ -81,7 +82,16 @@ function SelectTimeTable({
         });
 
         console.log(userTableState.totalTimeTable);
-    }
+    };
+
+
+    useEffect(() => {
+        if(!isFirstAddTable.current){
+            selectTimeTableOption.current.defaultValue=userTableState.totalTimeTable[userTableState.totalTimeTable.length-1].id;
+            selectTimeTableOption.current.value=userTableState.totalTimeTable[userTableState.totalTimeTable.length-1].id;
+        }
+    }, [userTableState.totalTimeTable]);  /// table select바 렌더링 처리
+
 
 
     const [isModifyTimeTable, setIsModifyTimeTable] = useState(false);
@@ -93,7 +103,8 @@ function SelectTimeTable({
     return (
         <>
             <ViewTimeTableList>
-                <Select ref={selectTimeTableOption} onChange={selectTimeTable}>
+                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable[0].id} 
+                key={userTableState.totalTimeTable[0].id} onChange={selectTimeTable}>
                     {userTableState.totalTimeTable.map((table)=> { return (
                         <option value={table.id} key={table.id}> {table.tableName} </option>
                     )})}

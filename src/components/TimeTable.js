@@ -295,7 +295,7 @@ function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
                         isCardMode={true}
                         isListMode={false}//수정
                         onClick={(e) => onClick(lecture.id, colors[lecture.lectureIndex])}
-                        onDeleteClick={onDeleteClick}
+                        onDeleteClick={()=> onDeleteClick(lecture.id)}
                     />
                 ))
             ))
