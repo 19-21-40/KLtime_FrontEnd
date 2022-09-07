@@ -8,7 +8,7 @@ const DualMode=styled.div`
   ${props =>
     props.isCardMode ?
     css`
-        position: absolute;
+        // position: absolute; //리스트에서 카드모드일때는 안되게 해야함
         overflow: hidden;
         cursor: pointer;
         box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
@@ -22,7 +22,8 @@ const DualMode=styled.div`
         color: rgb(255, 255, 255);
         background-color:${props=>props.backgroundColor};
         opacity: 1;
-        z-index: 0;  
+        z-index: 0;
+        ${props=>props.isListMode?`position:relative;`:``}; //추가 
     `
     :
     css`
@@ -51,7 +52,6 @@ const ContentBox=styled(DualMode)`
             };
             // &:hover{background-color:#f8f8f8;}
             // 수정해야함
-            // &:active{background-color:rgba(190, 190, 191, 0.8);}
             &:active{background-color:rgba(190, 190, 191, 0.8);}
         `
     }
@@ -60,7 +60,7 @@ const Content=styled(ContentBox)`
     ${props =>
         props.isCardMode ?
         css`
-            position:relative;
+            position:relative; //추가
             overflow: hidden;
             padding: 1px 0 0 3px;
             font-size: 12px;
@@ -88,7 +88,7 @@ const Content=styled(ContentBox)`
 `;
 const LectureDelBtn=styled.button`
     box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
-    display:none;
+    // display:none;
     &:hover{
         display:block;
     }
@@ -134,9 +134,10 @@ function Lecture({
                         {isListMode?
                         <></>
                         :
-                        //수정해야함
-                        <LectureDelBtn onClick={()=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
-                        }       
+
+                        <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
+                        }   
+
                     </div>
                     <div>
                         {lecture.professor}

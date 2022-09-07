@@ -7,12 +7,14 @@ import styled ,{css}  from "styled-components";
 //styled-components
 const DualMode=styled.div`
   ${props =>
-    props.isCardMode ?'':
+    props.isCardMode ?''
+    :
     css`
       /* 10+770+10 */
       width: 790px; 
     `
   }
+  width:790px; //추가
 `;
 const LineTablehead=styled.div`
   font-size: 16px;
@@ -26,6 +28,30 @@ const LineTablehead=styled.div`
     font-size: 14px;
     /* background-color: aqua; */
   }
+`;
+const ToggleBtn=styled.button`
+  top: 130px;
+  left: 500px;
+  background-color: #eeeeee;
+  border: 2px solid #172774;
+  border-radius: 10px;
+  width: 70px;
+  height: 30px;
+  // position: absolute;
+  transition: 0.3s;
+`;
+const LineTable=styled.div`
+  ${props=>
+    props.isCardMode?
+    css`
+      display: grid;
+      grid-template-rows:1fr;
+      grid-template-columns:1fr 1fr 1fr;
+    `
+    :
+    ``
+  }
+  
 `;
 
 function LectureList({
@@ -61,6 +87,8 @@ function LectureList({
   }
 
   return (
+    <div>
+      <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} />
       <DualMode isCardMode={isCardMode}>
         <LineTablehead>
           <span>
@@ -84,12 +112,14 @@ function LectureList({
             <span>
               <strong>학점</strong>
             </span>
-        </LineTablehead>  
+        </LineTablehead>
         <div style={
             {overflowY: 'scroll',
             height:'300px'
         }} 
         >
+        <LineTable isCardMode={isCardMode}>
+        
             {state.searchedLectures.map((searchedLecture, index) => (
                 <Lecture
                 lecture={searchedLecture} //추가
@@ -101,9 +131,11 @@ function LectureList({
                 isClicked={clickeds[index]}
                 />
             ))}
+        </LineTable>
         </div>
-      </DualMode>
 
+      </DualMode>
+  </div>
   );
 }
 
