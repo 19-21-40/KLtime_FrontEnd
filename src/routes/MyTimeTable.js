@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useReducer, createContext } from "react";
 import Search from "../components/Search";
 import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
+import styled from "styled-components";
 
 // [
 //     {
@@ -33,6 +34,19 @@ import { UserTableProvider } from "../context/UserTableContext";
 //     notes: ""
 //     }
 // ],
+
+const Total_Container = styled.div `
+    display: flex;
+`;
+
+const Right_Container = styled.div `
+    display: flex;
+    flex-direction: column;
+`;
+
+const Left_Container = styled.div `
+    display: flex;
+`;
 
 const testtotalLectures=[
     {
@@ -161,22 +175,26 @@ function MyTimeTable() {
 
     
     return (
-        <div>
+        <Total_Container>
             <UserTableProvider>
-                <TimeTable
-                    width={1200}
-                    height={650}
-                />
-                <SelectTimeTable 
+                <Right_Container>
+                    <SelectTimeTable 
                     selectedLectures={selectedLectures}
                     setSelectedLectures={setSelectedLectures}    
-                />
-                <Search
+                    />
+                    <Search
                     totalLectures={testtotalLectures}
-                />
-                <LectureList />
+                    />
+                    <LectureList />
+                </Right_Container>
+                <Left_Container>
+                    <TimeTable
+                    width={600}
+                    height={250}
+                    />
+                </Left_Container>
             </UserTableProvider>
-        </div>
+        </Total_Container>
 
     )
 }
