@@ -103,6 +103,12 @@ function SelectTimeTable({
     return (
         <>
             <ViewTimeTableList>
+                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].id} 
+                key={userTableState.totalTimeTable_big[0].id} onChange={selectTimeTable}>
+                    {userTableState.totalTimeTable_big.map((table)=> { return (
+                        <option value={table.id} key={table.id}> {table.tableName} </option>
+                    )})}
+                </Select>
                 <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable[0].id} 
                 key={userTableState.totalTimeTable[0].id} onChange={selectTimeTable}>
                     {userTableState.totalTimeTable.map((table)=> { return (

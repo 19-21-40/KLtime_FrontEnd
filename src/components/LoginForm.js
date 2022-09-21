@@ -1,24 +1,31 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import React, {useState, useContext} from "react";
+import useInputs from "../hooks/useInputs";
+import { UserState } from '../context/UserInfoContext';
 
 function LoginFrom() {
-    const [stdnum, setStdnum] = useState("");
-    const [pw, setPw] = useState("");
-
-    const onChange_std = (event) => setStdnum(event.target.value);
-    const onChange_pw = (event) => setPw(event.target.value);
+    const [{ stdnum, password }, onChange, reset] = useInputs({
+        stdnum: '',
+        password: '',
+    });
+    const userInfoState = useContext(UserState);
+    // const [stdnum_1, setStdnum] = useState("");
+    // const [pw, setPw] = useState("");
 
     const onClick_l = () => {
-    if(stdnum === "2021203022"){
-        if(pw === "jolelj"){
+    if(stdnum === userInfoState.users[0].stdnum){
+        if(password === userInfoState.users[0].password){
         alert("로그인 성공!");
+        reset();
     }
     else{
-        alert("비밀번호가 맞지 않습니다.")
+        alert("비밀번호가 맞지 않습니다.");
+        reset();
     }
     }
     else{
-    alert("학번 혹은 비밀번호가 알맞지 않습니다.");
+        alert("학번 혹은 비밀번호가 알맞지 않습니다.");
+        reset();
     }
     }
 
@@ -27,12 +34,12 @@ function LoginFrom() {
         <h1>시간표 추천 로그인</h1>  
         <div>
         <div>
-            <label htmlFor="stdnum_i">학번<br/></label>
-            <input onChange={onChange_std} id="stdnum_i" type="text" name="name" value={stdnum} placeholder="학번을 입력하시오." />
+            <label htmlFor="stdnum">학번<br/></label>
+            <input onChange={onChange} id="stdnum" type="text" name="stdnum" value={stdnum} placeholder="학번을 입력하시오." />
         </div>
         <div>
-            <label htmlFor="pw_i">비밀번호<br/></label>
-            <input  onChange={onChange_pw} id="pw_i" type="password" name="password" value={pw} placeholder="비밀번호를 입력하시오." />
+            <label htmlFor="password">비밀번호<br/></label>
+            <input  onChange={onChange} id="password" type="password" name="password" value={password} placeholder="비밀번호를 입력하시오." />
         </div>
         </div>
         <div>

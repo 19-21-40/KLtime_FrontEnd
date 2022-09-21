@@ -23,7 +23,7 @@ function LectureDetail({
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
-    }, [onClickOutside]);
+    }, [onClickOutside]); 
 
 
     return (<>
