@@ -4,10 +4,15 @@ import { UserState } from '../context/UserInfoContext';
 function User({ user }) {
   return (
     <div>
-      <span>{user.stdnum}</span>
+      {/* <span>{user.stdnum}</span>
       <span>{user.password}</span> 
       <span>{user.department}</span>
-      <span>{user.email}</span>
+      <span>{user.email}</span> */}
+      <span>{user.name}</span>
+      <span>{user.section}</span> 
+      <span>{user.sectionDetail}</span>
+      <span>{user.level}</span>
+      <span>{user.credit}</span>
     </div>
   );
 }

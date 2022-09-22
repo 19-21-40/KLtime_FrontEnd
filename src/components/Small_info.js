@@ -21,15 +21,15 @@ const Button_list = styled.button`
 `;
 
 
-function Small_info(){
+function Small_info( {name, std_num, department} ){
 
     return(
         <Small_info_Container>
             <div>
                 <Student_info>
-                    <li><Info_list>학부</Info_list></li>
-                    <li><Info_list>학번</Info_list></li>
-                    <li><Info_list>이름</Info_list></li>
+                    <li><Info_list>학부: {department}</Info_list></li>
+                    <li><Info_list>학번: {std_num}</Info_list></li>
+                    <li><Info_list>이름: {name}</Info_list></li>
                 </Student_info>
             </div>
             <div>
