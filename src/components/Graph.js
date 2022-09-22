@@ -12,7 +12,7 @@ function Piechart( {Already_num, Full_num, Kind} ){
         style={{ position: "relative", height: "200px" }}
         data={[
             {
-            value: `${Math.round(Already_num / Full_num * 100)}`,
+            value: Already_num / Full_num*100,
             color: "#F6CB44",
             name: "name1",
             },
@@ -25,7 +25,7 @@ function Piechart( {Already_num, Full_num, Kind} ){
         lengthAngle={(360)}
         rounded
         animate
-        label={({ dataEntry }) => dataEntry.value + "%"}
+        label={({ dataEntry }) => `${Math.round(dataEntry?.value)}%`}
         labelStyle={{
         fontSize: "26px",
         fill: "#33333",

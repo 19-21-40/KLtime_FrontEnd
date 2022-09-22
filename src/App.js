@@ -16,15 +16,15 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 
 
-function Copyright(){
-  return(
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright ⓒ"}
-      19+21=40,{new Date().getFullYear}
-      {"."}
-    </Typography>
-  );
-}
+// function Copyright(){
+//   return(
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {"Copyright ⓒ"}
+//       19+21=40,{new Date().getFullYear}
+//       {"."}
+//     </Typography>
+//   );
+// }
 
 function App() {
 
@@ -45,7 +45,7 @@ function App() {
       <Route path="/Userinfo" element={<Userinfo />}>
       </Route>
     </Routes>
-    <Copyright/>
+    {/* <Copyright/> */}
   </Router>)
 }
 
