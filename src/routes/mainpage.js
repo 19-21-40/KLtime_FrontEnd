@@ -3,6 +3,8 @@ import TimeTable from "../components/TimeTable";
 import Small_info from "../components/Small_info";
 import { UserTableProvider } from "../context/UserTableContext";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { call } from "../service/ApiService";
 
 import LectureList_test from "../components/Lecture_print_test";
 
@@ -51,10 +53,18 @@ const Small_Chart_Box = styled.div`
 
 
 
+
 function MainPage(){
+    const [list,setList]=useState([]);
+    useEffect(
+        call("/api/mainLecturelist","GET",null).then((response)=>
+        setList(response.data))
+    );
+
 
     return (
         <Component_position>
+            
             <UserTableProvider>
                 <Right_component>
                     <Piechart Full_num={70} Already_num={16} Kind="총학점" />

@@ -12,12 +12,25 @@ import MyPage from "./routes/MyPage";
 import PasswdSearch from "./routes/PasswdSearch";
 import Userinfo from "./routes/UserInfoTest";
 import MainPage from "./routes/mainpage";
+import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
 
+
+function Copyright(){
+  return(
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright ⓒ"}
+      19+21=40,{new Date().getFullYear}
+      {"."}
+    </Typography>
+  );
+}
 
 function App() {
+
   return (<Router>
     <Routes>
-      <Route path="/" element={<MyTimeTable/>}>
+      <Route path="/MyTimeTable" element={<MyTimeTable/>}>
       </Route>
       <Route path="/MainPage" element={<MainPage/>}>
       </Route>
@@ -32,6 +45,7 @@ function App() {
       <Route path="/Userinfo" element={<Userinfo />}>
       </Route>
     </Routes>
+    <Copyright/>
   </Router>)
 }
 
