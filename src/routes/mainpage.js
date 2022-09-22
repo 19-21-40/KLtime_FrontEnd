@@ -18,6 +18,15 @@ const Left_component = styled.div `
     flex-direction: column;
 `;
 
+const Chart_box = styled.div`
+    display:flex;
+`; 
+
+const Small_Chart_Box = styled.div`
+    display:flex;
+    flex-direction: column;
+`;
+
 
 function MainPage(){
 
@@ -25,10 +34,31 @@ function MainPage(){
         <Component_position>
             <UserTableProvider>
                 <Right_component>
-                    <Piechart />
+                    <Piechart Full_num={70} Already_num={16} Kind="총학점" />
+                    <Chart_box>
+                        <Piechart Full_num={60} Already_num={34} Kind="전공" />
+                        <Small_Chart_Box>
+                            <Piechart Full_num={60} Already_num={15} Kind="전공필수" />
+                            <Piechart Full_num={60} Already_num={19} Kind="전공선택" />
+                        </Small_Chart_Box>
+                    </Chart_box>
+                    <Chart_box>
+                        <Piechart Full_num={60} Already_num={34} Kind="기초교양" />
+                        <Small_Chart_Box>
+                            <Piechart Full_num={60} Already_num={9} Kind="기1" />
+                            <Piechart Full_num={60} Already_num={25} Kind="기2" />
+                        </Small_Chart_Box>
+                    </Chart_box>
+                    <Chart_box>
+                        <Piechart Full_num={60} Already_num={34} Kind="균형+필수" />
+                        <Small_Chart_Box>
+                            <Piechart Full_num={60} Already_num={25} Kind="균형" />
+                            <Piechart Full_num={60} Already_num={9} Kind="필수" />
+                        </Small_Chart_Box>
+                    </Chart_box>
                 </Right_component>
                 <Left_component>
-                    <Small_info />
+                    <Small_info name="신재민" std_num={2021203022} department="소프트웨어학부" />
                     <TimeTable width={1000} height={600} />
                 </Left_component>
             </UserTableProvider>
