@@ -55,7 +55,6 @@ const Small_Chart_Box = styled.div`
 
 
 function MainPage(){
-
     const [data,setData]=useState(
         {
             "gradcondition": {
