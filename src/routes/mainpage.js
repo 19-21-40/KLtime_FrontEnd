@@ -55,11 +55,11 @@ const Small_Chart_Box = styled.div`
 
 
 function MainPage(){
-    const [list,setList]=useState([]);
-    useEffect(
-        call("/api/mainLecturelist","GET",null).then((response)=>
-        setList(response.data))
-    );
+    // const [list,setList]=useState([]);
+    // useEffect(
+    //     call("/api/mainLecturelist","GET",null).then((response)=>
+    //     setList(response.data))
+    // );
 
 
     return (

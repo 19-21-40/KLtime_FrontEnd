@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@material/typography": "^14.0.0",
     "@mui/material": "^5.10.6",
     "@nivo/core": "^0.80.0",
     "@nivo/pie": "^0.80.0",
