@@ -55,35 +55,60 @@ const Small_Chart_Box = styled.div`
 
 
 function MainPage(){
-    const [list,setList]=useState([]);
-    useEffect(
-        call("/api/mainLecturelist","GET",null).then((response)=>
-        setList(response.data))
-    );
 
+    const [data,setData]=useState(
+        {
+            "gradcondition": {
+                "admissionYear": 999,
+                "gradCredit": 999,
+                "mainCredit": 999,
+                "essBalCredit": 999,
+                "basicCredit": 999,
+                "multiCredit": null
+            },
+            "credit": {
+                "totalCredit": 0,
+                "mainCredit": 0,
+                "multiCredit": 0,
+                "essCredit": 0,
+                "balCredit": 0,
+                "basicCredit": 0,
+                "mathCredit": 0,
+                "scienceCredit": 0
+            }
+        }
+    );
+    useEffect(
+        ()=>{call("/api/gradconditionAndCredit","GET",null)
+            .then((response) => {
+                console.log(response);
+                setData(response);
+            }
+        )}
+    ,[]);
+    
 
     return (
         <Component_position>
-            
             <UserTableProvider>
                 <Right_component>
-                    <Piechart Full_num={70} Already_num={16} Kind="총학점" />
+                    <Piechart Full_num={data?.gradcondition.gradCredit} Already_num={data?.credit.totalCredit} Kind="총학점" />
                     <Chart_box>
-                        <Piechart Full_num={60} Already_num={34} Kind="전공" />
+                        <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공" />
                         <Small_Chart_Box>
                             <Piechart Full_num={60} Already_num={15} Kind="전공필수" />
                             <Piechart Full_num={60} Already_num={19} Kind="전공선택" />
                         </Small_Chart_Box>
                     </Chart_box>
                     <Chart_box>
-                        <Piechart Full_num={60} Already_num={34} Kind="기초교양" />
+                        <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초교양" />
                         <Small_Chart_Box>
                             <Piechart Full_num={60} Already_num={9} Kind="기1" />
                             <Piechart Full_num={60} Already_num={25} Kind="기2" />
                         </Small_Chart_Box>
                     </Chart_box>
                     <Chart_box>
-                        <Piechart Full_num={60} Already_num={34} Kind="균형+필수" />
+                        <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="균형+필수" />
                         <Small_Chart_Box>
                             <Piechart Full_num={60} Already_num={25} Kind="균형" />
                             <Piechart Full_num={60} Already_num={9} Kind="필수" />
