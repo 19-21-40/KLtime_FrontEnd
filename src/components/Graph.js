@@ -12,7 +12,7 @@ function Piechart( {Already_num, Full_num, Kind} ){
         style={{ position: "relative", height: "200px" }}
         data={[
             {
-            value: 20,
+            value: `${Math.round(Already_num / Full_num * 100)}`,
             color: "#F6CB44",
             name: "name1",
             },
