@@ -4,6 +4,8 @@ import Small_info from "../components/Small_info";
 import { UserTableProvider } from "../context/UserTableContext";
 import styled from "styled-components";
 
+import LectureList_test from "../components/Lecture_print_test";
+
 const Component_position = styled.div `
     display: flex;
     // flex-direction: column;
@@ -20,12 +22,33 @@ const Left_component = styled.div `
 
 const Chart_box = styled.div`
     display:flex;
+    flex-direction: column;
 `; 
 
 const Small_Chart_Box = styled.div`
     display:flex;
-    flex-direction: column;
+    // flex-direction: column;
 `;
+
+// users:[
+//         {
+//             id:1,
+//             name: "법과생활",
+//             section: "교선",
+//             sectionDetail: "사회와경제",
+//             level: 1,
+//             credit: 3,
+//             },
+//             {
+//             id:1,
+//             name: "자료구조",
+//             section: "전필",
+//             sectionDetail: "몬나욤",
+//             level: 1,
+//             credit: 3,
+//             }
+//         ]
+
 
 
 function MainPage(){
@@ -62,6 +85,9 @@ function MainPage(){
                     <TimeTable width={1000} height={600} />
                 </Left_component>
             </UserTableProvider>
+            <div>
+
+            </div>
         </Component_position>
     )
 }
