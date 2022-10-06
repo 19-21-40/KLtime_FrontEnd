@@ -8,51 +8,58 @@ import { call } from "../service/ApiService";
 
 import LectureList_test from "../components/Lecture_print_test";
 
-const Component_position = styled.div `
+const Component_position = styled.div`
     display: flex;
     // flex-direction: column;
 `;
 
-const Right_component = styled.div `
+const Right_component = styled.div`
     display: flex;
     flex-direction: column;
 `;
-const Left_component = styled.div `
+const Left_component = styled.div`
     display: flex;
     flex-direction: column;
 `;
 
-const Chart_box = styled.div`
+const Outer_Chart_box = styled.div`
     display:flex;
     flex-direction: column;
 `; 
 
-const Small_Chart_Box = styled.div`
+const Header_Chart_Box = styled.div`
+    // width: 600px;
+    // height: 250px;
+    // border: 2px solid black;
+    // justify-content: center;
+`;
+
+const Body_Chart_Box = styled.div`
+    display:flex;
+    flex-direction: column;
+`;
+
+const Upper_Body_Chart_Box = styled.div`
+    display:flex;
+`;
+
+const Lower_Body_Chart_Box = styled.div`
     display:flex;
     // flex-direction: column;
 `;
 
-// users:[
-//         {
-//             id:1,
-//             name: "법과생활",
-//             section: "교선",
-//             sectionDetail: "사회와경제",
-//             level: 1,
-//             credit: 3,
-//             },
-//             {
-//             id:1,
-//             name: "자료구조",
-//             section: "전필",
-//             sectionDetail: "몬나욤",
-//             level: 1,
-//             credit: 3,
-//             }
-//         ]
+const Small_Body_Chart_Box = styled.div`
+    display:flex;
+    flex-direction: column;
+`;
 
+const Su_Body_Chart_Box = styled.div`
+    display:flex;
+`;
 
-
+const Sl_Body_Chart_Box = styled.div`
+    display:flex;
+`;
 
 function MainPage(){
     const [data,setData]=useState(
@@ -91,32 +98,41 @@ function MainPage(){
         <Component_position>
             <UserTableProvider>
                 <Right_component>
-                    <Piechart Full_num={data?.gradcondition.gradCredit} Already_num={data?.credit.totalCredit} Kind="총학점" />
-                    <Chart_box>
-                        <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공" />
-                        <Small_Chart_Box>
-                            <Piechart Full_num={60} Already_num={15} Kind="전공필수" />
-                            <Piechart Full_num={60} Already_num={19} Kind="전공선택" />
-                        </Small_Chart_Box>
-                    </Chart_box>
-                    <Chart_box>
-                        <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초교양" />
-                        <Small_Chart_Box>
-                            <Piechart Full_num={60} Already_num={9} Kind="기1" />
-                            <Piechart Full_num={60} Already_num={25} Kind="기2" />
-                        </Small_Chart_Box>
-                    </Chart_box>
-                    <Chart_box>
-                        <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="균형+필수" />
-                        <Small_Chart_Box>
-                            <Piechart Full_num={60} Already_num={25} Kind="균형" />
-                            <Piechart Full_num={60} Already_num={9} Kind="필수" />
-                        </Small_Chart_Box>
-                    </Chart_box>
+                    <Outer_Chart_box>
+                        <Header_Chart_Box>
+                            <Piechart Full_num={data?.gradcondition.gradCredit} Already_num={data?.credit.totalCredit} Kind="총학점" Chart_size={200} Width={650} Height={320} Top_css={50} />
+                        </Header_Chart_Box>
+                        <Body_Chart_Box>
+                            <Upper_Body_Chart_Box>
+                                <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" Chart_size={150} Width={325} Height={160} Top_css={10} />
+                                <Piechart Full_num={20} Already_num={20} Kind="부전공학점" Chart_size={150} Width={325} Height={160} Top_css={10} />
+                            </Upper_Body_Chart_Box>
+                            <Lower_Body_Chart_Box>
+                                <Small_Body_Chart_Box>
+                                    <Su_Body_Chart_Box>
+                                        <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" Chart_size={150} Width={325} Height={160} Top_css={10} />
+                                    </Su_Body_Chart_Box>
+                                    <Sl_Body_Chart_Box>
+                                        <Piechart Full_num={60} Already_num={9} Kind="수학" Chart_size={100} Width={162.5} Height={80} Top_css={5} />
+                                        <Piechart Full_num={60} Already_num={25} Kind="기초과학" Chart_size={100} Width={162.5} Height={80} Top_css={5} />
+                                    </Sl_Body_Chart_Box>
+                                </Small_Body_Chart_Box>
+                                <Small_Body_Chart_Box>
+                                    <Su_Body_Chart_Box>
+                                        <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="교양학점" Chart_size={150} Width={325} Height={160} Top_css={10} />
+                                    </Su_Body_Chart_Box>
+                                    <Sl_Body_Chart_Box>
+                                        <Piechart Full_num={60} Already_num={25} Kind="균형" Chart_size={100} Width={162.5} Height={80} Top_css={5} />
+                                        <Piechart Full_num={60} Already_num={9} Kind="필수" Chart_size={100} Width={162.5} Height={80} Top_css={5} />
+                                    </Sl_Body_Chart_Box>
+                                </Small_Body_Chart_Box>
+                            </Lower_Body_Chart_Box>
+                        </Body_Chart_Box>    
+                    </Outer_Chart_box>
                 </Right_component>
                 <Left_component>
                     <Small_info name="신재민" std_num={2021203022} department="소프트웨어학부" />
-                    <TimeTable width={1000} height={600} />
+                    <TimeTable width={300} height={300} />
                 </Left_component>
             </UserTableProvider>
             <div>

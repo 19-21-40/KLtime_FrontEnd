@@ -121,7 +121,7 @@ export function UserInfoProvider({ children }) {
       <UserState.Provider value={state}>
         <UserDispatch.Provider value={dispatch} >
           {children}
-          <UserList users={users} />
+          {/* <UserList users={users} /> */}
         </UserDispatch.Provider>
       </UserState.Provider>
     </div>
