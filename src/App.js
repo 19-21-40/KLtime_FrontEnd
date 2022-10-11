@@ -14,6 +14,7 @@ import Userinfo from "./routes/UserInfoTest";
 import MainPage from "./routes/mainpage";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
+import Klas from "./routes/Klas";
 
 
 // function Copyright(){
@@ -43,6 +44,8 @@ function App() {
       <Route path="/PasswdSearch" element={<PasswdSearch />}>
       </Route>
       <Route path="/Userinfo" element={<Userinfo />}>
+      </Route>
+      <Route path="/" element={<Klas />}>
       </Route>
     </Routes>
     {/* <Copyright/> */}
