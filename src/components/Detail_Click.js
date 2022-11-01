@@ -4,6 +4,11 @@ const Big_box = styled.div`
     display: flex;
     flex-direction: column;
 
+    width: 600px;
+    height: 500px;
+
+    border: 2px solid black;
+    border-radius: 20px;
 `;
 
 const Header = styled.div`

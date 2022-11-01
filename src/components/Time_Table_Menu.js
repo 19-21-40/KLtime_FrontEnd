@@ -7,22 +7,75 @@ import styled from "styled-components";
 //     border-radius: 50%;
 //     overflow: hidden;
 // `;
+const Total_Container = styled.div`
+    width: 650px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 20px;
+`;
+
+const Select_Semester = styled.div`
+    display: flex;
+    width: 600px;
+    height: 100px;
+`;
+
+const Time_table_list = styled.div`
+    display: flex;
+    width: 600px;
+    height: 700px;
+`;
+
+const Time_table_box = styled.div`
+    width: 180px;
+    height: 160px;
+    border: 2px solid black;
+    border-radius: 20px;
+    margin: 10px;
+`;
+
+const Add_Button_Box = styled.div`
+    width: 180px;
+    height: 160px;
+    border: 2px solid black;
+    border-radius: 20px;
+    margin: 10px;
+`;
+
+const Add_Button = styled.button`
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 10px;
+`;
 
 function Time_Table_Menu(){
 
     return (
-        <div>
-            <h1>Klas 연동</h1>
-            <div>
-                <label htmlFor="stdnum">학번<br/></label>
-                <input id="stdnum" type="text" placeholder="학번을 입력하시오." />
-            </div>
-            <div>
-                <label htmlFor="password">비밀번호<br/></label>
-                <input id="password" type="password" placeholder="비밀번호를 입력하시오." />
-            </div>
-            <button>연동하기</button>
-        </div>
+        <Total_Container>
+            <Select_Semester>
+                <select>
+                    <option>n년</option>
+                </select>
+                <select>
+                    <option>n학기</option>
+                </select>
+            </Select_Semester>
+            <Time_table_list>
+                <Time_table_box>
+                    <h1>시간표 1</h1>
+                </Time_table_box>
+                <Time_table_box>
+                    <h1>추천 시간표</h1>
+                </Time_table_box>
+                <Add_Button_Box>
+                <Add_Button>+</Add_Button>
+                </Add_Button_Box>
+            </Time_table_list>
+        </Total_Container>
     );
 
 }

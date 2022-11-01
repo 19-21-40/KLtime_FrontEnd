@@ -14,19 +14,19 @@ const DualMode=styled.div`
       width: 790px; 
     `
   }
-  width:790px; //추가
+  width: 640px; //추가
 `;
 const LineTablehead=styled.div`
   font-size: 16px;
   border-top: 1px solid rgba(167, 168, 169, 0.8);
   padding: 12px 0 12px 10px;
   span{
-    width: 110px;
-    /* float: left; */
+    width: 90px;
+    // float: left;
     display: inline-flex;
     padding-right: 12px;
     font-size: 14px;
-    /* background-color: aqua; */
+    // background-color: aqua;
   }
 `;
 const ToggleBtn=styled.button`
@@ -93,7 +93,7 @@ function LectureList({
       <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} />
       <DualMode isCardMode={isCardMode}>
         <LineTablehead>
-          <span>
+            <span>
               <strong>교과목명</strong>
             </span>
             <span>

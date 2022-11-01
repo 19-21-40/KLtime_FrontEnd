@@ -7,7 +7,7 @@ import styled from "styled-components";
 const Design_Box = styled.div`
     width: ${props => `${props.Width}px`};
     height: ${props => `${props.Height}px`};
-    border: 2px solid black;
+    // border: 2px solid black;
     justify-content: center;
     align-items: center;
     border-radius: 20px;

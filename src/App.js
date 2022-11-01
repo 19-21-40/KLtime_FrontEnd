@@ -31,9 +31,9 @@ function App() {
 
   return (<Router>
     <Routes>
-      <Route path="/MyTimeTable" element={<MyTimeTable/>}>
+      <Route path="/" element={<MainPage/>}>
       </Route>
-      <Route path="/MainPage" element={<MainPage/>}>
+      <Route path="/MyTimeTable" element={<MyTimeTable/>}>
       </Route>
       <Route path="/SignUp" element={<SignUp />}>
       </Route>
@@ -45,7 +45,7 @@ function App() {
       </Route>
       <Route path="/Userinfo" element={<Userinfo />}>
       </Route>
-      <Route path="/" element={<Klas />}>
+      <Route path="/Klas" element={<Klas />}>
       </Route>
     </Routes>
     {/* <Copyright/> */}

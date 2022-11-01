@@ -73,7 +73,7 @@ const Content=styled(ContentBox)`
         `
     }
     div{
-        width: 110px;
+        width: 88.5px;
         overflow: hidden;
         padding: 1px 0 0 3px;
         font-size: 12px;
