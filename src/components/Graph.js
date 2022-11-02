@@ -8,20 +8,20 @@ const Design_Box = styled.div`
     width: ${props => `${props.Width}px`};
     height: ${props => `${props.Height}px`};
     // border: 2px solid black;
+    flex-direction:column;
     justify-content: center;
     align-items: center;
     border-radius: 20px;
     margin-bottom: 25px;
     margin-left: 5px;
+    
 `;
 
 const Full_box = styled.div`
     display: flex;
-    position: relative;
     top: ${props => `${props.Top_css}px`};
     // height: 300;
     // flex-direction: column;
-
 `;
 
 const Text_box = styled.div`
@@ -31,6 +31,7 @@ const Text_box = styled.div`
     height: 200px;
     align-items: center;
     justify-content: center;
+    text-align:center;
 `;
 
 function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Detail_chart} ){
