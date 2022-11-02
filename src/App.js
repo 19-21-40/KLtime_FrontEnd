@@ -6,11 +6,9 @@ import {
 
 import Login from "./routes/Login"
 import SignUp from "./routes/SignUp";
-import Home from "./routes/Home"
 import MyTimeTable from "./routes/MyTimeTable";
 import MyPage from "./routes/MyPage";
 import PasswdSearch from "./routes/PasswdSearch";
-import Userinfo from "./routes/UserInfoTest";
 import MainPage from "./routes/mainpage";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
@@ -45,8 +43,6 @@ function App() {
       <Route path="/MyPage" element={<MyPage />}>
       </Route>
       <Route path="/PasswdSearch" element={<PasswdSearch />}>
-      </Route>
-      <Route path="/Userinfo" element={<Userinfo />}>
       </Route>
       <Route path="/Klas" element={<Klas />}>
       </Route>
