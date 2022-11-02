@@ -9,16 +9,29 @@ import { call } from "../service/ApiService";
 import LectureList_test from "../components/Lecture_print_test";
 
 const Component_position = styled.div`
-    display: flex;
+    // display: flex;
     // flex-direction: column;
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1461px;
+    height: 1091px;
+    left: 230px;
+    top: 162px;
+
+    background: #FFFFFF;
+    /* 시간표 라인 */
+
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
 `;
 
 const Right_component = styled.div`
-    display: flex;
+    display:flex;
     flex-direction: column;
 `;
 const Left_component = styled.div`
-    display: flex;
+    display:flex;
     flex-direction: column;
 `;
 
@@ -28,10 +41,12 @@ const Outer_Chart_box = styled.div`
 `; 
 
 const Header_Chart_Box = styled.div`
-    // width: 600px;
-    // height: 250px;
+    width: 667px;
+    height: 340px;
+    margin-bottom: 30.8px;
     // border: 2px solid black;
     // justify-content: center;
+    
 `;
 
 const Body_Chart_Box = styled.div`
@@ -51,8 +66,8 @@ const Lower_Body_Chart_Box = styled.div`
 const Small_Body_Chart_Box = styled.div`
     display:flex;
     flex-direction: column;
-    width: 330px;
-    height: 400px;
+    width: 320px;
+    height: 368px;
 `;
 
 const Su_Body_Chart_Box = styled.div`
@@ -118,10 +133,10 @@ function MainPage(){
                         <Body_Chart_Box>
                             <Upper_Body_Chart_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" Chart_size={150} Width={325} Height={160} Top_css={10} />
+                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" Chart_size={150} Width={320} Height={207.2} Top_css={10} />
                                 </Design_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={20} Already_num={20} Kind="부전공학점" Chart_size={150} Width={325} Height={160} Top_css={10} />
+                                    <Piechart Full_num={20} Already_num={20} Kind="부전공학점" Chart_size={150} Width={320} Height={207.2} Top_css={10} />
                                 </Design_Box>
                             </Upper_Body_Chart_Box>
                             <Lower_Body_Chart_Box>
