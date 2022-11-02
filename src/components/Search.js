@@ -3,6 +3,22 @@ import { useUserTableState, useUserTableDispatch} from '../context/UserTableCont
 import styled from "styled-components";
 
 
+const Total_Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 573px;
+    height: 226px;
+    border: 0.3px solid #D9D9D9;
+    /* 시간표박스 그림자 */
+
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+`;
+
+const SelectIcon = styled.div`
+    width: 573px;
+    height: 70px;
+`;
 
 const IconContainer = styled.div`
     display: flex;
@@ -34,28 +50,34 @@ const Icon = styled.div`
 `
 
 const Select = styled.div`
+    width: 252px;
+    height: 31px;
     display: inline;
     select{
-        width: 40%;
+        width: 149px;
+        height: 29px;
         border-radius: 30px;
         text-align: center;
-        height: 30px;
         margin-left: 10px;
         margin-right: 10px;
     }
     option{
         text-align: center;
-        height: 30px;
+        width: 149px;
+        height: 29px;
     }
 `
 
 const SearchCollection = styled.div`
-    display:grid;
-    grid-template-columns: 300px 300px 300px;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     grid-template-rows: 1fr 1fr;
     *{
         margin-bottom: 5px;
     }
+    width: 573px;
+    height: 226px;
 `
 
 const Searchbar = styled.input`
@@ -279,15 +301,11 @@ function Search({totalLectures})
     
 
     return (
-        <>
+        <Total_Container>
+            <SelectIcon>
+                <SearchIcon iconList={iconListref.current} inputDispatch={inputDispatch}/>
+            </SelectIcon>
             <SearchCollection>
-                <Select>
-                    <select name="searchItem" value={searchInputs.searchItem} onChange={handle_InputsChange}>
-                        <option>강의명</option>
-                        <option>교수명</option>
-                    </select>
-                    <Searchbar ref={inputref} name="input" placeholder={searchInputs.searchItem} type="text" onChange={handle_InputsChange}/>
-                </Select>  
                 <Select>
                     학점
                     <select value={searchInputs.credit} name="credit" onChange={handle_InputsChange}>
@@ -325,9 +343,15 @@ function Search({totalLectures})
                         <option value={3}>3</option>
                     </select>
                 </Select>
+                <Select>
+                    <select name="searchItem" value={searchInputs.searchItem} onChange={handle_InputsChange}>
+                        <option>강의명</option>
+                        <option>교수명</option>
+                    </select>
+                </Select>
+                <Searchbar ref={inputref} name="input" placeholder={searchInputs.searchItem} type="text" onChange={handle_InputsChange}/>
             </SearchCollection>
-            <SearchIcon iconList={iconListref.current} inputDispatch={inputDispatch}/>
-        </>
+        </Total_Container>
     );
         
 }

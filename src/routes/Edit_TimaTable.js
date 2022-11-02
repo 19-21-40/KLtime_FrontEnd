@@ -1,42 +1,87 @@
-import { UserTableProvider } from "../context/UserTableContext";
-import Search from "../components/Search";
+import TimeTable from "../components/TimeTable";
 import LectureList from "../components/LectureList";
+import { useEffect, useState, useRef, useReducer, createContext } from "react";
+import Search from "../components/Search";
+import SelectTimeTable  from "../components/SelectTimeTable"
+import { UserTableProvider } from "../context/UserTableContext";
+import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
-// import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
-// const Logo_Image = styled.div`
-//     width: 200px;
-//     height: 200px;
-//     border-radius: 50%;
-//     overflow: hidden;
-// `;
-const Total_Container = styled.div`
-    width: 650px;
-    height: 800px;
+// [
+//     {
+//         id: "H030-2-0448-02",
+//         lectureName: "디지털논리",
+//         professor: "김진우",
+//         department: "소프트웨어학부",
+//         day: "월",
+//         startTime: "15:00",
+//         endTime: "16:30" ,
+//         level: 2,
+//         section: "전선",
+//         credit: 3,
+//         notes: ""
+//     },
+//     {
+//     id: "H030-2-0448-02",
+//     lectureName: "디지털논리",
+//     professor: "김진우",
+//     department: "소프트웨어학부",
+//     day: "수",
+//     startTime: "16:30",
+//     endTime: "18:00" ,
+//     level: 2,
+//     section: "전선",
+//     credit: 3,
+//     notes: ""
+//     }
+// ],
+
+const Total_Container = styled.div `
+    display: flex;
+    justify-content: space-around;
+
+    width: 1461px;
+    height: 918px;
+    left: 230px;
+    top: 162px;
+    /* 시간표 라인 */
+
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+`;
+
+const Right_Container = styled.div `
+    width: 667px;
+    height: 786px;
+    left: 264px;
+    top: 232px;
     display: flex;
     flex-direction: column;
     border: 2px solid black;
     border-radius: 20px;
 `;
 
-const Select_Semester = styled.div`
+const Left_Container = styled.div `
     display: flex;
-    width: 600px;
-    height: 100px;
 `;
 
-const Time_table_list = styled.div`
-    display: flex;
-    width: 600px;
-    height: 700px;
+const Search_box = styled.div `
+    box-sizing: border-box;
+
+    // position: absolute;
+    left: 7.35%;
+    right: 6.75%;
+    top: 17.3%;
+    bottom: 53.94%;
 `;
 
-const Time_table_box = styled.div`
-    width: 170px;
-    height: 150px;
-    border: 2px solid black;
-    border-radius: 20px;
-    margin: 10px;
+const LectureList_box = styled.div `
+    box-sizing: border-box;
+
+    left: 7.35%;
+    right: 6.75%;
+    top: 17.3%;
+    bottom: 53.94%;
 `;
 
 const testtotalLectures=[
@@ -152,19 +197,43 @@ const testtotalLectures=[
     },
 ];
 
-function Time_Table_Detail(){
 
+
+
+function Edit_TimeTable() {
+
+    
+    const [selectedLectures,setSelectedLectures]=useState([]);
+    const [totalLectures, setTotalLectures]=useState(testtotalLectures);
+    const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
+    const [hoveredLecture,setHoveredLecture]=useState();
+
+
+    
     return (
         <UserTableProvider>
-            <Total_Container>
-                <Search
-                totalLectures={testtotalLectures}
-                />
-                <LectureList />
-            </Total_Container>
+        <Total_Container>
+                <Right_Container>
+                    <Search_box>
+                        <Search
+                        totalLectures={testtotalLectures}
+                        />
+                    </Search_box>
+                    <LectureList_box>
+                        <LectureList />
+                    </LectureList_box>
+                </Right_Container>
+                <Left_Container>
+                    <TimeTable
+                    width={670}
+                    height={713.46}
+                    />
+                </Left_Container>
+        </Total_Container>
         </UserTableProvider>
-    );
-
+    )
 }
 
-export default Time_Table_Detail;
+
+
+export default Edit_TimeTable;

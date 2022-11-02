@@ -5,7 +5,6 @@ import Search from "../components/Search";
 import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
-import Time_Table_Detail from "../components/Time_Table_Detail";
 import styled from "styled-components";
 
 // [
@@ -189,7 +188,6 @@ function MyTimeTable() {
                     />
                     <LectureList /> */}
                     <Time_Table_Menu />
-                    <Time_Table_Detail/>
                 </Right_Container>
                 <Left_Container>
                     <TimeTable
