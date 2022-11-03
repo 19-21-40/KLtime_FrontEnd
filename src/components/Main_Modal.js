@@ -7,8 +7,8 @@ import Klas_Peristalsis from './Klas_Peristalsis';
 /* 모달창을 화면 중앙. 최상단에 노출 */
 const Container = styled.div`
     /* 모달창 크기 */
-    //width: 600px;
-    //height: 200px;
+    width: 600px;
+    height: 200px;
 
     /* 최상단 위치 */
     z-index: 999;
