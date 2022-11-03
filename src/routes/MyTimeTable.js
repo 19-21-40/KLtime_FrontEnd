@@ -41,15 +41,31 @@ import { useUserTableState, useUserTableDispatch} from '../context/UserTableCont
 
 const Total_Container = styled.div `
     display: flex;
-`;
+    width: 1461px;
+    height: 918px;
+    left: 230px;
+    top: 162px;
+    /* 시간표 라인 */
 
-const Right_Container = styled.div `
-    display: flex;
-    flex-direction: column;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
 `;
 
 const Left_Container = styled.div `
     display: flex;
+    flex-direction: column;
+`;
+
+const Right_Container = styled.div `
+    display: flex;
+`;
+
+const Detail_Button = styled.button `
+    
+`;
+
+const Back_Button = styled.button `
+    
 `;
 
 const testtotalLectures=[
@@ -177,7 +193,18 @@ function MyTimeTable() {
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
 
-    
+    const [openSelect, setOpenSelect] = useState(true);
+    const [openDetail, setOpenDetail] = useState(false);
+
+    const showSelect = () => {
+        setOpenSelect(true);
+        setOpenDetail(false);
+    };
+
+    const showDetail = () => {
+        setOpenSelect(false);
+        setOpenDetail(true);
+    };
 
     useEffect(()=>{
         axios.post("http://localhost:8080/api/timetable/2022/1학기/totalLectureList", {
@@ -199,17 +226,25 @@ function MyTimeTable() {
     
     return (
         <Total_Container>
+                <Left_Container>
+                    {openSelect && <div>
+                        <Detail_Button onClick={ () =>  {
+                                showDetail()
+                        }}>요잇~!</Detail_Button>
+                        <Time_Table_Menu/>
+                        </div>}
+                    {openDetail && <div>
+                        <Back_Button onClick={ () =>  {
+                                showSelect()
+                            }}>돌아가~ 내게서~</Back_Button>
+                        <Edit_TimeTable totalLectures={state.searchedLectures}/>
+                        </div>}
+                </Left_Container>
                 <Right_Container>
-                    {/* <SelectTimeTable 
-                    selectedLectures={selectedLectures}
-                    setSelectedLectures={setSelectedLectures}    
-                    /> */}
-                    {/* <Search
-                    totalLectures={testtotalLectures}
+                    <TimeTable
+                    width={670}
+                    height={713.46}
                     />
-                    <LectureList /> */}
-                    {/* <Time_Table_Menu /> */}
-                    <Edit_TimeTable totalLectures={state.searchedLectures}/>
                 </Right_Container>
                 {/* <Left_Container>
                     <TimeTable

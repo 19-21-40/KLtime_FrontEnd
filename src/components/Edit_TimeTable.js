@@ -186,10 +186,10 @@ function MyTimeTable() {
                         <LectureList />
                 </Right_Container>
                 <Left_Container>
-                    <TimeTable
+                    {/* <TimeTable
                     width={600}
                     height={250}
-                    />
+                    /> */}
                 </Left_Container>
             </UserTableProvider>
         </Total_Container>

@@ -8,15 +8,16 @@ import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 
 const Total_Container = styled.div `
+    width: 667px;
+    height: 786px;
+    left: 264px;
+    top: 232px;
     display: flex;
-    width: 1461px;
-    height: 918px;
-    left: 230px;
-    top: 162px;
-    /* 시간표 라인 */
-
-    border: 1px solid #D9D9D9;
-    border-radius: 10px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 20px;
 `;
 
 const Right_Container = styled.div `
@@ -203,52 +204,18 @@ function Edit_TimeTable({totalLectures}) {
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
-
-    const [openSelect, setOpenSelect] = useState(true);
-    const [openDetail, setOpenDetail] = useState(false);
-
-    const showSelect = () => {
-        setOpenSelect(true);
-        setOpenDetail(false);
-    };
-
-    const showDetail = () => {
-        setOpenSelect(false);
-        setOpenDetail(true);
-    };
     
     return (
-        // <UserTableProvider>
         <Total_Container>
-                <Right_Container>
-                    {openSelect && <Select_box>
-                        <Detail_Button onClick={ () =>  {
-                                showDetail()
-                        }}>요잇~!</Detail_Button>
-                        <Time_Table_Menu />
-                        </Select_box>}
-                    {openDetail && <Detail_box>
-                        <Search_box>
-                            <Back_Button onClick={ () =>  {
-                                showSelect()
-                            }}>돌아가~ 내게서~</Back_Button>
-                            <Search
-                            totalLectures={totalLectures}
-                            />
-                        </Search_box>
-                        <LectureList_box>
-                            <LectureList />
-                        </LectureList_box>
-                    </Detail_box>}
-                </Right_Container>
-                <Left_Container>
-                    <TimeTable
-                    width={670}
-                    height={713.46}
-                    />
-                </Left_Container>
+            <Search_box>
+                <Search
+                totalLectures={totalLectures}
+                />
+            </Search_box>
+            <LectureList_box>
+                <LectureList />
+            </LectureList_box>
         </Total_Container>
-        // </UserTableProvider>
     )
 }
 

@@ -12,12 +12,16 @@ import styled from "styled-components";
 //     overflow: hidden;
 // `;
 const Total_Container = styled.div`
-    // width: 650px;
-    // height: 800px;
-    // display: flex;
-    // flex-direction: column;
-    // border: 2px solid black;
-    // border-radius: 20px;
+    width: 667px;
+    height: 786px;
+    left: 264px;
+    top: 232px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 20px;
 `;
 
 const Select = styled.select`
@@ -62,6 +66,7 @@ const Add_Button = styled.button`
     border: 2px solid black;
     border-radius: 10px;
     margin: 10px;
+    cursor:pointer;
 `;
 
 function Time_Table_Menu(){
@@ -138,14 +143,14 @@ function Time_Table_Menu(){
         <Total_Container>
             <UserTableProvider>
             <Select_Semester>
-                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].id} 
-                key={userTableState.totalTimeTable_big[0].id} onChange={selectTimeTable}>
+                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].year} 
+                key={userTableState.totalTimeTable_big[0].year} onChange={selectTimeTable}>
                     {userTableState.totalTimeTable_big.map((table)=> { return (
                         <option value={table.id} key={table.id}> {table.year} </option>
                     )})}
                 </Select>
-                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].id} 
-                key={userTableState.totalTimeTable_big[0].id} onChange={selectTimeTable}>
+                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].semester} 
+                key={userTableState.totalTimeTable_big[0].semester} onChange={selectTimeTable}>
                     {userTableState.totalTimeTable_big.map((table)=> { return (
                         <option value={table.id} key={table.id}> {table.semester} </option>
                     )})}
