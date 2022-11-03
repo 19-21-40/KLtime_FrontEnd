@@ -200,23 +200,23 @@ const testtotalLectures=[
 
 
 
-function Edit_TimeTable() {
+function Edit_TimeTable({totalLectures}) {
 
     
     const [selectedLectures,setSelectedLectures]=useState([]);
-    const [totalLectures, setTotalLectures]=useState(testtotalLectures);
-    const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
+    // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
+    // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
 
 
     
     return (
-        <UserTableProvider>
+        // <UserTableProvider>
         <Total_Container>
                 <Right_Container>
                     <Search_box>
                         <Search
-                        totalLectures={testtotalLectures}
+                        totalLectures={totalLectures}
                         />
                     </Search_box>
                     <LectureList_box>
@@ -230,7 +230,7 @@ function Edit_TimeTable() {
                     />
                 </Left_Container>
         </Total_Container>
-        </UserTableProvider>
+        // </UserTableProvider>
     )
 }
 

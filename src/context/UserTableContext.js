@@ -139,6 +139,11 @@ const initialState = {
 
 function timeTableReducer(state,action){
     switch(action.type){
+        case 'READ_TOTAL_LECTURES':
+            return{
+                ...state,
+                searchedLectures:action.searchedLectures
+            }
         case 'CREATE_TABLE'://시간표 추가
             return{
                 ...state,

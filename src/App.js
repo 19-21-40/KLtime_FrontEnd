@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import Klas from "./routes/Klas";
 import Edit_TimeTable from "./routes/Edit_TimaTable";
+import { UserTableProvider } from "./context/UserTableContext";
 
 
 // function Copyright(){
@@ -32,10 +33,14 @@ function App() {
     <Routes>
       <Route path="/" element={<MainPage/>}>
       </Route>
-      <Route path="/MyTimeTable" element={<MyTimeTable/>}>
+      <Route path="/MyTimeTable" element={
+      
+      <UserTableProvider>
+      <MyTimeTable/>
+      </UserTableProvider>}>
       </Route>
-      <Route path="/EditTimeTable" element={<Edit_TimeTable/>}>
-      </Route>
+      {/* <Route path="/EditTimeTable" element={<Edit_TimeTable/>}>
+      </Route> */}
       <Route path="/SignUp" element={<SignUp />}>
       </Route>
       <Route path="/Login" element={<Login />}>
