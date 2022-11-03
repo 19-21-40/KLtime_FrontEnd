@@ -101,26 +101,26 @@ function SelectTimeTable({
     }
 
     return (
-        <>
+        <> 
             <ViewTimeTableList>
                 <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].id} 
                 key={userTableState.totalTimeTable_big[0].id} onChange={selectTimeTable}>
                     {userTableState.totalTimeTable_big.map((table)=> { return (
-                        <option value={table.id} key={table.id}> {table.tableName} </option>
+                        <option value={table.id} key={table.id}> {table.semster} </option>
                     )})}
                 </Select>
-                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable[0].id} 
-                key={userTableState.totalTimeTable[0].id} onChange={selectTimeTable}>
+                {/* <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable[0].id} 
+                key={userTableState.totalTimeTable[0].id} onChange={selectTimeTable}> */}
                     {userTableState.totalTimeTable.map((table)=> { return (
-                        <option value={table.id} key={table.id}> {table.tableName} </option>
+                        <button value={table.id} key={table.id}> {table.tableName} </button>
                     )})}
-                </Select>
+                {/* </Select> */}
                 <PlusBtn onClick={addTimeTable}> + </PlusBtn>
                 <ModifyBtn onClick={handleClick}> 수정 </ModifyBtn>
                 <DeleteBtn onClick={deleteTimeTable}> 삭제 </DeleteBtn>
             </ViewTimeTableList>
                 {isModifyTimeTable ? <ModifyTimeTableModal 
-                  setIsModifyTimeTable={setIsModifyTimeTable}
+                    setIsModifyTimeTable={setIsModifyTimeTable}
                 />
                 : null }
         </>

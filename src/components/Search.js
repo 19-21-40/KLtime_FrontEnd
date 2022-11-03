@@ -52,7 +52,9 @@ const Icon = styled.div`
 const Select = styled.div`
     width: 252px;
     height: 31px;
-    display: inline;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     select{
         width: 149px;
         height: 29px;
@@ -72,6 +74,8 @@ const SearchCollection = styled.div`
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
     grid-template-rows: 1fr 1fr;
     *{
         margin-bottom: 5px;
@@ -81,8 +85,12 @@ const SearchCollection = styled.div`
 `
 
 const Searchbar = styled.input`
-    width: 150px;
-    height: 30px;
+    width: 252px;
+    height: 31px;
+`
+
+const SearchText = styled.span`
+
 `
 
 const SearchIcon = ({
@@ -100,7 +108,7 @@ const SearchIcon = ({
                 inputDispatch({type: 'SECTION', section:'null'});
                 break;
             case 'department':
-                inputDispatch({type: 'DEPARTMENT', department:'null'});
+                inputDispatch({type: 'department', department:'null'});
                 break;
             case 'level':
                 inputDispatch({type: 'LEVEL', level:'null'});
@@ -158,7 +166,7 @@ const searchInputReducer = (state, action) => {
                 ...state,
                 section: action.section,
             }
-        case 'DEPARTMENT':
+        case 'department':
             return{
                 ...state,
                 department: action.department,
@@ -205,7 +213,7 @@ function Search({totalLectures})
                 inputDispatch({type: 'SECTION', section: event.target.value});
                 break;
             case 'department':
-                inputDispatch({type: 'DEPARTMENT', department: event.target.value});
+                inputDispatch({type: 'department', department: event.target.value});
                 break;
             case 'level':
                 inputDispatch({type: 'LEVEL', level: event.target.value});
@@ -307,7 +315,7 @@ function Search({totalLectures})
             </SelectIcon>
             <SearchCollection>
                 <Select>
-                    학점
+                    <SearchText>학점</SearchText>
                     <select value={searchInputs.credit} name="credit" onChange={handle_InputsChange}>
                         <option value={'null'}>전체</option>
                         <option value={2}>2학점</option>
@@ -315,7 +323,7 @@ function Search({totalLectures})
                     </select>
                 </Select>
                 <Select>
-                    구분
+                    <SearchText>구분</SearchText>
                     <select value={searchInputs.section} name="section" onChange={handle_InputsChange}>
                         <option value={"null"}>전체</option>
                         <option value={"전필"}>전필</option>
@@ -326,7 +334,7 @@ function Search({totalLectures})
                     </select>
                 </Select>
                 <Select>
-                    소속
+                    <SearchText>소속</SearchText>
                     <select value={searchInputs.department} name="department" onChange={handle_InputsChange}>
                         <option value={"null"}>전체</option>
                         <option value={"전체공통"}>전체공통</option>
@@ -335,7 +343,7 @@ function Search({totalLectures})
                     </select>
                 </Select>
                 <Select>
-                    난이도
+                    <SearchText>난이도</SearchText>
                     <select value={searchInputs.level} name="level" onChange={handle_InputsChange}>
                         <option value={"null"}>전체</option>
                         <option value={1}>1</option>
@@ -344,6 +352,7 @@ function Search({totalLectures})
                     </select>
                 </Select>
                 <Select>
+                    <SearchText>강의/교수명</SearchText>
                     <select name="searchItem" value={searchInputs.searchItem} onChange={handle_InputsChange}>
                         <option>강의명</option>
                         <option>교수명</option>
