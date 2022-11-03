@@ -180,7 +180,7 @@ function MyTimeTable() {
     
 
     useEffect(()=>{
-        axios.post("http://localhost:8080/api/timetable/2022/1학기/update", {
+        axios.post("http://localhost:8080/api/timetable/2022/1학기/totalLectureList", {
             token:"1234",
             number:"2021203078"
         }, {
@@ -200,23 +200,23 @@ function MyTimeTable() {
     return (
         <Total_Container>
                 <Right_Container>
-                    <SelectTimeTable 
+                    {/* <SelectTimeTable 
                     selectedLectures={selectedLectures}
                     setSelectedLectures={setSelectedLectures}    
-                    />
+                    /> */}
                     {/* <Search
                     totalLectures={testtotalLectures}
                     />
                     <LectureList /> */}
-                    <Time_Table_Menu />
+                    {/* <Time_Table_Menu /> */}
                     <Edit_TimeTable totalLectures={state.searchedLectures}/>
                 </Right_Container>
-                <Left_Container>
+                {/* <Left_Container>
                     <TimeTable
                     width={600}
                     height={250}
                     />
-                </Left_Container>
+                </Left_Container> */}
         </Total_Container>
 
     )

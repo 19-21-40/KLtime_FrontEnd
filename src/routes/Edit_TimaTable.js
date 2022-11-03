@@ -233,7 +233,7 @@ function Edit_TimeTable({totalLectures}) {
                                 showSelect()
                             }}>돌아가~ 내게서~</Back_Button>
                             <Search
-                            totalLectures={testtotalLectures}
+                            totalLectures={totalLectures}
                             />
                         </Search_box>
                         <LectureList_box>
