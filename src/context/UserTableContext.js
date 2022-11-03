@@ -116,8 +116,8 @@ const testtotalLectures=[
 const initialState = {
     totalTimeTable_big:[
         {
-            id:1,
-            tableName:"1학년_1학기",
+            year:2022,
+            semester:"1학기"
         }
     ],
     totalTimeTable:[

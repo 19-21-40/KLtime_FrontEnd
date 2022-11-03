@@ -7,39 +7,8 @@ import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 
-// [
-//     {
-//         id: "H030-2-0448-02",
-//         lectureName: "디지털논리",
-//         professor: "김진우",
-//         department: "소프트웨어학부",
-//         day: "월",
-//         startTime: "15:00",
-//         endTime: "16:30" ,
-//         level: 2,
-//         section: "전선",
-//         credit: 3,
-//         notes: ""
-//     },
-//     {
-//     id: "H030-2-0448-02",
-//     lectureName: "디지털논리",
-//     professor: "김진우",
-//     department: "소프트웨어학부",
-//     day: "수",
-//     startTime: "16:30",
-//     endTime: "18:00" ,
-//     level: 2,
-//     section: "전선",
-//     credit: 3,
-//     notes: ""
-//     }
-// ],
-
 const Total_Container = styled.div `
     display: flex;
-    justify-content: space-around;
-
     width: 1461px;
     height: 918px;
     left: 230px;
@@ -51,14 +20,7 @@ const Total_Container = styled.div `
 `;
 
 const Right_Container = styled.div `
-    width: 667px;
-    height: 786px;
-    left: 264px;
-    top: 232px;
-    display: flex;
-    flex-direction: column;
-    border: 2px solid black;
-    border-radius: 20px;
+
 `;
 
 const Left_Container = styled.div `
@@ -82,6 +44,40 @@ const LectureList_box = styled.div `
     right: 6.75%;
     top: 17.3%;
     bottom: 53.94%;
+`;
+
+const Select_box = styled.div `
+    width: 667px;
+    height: 786px;
+    left: 264px;
+    top: 232px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 20px;
+`;
+
+const Detail_box = styled.div `
+    width: 667px;
+    height: 786px;
+    left: 264px;
+    top: 232px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 20px;
+`;
+
+const Detail_Button = styled.button `
+    
+`;
+
+const Back_Button = styled.button `
+    
 `;
 
 const testtotalLectures=[
@@ -208,20 +204,42 @@ function Edit_TimeTable({totalLectures}) {
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
 
+    const [openSelect, setOpenSelect] = useState(true);
+    const [openDetail, setOpenDetail] = useState(false);
 
+    const showSelect = () => {
+        setOpenSelect(true);
+        setOpenDetail(false);
+    };
+
+    const showDetail = () => {
+        setOpenSelect(false);
+        setOpenDetail(true);
+    };
     
     return (
         // <UserTableProvider>
         <Total_Container>
                 <Right_Container>
-                    <Search_box>
-                        <Search
-                        totalLectures={totalLectures}
-                        />
-                    </Search_box>
-                    <LectureList_box>
-                        <LectureList />
-                    </LectureList_box>
+                    {openSelect && <Select_box>
+                        <Detail_Button onClick={ () =>  {
+                                showDetail()
+                        }}>요잇~!</Detail_Button>
+                        <Time_Table_Menu />
+                        </Select_box>}
+                    {openDetail && <Detail_box>
+                        <Search_box>
+                            <Back_Button onClick={ () =>  {
+                                showSelect()
+                            }}>돌아가~ 내게서~</Back_Button>
+                            <Search
+                            totalLectures={testtotalLectures}
+                            />
+                        </Search_box>
+                        <LectureList_box>
+                            <LectureList />
+                        </LectureList_box>
+                    </Detail_box>}
                 </Right_Container>
                 <Left_Container>
                     <TimeTable

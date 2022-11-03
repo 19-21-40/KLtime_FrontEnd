@@ -1,55 +1,43 @@
-import TimeTable from "../components/TimeTable";
-import LectureList from "../components/LectureList";
 import { useEffect, useState, useRef, useReducer, createContext } from "react";
-import Search from "../components/Search";
-import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
-import Time_Table_Menu from "../components/Time_Table_Menu";
+import Search from "../components/Search";
+import LectureList from "../components/LectureList";
 import styled from "styled-components";
-import axios from "axios";
-import Edit_TimeTable from "./Edit_TimaTable";
-import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
+// import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
-// [
-//     {
-//         id: "H030-2-0448-02",
-//         lectureName: "디지털논리",
-//         professor: "김진우",
-//         department: "소프트웨어학부",
-//         day: "월",
-//         startTime: "15:00",
-//         endTime: "16:30" ,
-//         level: 2,
-//         section: "전선",
-//         credit: 3,
-//         notes: ""
-//     },
-//     {
-//     id: "H030-2-0448-02",
-//     lectureName: "디지털논리",
-//     professor: "김진우",
-//     department: "소프트웨어학부",
-//     day: "수",
-//     startTime: "16:30",
-//     endTime: "18:00" ,
-//     level: 2,
-//     section: "전선",
-//     credit: 3,
-//     notes: ""
-//     }
-// ],
-
-const Total_Container = styled.div `
-    display: flex;
-`;
-
-const Right_Container = styled.div `
+// const Logo_Image = styled.div`
+//     width: 200px;
+//     height: 200px;
+//     border-radius: 50%;
+//     overflow: hidden;
+// `;
+const Total_Container = styled.div`
+    width: 650px;
+    height: 800px;
     display: flex;
     flex-direction: column;
+    border: 2px solid black;
+    border-radius: 20px;
 `;
 
-const Left_Container = styled.div `
+const Select_Semester = styled.div`
     display: flex;
+    width: 600px;
+    height: 100px;
+`;
+
+const Time_table_list = styled.div`
+    display: flex;
+    width: 600px;
+    height: 700px;
+`;
+
+const Time_table_box = styled.div`
+    width: 170px;
+    height: 150px;
+    border: 2px solid black;
+    border-radius: 20px;
+    margin: 10px;
 `;
 
 const testtotalLectures=[
@@ -165,63 +153,19 @@ const testtotalLectures=[
     },
 ];
 
+function Time_Table_Detail(){
 
-
-
-function MyTimeTable() {
-    const dispatch=useUserTableDispatch();
-    const state=useUserTableState();
-    
-    const [selectedLectures,setSelectedLectures]=useState([]);
-    // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
-    // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
-    const [hoveredLecture,setHoveredLecture]=useState();
-
-    
-
-    useEffect(()=>{
-        axios.post("http://localhost:8080/api/timetable/2022/1학기/update", {
-            token:"1234",
-            number:"2021203078"
-        }, {
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': '*/*',
-            }, withCredentials: true,
-        }).then(res=>
-            dispatch({
-                type:'READ_TOTAL_LECTURES',
-                searchedLectures:res.data.lectureList
-            })
-        );
-    },[])
-
-    
     return (
-        <Total_Container>
-                <Right_Container>
-                    <SelectTimeTable 
-                    selectedLectures={selectedLectures}
-                    setSelectedLectures={setSelectedLectures}    
-                    />
-                    {/* <Search
-                    totalLectures={testtotalLectures}
-                    />
-                    <LectureList /> */}
-                    <Time_Table_Menu />
-                    <Edit_TimeTable totalLectures={state.searchedLectures}/>
-                </Right_Container>
-                <Left_Container>
-                    <TimeTable
-                    width={600}
-                    height={250}
-                    />
-                </Left_Container>
-        </Total_Container>
+        <UserTableProvider>
+            <Total_Container>
+                <Search
+                totalLectures={testtotalLectures}
+                />
+                <LectureList />
+            </Total_Container>
+        </UserTableProvider>
+    );
 
-    )
 }
 
-
-
-export default MyTimeTable;
+export default Time_Table_Detail;

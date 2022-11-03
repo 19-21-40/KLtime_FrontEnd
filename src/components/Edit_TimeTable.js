@@ -5,10 +5,8 @@ import Search from "../components/Search";
 import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
+import Time_Table_Detail from "../components/Time_Table_Detail";
 import styled from "styled-components";
-import axios from "axios";
-import Edit_TimeTable from "./Edit_TimaTable";
-import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
 
 // [
 //     {
@@ -169,47 +167,23 @@ const testtotalLectures=[
 
 
 function MyTimeTable() {
-    const dispatch=useUserTableDispatch();
-    const state=useUserTableState();
+
     
     const [selectedLectures,setSelectedLectures]=useState([]);
-    // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
-    // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
+    const [totalLectures, setTotalLectures]=useState(testtotalLectures);
+    const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
 
-    
-
-    useEffect(()=>{
-        axios.post("http://localhost:8080/api/timetable/2022/1학기/update", {
-            token:"1234",
-            number:"2021203078"
-        }, {
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': '*/*',
-            }, withCredentials: true,
-        }).then(res=>
-            dispatch({
-                type:'READ_TOTAL_LECTURES',
-                searchedLectures:res.data.lectureList
-            })
-        );
-    },[])
 
     
     return (
         <Total_Container>
+            <UserTableProvider>
                 <Right_Container>
-                    <SelectTimeTable 
-                    selectedLectures={selectedLectures}
-                    setSelectedLectures={setSelectedLectures}    
-                    />
-                    {/* <Search
-                    totalLectures={testtotalLectures}
-                    />
-                    <LectureList /> */}
-                    <Time_Table_Menu />
-                    <Edit_TimeTable totalLectures={state.searchedLectures}/>
+                        <Search
+                        totalLectures={testtotalLectures}
+                        />
+                        <LectureList />
                 </Right_Container>
                 <Left_Container>
                     <TimeTable
@@ -217,6 +191,7 @@ function MyTimeTable() {
                     height={250}
                     />
                 </Left_Container>
+            </UserTableProvider>
         </Total_Container>
 
     )
