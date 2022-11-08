@@ -11,7 +11,7 @@ const Small_info_Container = styled.div`
 
 const ModifyButton = styled.div`
 position: absolute;
-right: 20%;
+right: 5%;
 top: 25%;
 width : 145px;
 height: 45px;
@@ -26,7 +26,7 @@ border-radius: 20px;
 
 const KlasButton = styled.div`
 position: absolute;
-right: 30%;
+right: 15%;
 top: 25%;
 width : 145px;
 height: 45px;
@@ -45,7 +45,7 @@ const Student_info = styled.ul`
     display: flex;
     list-style: none;
     position: absolute;
-    right: 38%;
+    right: 25%;
     top: 15%;
     font-weight: 900;
     font-size: 23px;

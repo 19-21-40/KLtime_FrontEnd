@@ -32,41 +32,38 @@ const Text_box = styled.div`
     align-items: center;
     justify-content: center;
     text-align:center;
+    
 `;
 
-function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Detail_chart} ){
+function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, Detail_chart} ){
 
   const [modalOpen, setModalOpen] = useState(false);//모달
-  const [Detail, setDetail] = useState(false);//그래프
-  const [Edit, setEdit] = useState(false);//계정정보 수정
-  const [Klas, setKlas] = useState(false);//Klas 연동하기
 
     // 모달창 노출
     const showModal = () => {
+      if(modalOpen == false){
         setModalOpen(true);
+      }
+        
     };
 
-    const showDetail = () => {
-        setDetail(true);    
-    };
-
-    const showEdit = () => {
-      setEdit(true);    
+    const closeModal = () => {
+      if(modalOpen == true) {
+        setModalOpen(false);
+      }
+      
   };
 
-  const showKlas = () => {
-      setKlas(true);    
-  };
+
 
 
   return (
     <Design_Box Width={Width} Height={Height} >
       <Full_box onClick={ () =>  {
         showModal()
-        showDetail()
       }} Top_css={Top_css} >
         <PieChart
-          style={{ position: "relative", height: `${Chart_size}px` }}
+          style={{ position: "relative", height: `${Chart_size}px`, top: `${Top_css}`, left: `${Left_css}`}}
           data={[
             {
             value: Already_num / Full_num*100,
@@ -94,7 +91,7 @@ function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
             <div>기준 학점 : {Full_num}</div>
             <div>이수 학점 : {Already_num}</div>
           </Text_box>
-          {modalOpen && <Main_Modal setModalOpen={setModalOpen} setDetail={setDetail} setEdit={setEdit} setKlas={setKlas} Detail={Detail} Edit={Edit} Klas={Klas} />}
+          {modalOpen ? <Main_Modal closeModal={closeModal}/> : null}
       </Full_box>
     </Design_Box>
   );
