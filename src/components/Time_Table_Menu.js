@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState , useCallback} from "react";
 import { UserTableProvider } from "../context/UserTableContext";
 import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
@@ -52,14 +52,6 @@ const Time_table_box = styled.div`
     margin: 10px;
 `;
 
-const Add_Button_Box = styled.div`
-    width: 180px;
-    height: 160px;
-    border: 2px solid black;
-    border-radius: 20px;
-    margin: 10px;
-`;
-
 const Add_Button = styled.button`
     width: 60px;
     height: 60px;
@@ -69,20 +61,47 @@ const Add_Button = styled.button`
     cursor:pointer;
 `;
 
-function Time_Table_Menu(){
+const Delete_button = styled.button`
+
+`;
+
+const Edit_button = styled.button`
+
+`;
+
+function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, setInnerText}){
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
     
                                                                 // JSON.parse(localStorage.getItem('시간표'))를 하면 새로고침을 해도 유지가 됨, 다만 일부 버그가 존재
                                                                 // useRef를 사용해도 될까?
-
-
-    const nextNumber = useRef(2);
+    // const nextNumber = useRef(2);
     const selectTimeTableOption = useRef(null);
     const isFirstAddTable = useRef(true);
-    
-    
+    const [countIndex, setCountIndex] = useState(-1);
+    const [activate, setActivate] = useState(false);
+
+    const handleOnClick = (e, idx) => {
+        setCountIndex(idx);
+        if(activate){
+            setActivate(false);
+        }
+        else{
+            setActivate(true);
+        }
+    };
+    const DefaultActivate = () => {
+        setActivate(false);
+    }
+
+    const update_Table = (id) => {
+        userTableDispatch({
+            type: 'READ_TABLE',
+            id: id,
+        });  
+    };
+
     const selectTimeTable = (e) => {
         
         const idx = e.target.selectedIndex;
@@ -112,14 +131,22 @@ function Time_Table_Menu(){
         isFirstAddTable.current = false;
     };
 
-    const deleteTimeTable = () => {
-        userTableDispatch({
-            type: 'DELETE_TABLE',
-            id: parseInt(selectTimeTableOption.current.value),
-        });
+    // const deleteTimeTable = () => {
+    //     userTableDispatch({
+    //         type: 'DELETE_TABLE',
+    //         id: parseInt(selectTimeTableOption.current.value),
+    //     });
 
+    //     console.log(userTableState.totalTimeTable);
+    // };
+
+    const onRemove = (id) => {
+        userTableDispatch({
+          type: 'DELETE_TABLE',
+          id,
+        });
         console.log(userTableState.totalTimeTable);
-    };
+      };//삭제
 
 
     useEffect(() => {
@@ -137,7 +164,12 @@ function Time_Table_Menu(){
         setIsModifyTimeTable(true);
     }
 
-
+    const In_Click = (id, year, semester, name) => {
+        setOpenSelect(false);
+        setOpenDetail(true);
+        setTableId(id);
+        setInnerText([year, semester, name]);
+    }
 
     return (
         <Total_Container>
@@ -157,8 +189,21 @@ function Time_Table_Menu(){
                 </Select>
             </Select_Semester>
             <Time_table_list>
-                {userTableState.totalTimeTable.map((table)=> { return (
-                    <Time_table_box value={table.id} key={table.id}> {table.tableName} </Time_table_box>
+                {userTableState.totalTimeTable.map((table, idx)=> { return (
+                    <Time_table_box
+                    value={table.tableName} key={table.id}
+                    onClick={e => handleOnClick(e, idx)}>
+                        <Delete_button onClick={ () => {
+                            // selectTimeTable()
+                            // deleteTimeTable(table.id)
+                            onRemove(table.id)
+                        }}>X</Delete_button>
+                        {table.tableName}
+                        {activate && countIndex === idx && <Edit_button onClick={ () => {
+                            In_Click(table.id, userTableState.totalTimeTable_big[0].year, userTableState.totalTimeTable_big[0].semester,table.tableName)
+                            update_Table(table.id)
+                        }}>Edit</Edit_button>}
+                        </Time_table_box>
                 )})}
                 <Time_table_box>
                     <h1>추천 시간표</h1>
