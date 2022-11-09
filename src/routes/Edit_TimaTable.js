@@ -6,6 +6,8 @@ import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
+import { useUserTableDispatch, useUserTableState } from "../context/UserTableContext";
+
 
 const Total_Container = styled.div `
     width: 667px;
@@ -18,14 +20,6 @@ const Total_Container = styled.div `
     align-items: center;
     border: 2px solid black;
     border-radius: 20px;
-`;
-
-const Right_Container = styled.div `
-
-`;
-
-const Left_Container = styled.div `
-    display: flex;
 `;
 
 const Search_box = styled.div `
@@ -47,38 +41,67 @@ const LectureList_box = styled.div `
     bottom: 53.94%;
 `;
 
-const Select_box = styled.div `
-    width: 667px;
-    height: 786px;
-    left: 264px;
-    top: 232px;
+const Headcomponent =styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    border: 2px solid black;
+`;
+
+const Text_Box =styled.div`
+
+`;
+
+const Back_Button = styled.button`
+
+`;
+
+const Edit_Name_Button = styled.button`
+
+`;
+
+const GR_Button = styled.button`
+    background: #D9D9D9;
     border-radius: 20px;
 `;
 
-const Detail_box = styled.div `
-    width: 667px;
-    height: 786px;
-    left: 264px;
-    top: 232px;
+const EditContainer = styled.div`
+        position: relative;
+        width:100%;               
+        max-width:400px;     
+        overflow:hidden;          
+        border-radius: 10px;
+        background-color:#264db5; 
+        box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3); 
+`;
+
+const Title = styled.div`
+    width:100%;
+    max-width:400px;              
+    overflow:hidden;         
+    background-color:#9fcbfa;
+    justify-content:center;
+    align-items:center;
+    color: white;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    border: 2px solid black;
-    border-radius: 20px;
+    `;
+
+const XBtn = styled.button`
+    position: absolute;
+    background: none;
+    border:none;
+    font-size: 20px;
+    color: white;
+    top: 3%;
+    right: 5%;
+    cursor: pointer;
 `;
 
-const Detail_Button = styled.button `
-    
-`;
-
-const Back_Button = styled.button `
-    
+const Body = styled.div`
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    background-color: #ffffff;
+    div{
+        font-size: 25px;
+    }
 `;
 
 const testtotalLectures=[
@@ -197,7 +220,7 @@ const testtotalLectures=[
 
 
 
-function Edit_TimeTable({totalLectures}) {
+function Edit_TimeTable({totalLectures, InnerText, tableId, setOpenSelect, setOpenDetail}) {
 
     
     const [selectedLectures,setSelectedLectures]=useState([]);
@@ -205,13 +228,68 @@ function Edit_TimeTable({totalLectures}) {
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
     
+    const [editName, setEditName] = useState(false);
+
+    const Edit_click = () => {
+        if(editName){
+            setEditName(false);
+        }
+        else{
+            setEditName(true);
+        }
+    }
+
+    const userTableDispatch = useUserTableDispatch(); //
+    const userTableState = useUserTableState();
+
+    const [currentTableName, setCurrentTableName] = useState( () =>  userTableState.totalTimeTable.find(timeTable => timeTable.id === tableId).tableName );
+
+    const handleChange = (e) => {
+        setCurrentTableName(e.target.value)
+    }
+
+    const saveTimeTable = (id) => {
+
+        userTableDispatch({
+            type: 'UPDATE_TABLE',
+            tableName: currentTableName
+        });
+        setEditName(false);
+    };
+
+    const Back_click = () => {
+        setOpenSelect(true);
+        setOpenDetail(false);
+    }
+    
     return (
         <Total_Container>
-            <Search_box>
+            <Headcomponent>
+                    <Back_Button onClick={Back_click}>{'<'}</Back_Button>
+                    <Text_Box>
+                        <h1>{InnerText[0]} {InnerText[1]}</h1>
+                        <h2>{InnerText[2]} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></h2>
+                    </Text_Box>
+                    <GR_Button>졸업요건 확인</GR_Button>
+            </Headcomponent>
+            {editName && <EditContainer>
+                <Title>
+                    <h1>시간표 변경</h1>
+                    <XBtn onClick={() => setEditName(false)}> x </XBtn>
+                </Title>
+                <Body>
+                    <div>이름</div>
+                    <input type="text" onChange={handleChange} value={currentTableName}/>
+                    <button onClick={ () => {
+                            saveTimeTable()
+                        }}>설정 저장</button>
+                </Body>
+            </EditContainer>}
+            {/* <Search_box>
                 <Search
                 totalLectures={totalLectures}
                 />
-            </Search_box>
+            </Search_box> */}
             <LectureList_box>
                 <LectureList />
             </LectureList_box>
