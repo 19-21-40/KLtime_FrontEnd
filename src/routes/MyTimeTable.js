@@ -193,8 +193,13 @@ function MyTimeTable() {
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
 
+    const [InnerText, setInnerText] = useState(["year", "semester", "시간표1"]);
+
     const [openSelect, setOpenSelect] = useState(true);
     const [openDetail, setOpenDetail] = useState(false);
+    const [tableId, setTableId] = useState(0);
+
+    const nextNumber = useRef(2);
 
     const showSelect = () => {
         setOpenSelect(true);
@@ -231,13 +236,10 @@ function MyTimeTable() {
                         <Detail_Button onClick={ () =>  {
                                 showDetail()
                         }}>요잇~!</Detail_Button>
-                        <Time_Table_Menu/>
+                        <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setInnerText={setInnerText}/>
                         </div>}
                     {openDetail && <div>
-                        <Back_Button onClick={ () =>  {
-                                showSelect()
-                            }}>돌아가~ 내게서~</Back_Button>
-                        <Edit_TimeTable totalLectures={state.searchedLectures}/>
+                        <Edit_TimeTable totalLectures={state.searchedLectures} InnerText={InnerText} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail}/>
                         </div>}
                 </Left_Container>
                 <Right_Container>
