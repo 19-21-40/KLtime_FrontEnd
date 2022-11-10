@@ -35,9 +35,10 @@ const Text_box = styled.div`
     
 `;
 
-function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, Detail_chart} ){
+function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section} ){
 
   const [modalOpen, setModalOpen] = useState(false);//모달
+
 
     // 모달창 노출
     const showModal = () => {
@@ -91,7 +92,7 @@ function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
             <div>기준 학점 : {Full_num}</div>
             <div>이수 학점 : {Already_num}</div>
           </Text_box>
-          {modalOpen ? <Main_Modal closeModal={closeModal}/> : null}
+          {modalOpen ? <Main_Modal closeModal={closeModal} section={section}/> : null}
       </Full_box>
     </Design_Box>
   );

@@ -4,7 +4,9 @@ import Small_info from "../components/Small_info";
 import { UserTableProvider } from "../context/UserTableContext";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { call } from "../service/ApiService";
+import { isOptionGroup } from "@mui/base";
 
 
 const Head_line = styled.div`
@@ -59,7 +61,7 @@ const Component_position = styled.div`
     display: flex;
     // flex-direction: column;
 
-    position: absolute;
+    position: relative;
     width: 1600px;
     height: 1091px;
 
@@ -98,8 +100,6 @@ const Header_Chart_Box = styled.div`
     position:absolute;
     margin-bottom: 30.8px;
 
-
-    
     // border: 2px solid black;
     // justify-content: center;
     
@@ -155,23 +155,37 @@ const Design_Box = styled.div`
 const Right_component = styled.div`
     display:flex;
     flex-direction: column;
-    
+
     width: 680px;
 
-    position: absolute;
-    top: 20%;
-    right: 10px;
+    position: relative;
+    top: 150px;
+    left: 53%;
 
     margin-right:20px;
 `;
 
 const TimeTableHeader = styled.div`
     position:absolute;
+
+    display:flex;
+
+    margin-bottom:100px;
 `;
 
 const TableName = styled.div`
     font-size:50px;
+    font-weight: 900;
 `;
+
+const TimeTableBody = styled.div`
+    
+    position: absolute;
+
+    top: 7%;
+    width : 100%;
+    height: 100%;
+`
 
 function MainPage(){
     const [data,setData]=useState(
@@ -196,13 +210,24 @@ function MainPage(){
             }
         }
     );
+
     useEffect(
-        ()=>{call("/api/gradconditionAndCredit","GET",null)
-            .then((response) => {
-                console.log(response);
-                setData(response);
+        ()=>{
+            axios.post("http://localhost:8080/api/gradConditionAndCredit", {
+                token:"1234",
+                number:"2019203082"
+            }, {
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                }, withCredentials: true,
+            }).then(res=>{
+                setData(res.data);
+                console.log(res.data);
             }
-        )}
+                
+            );
+        }
     ,[]);
     
 
@@ -219,38 +244,38 @@ function MainPage(){
                     <Left_component>
                         <Header_Chart_Box>
                             <Design_Box>
-                                <Piechart Full_num={data?.gradcondition.gradCredit} Already_num={data?.credit.totalCredit} Kind="총학점" Chart_size={280} Width={650} Height={320} Top_css={25} Left_css={0} />
+                                <Piechart Full_num={data?.gradcondition.gradCredit} Already_num={data?.credit.totalCredit} Kind="총학점" section="total" Chart_size={280} Width={650} Height={320} Top_css={25} Left_css={0} />
                             </Design_Box>
                         </Header_Chart_Box>
                         <Body_Chart_Box>
                             <Upper_Body_Chart_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5}/>
+                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" section="main" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5}/>
                                 </Design_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={20} Already_num={20} Kind="부전공학점" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5}/>
+                                    <Piechart Full_num={999} Already_num={999} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5}/>
                                 </Design_Box>
                             </Upper_Body_Chart_Box>
                             <Lower_Body_Chart_Box>
                                 <Design_Box>
                                 <Small_Body_Chart_Box>
                                     <Su_Body_Chart_Box>
-                                            <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5}/>
+                                            <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" section="basic" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5}/>
                                     </Su_Body_Chart_Box>
                                     <Sl_Body_Chart_Box>
-                                        <Piechart Full_num={60} Already_num={9} Kind="수학" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
-                                        <Piechart Full_num={60} Already_num={25} Kind="기초과학" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
+                                        <Piechart Full_num={999} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
+                                        <Piechart Full_num={999} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
                                     </Sl_Body_Chart_Box>
                                 </Small_Body_Chart_Box>
                                 </Design_Box>
                                 <Design_Box>
                                 <Small_Body_Chart_Box>
                                     <Su_Body_Chart_Box>
-                                        <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="교양학점" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5}/>
+                                        <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="교양학점" section="essBal" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5}/>
                                     </Su_Body_Chart_Box>
                                     <Sl_Body_Chart_Box>
-                                        <Piechart Full_num={60} Already_num={25} Kind="균형" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
-                                        <Piechart Full_num={60} Already_num={9} Kind="필수" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
+                                        <Piechart Full_num={999} Already_num={data?.credit.balCredit} Kind="균형" section="bal" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
+                                        <Piechart Full_num={999} Already_num={data?.credit.essCredit} Kind="필수" section="ess" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
                                     </Sl_Body_Chart_Box>
                                 </Small_Body_Chart_Box>
                                 </Design_Box>
@@ -261,7 +286,9 @@ function MainPage(){
                         <TimeTableHeader>
                             <TableName> 나의 시간표 </ TableName>
                         </TimeTableHeader>
-                        <TimeTable width={670} height={300} />
+                        <TimeTableBody>
+                            <TimeTable width={670} height={300} />    
+                        </TimeTableBody>
                     </Right_component>
                 </Component_position>
             </Body_line>
