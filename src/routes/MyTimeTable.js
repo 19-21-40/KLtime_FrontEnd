@@ -8,6 +8,7 @@ import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 import axios from "axios";
 import Edit_TimeTable from "./Edit_TimaTable";
+import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
 
 // [
@@ -232,10 +233,12 @@ function MyTimeTable() {
     return (
         <Total_Container>
                 <Left_Container>
+                    <nav>
+                        <Link to="/">
+                            <button> 메인으로! </button>
+                        </Link>
+                    </nav>
                     {openSelect && <div>
-                        <Detail_Button onClick={ () =>  {
-                                showDetail()
-                        }}>요잇~!</Detail_Button>
                         <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setInnerText={setInnerText}/>
                         </div>}
                     {openDetail && <div>
