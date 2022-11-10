@@ -206,6 +206,8 @@ function Search({totalLectures})
     }
 
     const handle_InputsChange = (event) => {
+        
+        console.log(event.target.value);
         switch(event.target.name){
             case 'searchItem':
                 inputDispatch({type: 'SEARCH_ITEM', searchItem: event.target.value, input: ''});
@@ -215,7 +217,7 @@ function Search({totalLectures})
                 inputDispatch({type: 'INPUT', input: event.target.value});
                 break;
             case 'credit':
-                inputDispatch({type: 'CREDIT', credit: event.target.value});
+                inputDispatch({type: 'CREDIT', credit: parseInt(event.target.value)});
                 break;
             case 'section':
                 inputDispatch({type: 'SECTION', section: event.target.value});
@@ -224,7 +226,7 @@ function Search({totalLectures})
                 inputDispatch({type: 'department', department: event.target.value});
                 break;
             case 'level':
-                inputDispatch({type: 'LEVEL', level: event.target.value});
+                inputDispatch({type: 'LEVEL', level: parseInt(event.target.value)});
                 break;
         }
     }
@@ -232,7 +234,7 @@ function Search({totalLectures})
     
     useEffect ( () => {
         let newIconList = iconListref.current;
-        let result = totalLectures;
+        let result = userTableState.totalLectures;
 
         // 검색어 입력에 의한 처리
         if(searchInputs.input !== ''){

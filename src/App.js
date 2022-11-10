@@ -13,7 +13,7 @@ import MainPage from "./routes/mainpage";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import Klas from "./routes/Klas";
-import Edit_TimeTable from "./routes/Edit_TimaTable";
+import Edit_TimeTable from "./components/Edit_TimaTable";
 import { UserTableProvider } from "./context/UserTableContext";
 
 

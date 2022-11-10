@@ -108,15 +108,17 @@ const BodyName = styled.td`
 const Close = styled.button`
     
     position: absolute;
-    top : 3%;
-    right : 5%;
+    bottom :350px;
+    left: 700px;
 
     border: none;
     color : gray;
-    background-color : white;
+    background-color : transparent;
     font-size: 45px;
     
     cursor : pointer;
+
+    z-index : 3;
     
 `;
 
@@ -334,6 +336,9 @@ const Main_Modal = ( { closeModal, section } ) => {
         <Background ref={ref}>
         </Background>
         <Container>
+            <Close onClick={ e=> closeModal()}>
+                x
+            </Close>
             <Big_box>
                 <Table_Container>
                 {lectureList.map(([key,table]) => ( 
@@ -361,9 +366,6 @@ const Main_Modal = ( { closeModal, section } ) => {
                     </Body>
                 </Table>))}
                 </Table_Container>
-                <Close onClick={ e=> closeModal()}>
-                x
-                </Close>
             </Big_box>
             </Container>
         </>

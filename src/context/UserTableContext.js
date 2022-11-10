@@ -133,6 +133,7 @@ const initialState = {
         },
     ],
     selectedId:1,
+    totalLectures:testtotalLectures,
     searchedLectures:testtotalLectures,
     previewId:-1
 };
