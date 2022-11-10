@@ -23,7 +23,7 @@ const DualMode=styled.div`
         background-color:${props=>props.backgroundColor};
         opacity: 1;
         z-index: 0;
-        ${props=>props.isListMode?`position:relative;`:``}; //추가 
+        ${props=>props.isListMode?`position:relative;`:`position:absolute;`}; //추가 
     `
     :
     css`
