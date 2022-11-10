@@ -285,11 +285,11 @@ function Edit_TimeTable({totalLectures, InnerText, tableId, setOpenSelect, setOp
                         }}>설정 저장</button>
                 </Body>
             </EditContainer>}
-            {/* <Search_box>
+            <Search_box>
                 <Search
                 totalLectures={totalLectures}
                 />
-            </Search_box> */}
+            </Search_box>
             <LectureList_box>
                 <LectureList />
             </LectureList_box>

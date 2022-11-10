@@ -1,4 +1,4 @@
-import { useRef, useReducer, useEffect } from "react";
+import { useRef, useReducer, useEffect, useState } from "react";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import styled from "styled-components";
 
@@ -194,8 +194,16 @@ function Search({totalLectures})
 
     const [searchInputs, inputDispatch] = useReducer(searchInputReducer, initialInputs);
 
+    const [fold, setFold] = useState(false);
 
-
+    const clickFold = () => {
+        if(fold){
+            setFold(false);
+        }
+        else{
+            setFold(true);
+        }
+    }
 
     const handle_InputsChange = (event) => {
         switch(event.target.name){
@@ -313,7 +321,8 @@ function Search({totalLectures})
             <SelectIcon>
                 <SearchIcon iconList={iconListref.current} inputDispatch={inputDispatch}/>
             </SelectIcon>
-            <SearchCollection>
+            <button onClick={clickFold}>{'^'}</button>
+            {!fold && <SearchCollection>
                 <Select>
                     <SearchText>학점</SearchText>
                     <select value={searchInputs.credit} name="credit" onChange={handle_InputsChange}>
@@ -359,7 +368,7 @@ function Search({totalLectures})
                     </select>
                 </Select>
                 <Searchbar ref={inputref} name="input" placeholder={searchInputs.searchItem} type="text" onChange={handle_InputsChange}/>
-            </SearchCollection>
+            </SearchCollection>}
         </Total_Container>
     );
         
