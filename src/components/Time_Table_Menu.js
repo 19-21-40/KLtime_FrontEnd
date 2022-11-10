@@ -192,7 +192,9 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                 {userTableState.totalTimeTable.map((table, idx)=> { return (
                     <Time_table_box
                     value={table.tableName} key={table.id}
-                    onClick={e => handleOnClick(e, idx)}>
+                    onClick={e => {handleOnClick(e, idx)
+                        update_Table(table.id)
+                    }}>
                         <Delete_button onClick={ () => {
                             // selectTimeTable()
                             // deleteTimeTable(table.id)
