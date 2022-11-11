@@ -383,6 +383,7 @@ function TimeTableZone({ selectedLectures, selectedTable, onClick }) {
 }
 
 function TimeTable({
+    blockhover,
     width,
     height,
 }) {
