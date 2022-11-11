@@ -86,18 +86,9 @@ function MyTimeTable() {
     const [openSelect, setOpenSelect] = useState(true);
     const [openDetail, setOpenDetail] = useState(false);
     const [tableId, setTableId] = useState(0);
+    const [blockhover, setBlockHover] = useState(false);
 
     const nextNumber = useRef(2);
-
-    const showSelect = () => {
-        setOpenSelect(true);
-        setOpenDetail(false);
-    };
-
-    const showDetail = () => {
-        setOpenSelect(false);
-        setOpenDetail(true);
-    };
 
     useEffect(()=>{
         axios.post("http://localhost:8080/api/timetable/2022/1학기/totalLectureList", {
@@ -135,6 +126,7 @@ function MyTimeTable() {
                 </Left_Container>
                 <Right_Container>
                     <TimeTable
+                    blockhover={blockhover}
                     width={670}
                     height={713.46}
                     />

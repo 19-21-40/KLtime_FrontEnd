@@ -31,31 +31,37 @@ const DualMode=styled.div`
     `
   }
 `;
-const ContentBox=styled(DualMode)`
-    ${props =>
-        props.isCardMode ?
-        css`
-            height:100%;
-            border-radius:5px;
-            background-color:${props.backgroundColor};
+// const ContentBox=styled(DualMode)`
+//     ${props =>
+//         props.isCardMode ?
+//         css`
+//             height:100%;
+//             border-radius:5px;
+//             background-color:${props.backgroundColor};
 
-            &:hover{background-color:rgba(55,53,47,0.25);}
-        `
-        :
-        css`
-            // backgroundColor:white;
-            ${props=>
-                props.clicked?
-                `background-color:rgba(190, 190, 191, 0.8);`
-                :
-                `&:hover{background-color:#f8f8f8;}`
-            };
-            // &:hover{background-color:#f8f8f8;}
-            // 수정해야함
-            &:active{background-color:rgba(190, 190, 191, 0.8);}
-        `
-    }
+//             &:hover{background-color:rgba(55,53,47,0.25);}
+//         `
+//         :
+//         css`
+//             // backgroundColor:white;
+//             ${props=>
+//                 props.clicked?
+//                 `background-color:rgba(190, 190, 191, 0.8);`
+//                 :
+//                 `&:hover{background-color:#f8f8f8;}`
+//             };
+//             // &:hover{background-color:#f8f8f8;}
+//             // 수정해야함
+//             &:active{background-color:rgba(190, 190, 191, 0.8);}
+//         `
+//     }
+// `;
+
+const ContentBox = styled.div`
+    height:100%;
+    border-radius:5px;
 `;
+
 const Content=styled(ContentBox)`
     ${props =>
         props.isCardMode ?
@@ -127,7 +133,8 @@ function Lecture({
                 
             }
             >
-            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor}>
+            {/* <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor}> */}
+            <ContentBox>
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>
@@ -166,6 +173,7 @@ function Lecture({
                     </div>
                 </Content>
             </ContentBox>
+            {/* </ContentBox> */}
         </DualMode>
     )
 }
