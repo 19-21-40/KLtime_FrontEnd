@@ -271,7 +271,7 @@ function TimeTableTimeZone({ selectedTable }) {
 }
 
 
-function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
+function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover}) {
     const timeToMinute = (time) => parseInt(time.split(':')[0] * 60) + parseInt(time.split(':')[1]);
     const userTable=useUserTableState();
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId);
@@ -296,6 +296,7 @@ function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
                         isListMode={false}//수정
                         onClick={(e) => onClick(lecture.id, colors[lecture.lectureIndex])}
                         onDeleteClick={()=> onDeleteClick(lecture.id)}
+                        blockhover={blockhover}
                     />
                 ))
             ))
@@ -318,7 +319,7 @@ function TimeTableDayBlock({ selectedTable, lectures,day, onClick }) {
     </TimeTableDayBlockLayout>);
 }
 
-function TimeTableDayViewer({ selectedLectures, selectedTable, day, dayIndex, onClick }) {
+function TimeTableDayViewer({ selectedLectures, selectedTable, day, dayIndex, onClick , blockhover}) {
     const dayLectures = [];
     selectedLectures.forEach((lecture, lectureIndex) => {
         const times = lecture.lectureTimes.filter(time => time.day === day);
@@ -336,12 +337,12 @@ function TimeTableDayViewer({ selectedLectures, selectedTable, day, dayIndex, on
                 borderLeft: '1px solid rgb(229, 229, 229)',
                 backgroundcolor: 'inherit'
             }}>
-            <TimeTableDayBlock lectures={dayLectures} day={day} selectedTable={selectedTable} onClick={onClick} />
+            <TimeTableDayBlock lectures={dayLectures} day={day} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
         </TimeTableDayLayout>
     );
 }
 
-function TiemTableLectureZone({selectedTable,selectedLectures,onClick}){
+function TiemTableLectureZone({selectedTable,selectedLectures,onClick, blockhover}){
     return (
     <LecutreZoneLayout>
         <div className="timeTableGridLines">
@@ -360,7 +361,7 @@ function TiemTableLectureZone({selectedTable,selectedLectures,onClick}){
         }}>
         {
             selectedTable.dayNames.map((day, dayIndex) => (
-                <TimeTableDayViewer key={day} day={day} dayIndex={dayIndex} selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} />
+                <TimeTableDayViewer key={day} day={day} dayIndex={dayIndex} selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
             ))
         }
         </div>
@@ -368,13 +369,13 @@ function TiemTableLectureZone({selectedTable,selectedLectures,onClick}){
     );
 }
 
-function TimeTableZone({ selectedLectures, selectedTable, onClick }) {
+function TimeTableZone({ selectedLectures, selectedTable, onClick, blockhover}) {
     return (
         <TimeTableZoneLayout height="432px" position="relative  ">
             <div className="timeTableGrid">
                 <div className="timeTableGridScrollArea">
                     <TimeTablePeriodZone selectedTable={selectedTable} />
-                    <TiemTableLectureZone selectedTable={selectedTable} selectedLectures={selectedLectures} onClick={onClick}/>
+                    <TiemTableLectureZone selectedTable={selectedTable} selectedLectures={selectedLectures} onClick={onClick} blockhover={blockhover} />
                     <TimeTableTimeZone selectedTable={selectedTable} />
                 </div>
             </div>
@@ -405,6 +406,11 @@ function TimeTable({
             backgroundColor: color,
         });
     }
+
+    const onHover = () => {
+        
+    }
+
     const dispatch = useUserTableDispatch();
 
 
@@ -441,7 +447,7 @@ function TimeTable({
             <div id="timeTable" style={{height:`${height - 50}px`}}>
                 <div className="tableContainer" style={{width:`${width}px`}}>
                     <DayNameZone selectedTable={selectedTable} />
-                    <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} />
+                    <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
                 </div>
                 <div className="floatingLayer">
                     <div className={styles.popupContainer}>

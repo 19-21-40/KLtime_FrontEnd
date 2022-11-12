@@ -31,35 +31,54 @@ const DualMode=styled.div`
     `
   }
 `;
-// const ContentBox=styled(DualMode)`
-//     ${props =>
-//         props.isCardMode ?
-//         css`
-//             height:100%;
-//             border-radius:5px;
-//             background-color:${props.backgroundColor};
+const ContentBox=styled(DualMode)`
+    ${props =>
+        props.blockhover ?
 
-//             &:hover{background-color:rgba(55,53,47,0.25);}
-//         `
-//         :
-//         css`
-//             // backgroundColor:white;
-//             ${props=>
-//                 props.clicked?
-//                 `background-color:rgba(190, 190, 191, 0.8);`
-//                 :
-//                 `&:hover{background-color:#f8f8f8;}`
-//             };
-//             // &:hover{background-color:#f8f8f8;}
-//             // 수정해야함
-//             &:active{background-color:rgba(190, 190, 191, 0.8);}
-//         `
-//     }
-// `;
+        (props.isCardMode ?
+        css`
+            height:100%;
+            border-radius:5px;
+            background-color:${props.backgroundColor};
 
-const ContentBox = styled.div`
-    height:100%;
-    border-radius:5px;
+            &:hover{background-color:rgba(55,53,47,0.25);}
+        `
+        :
+        css`
+            // backgroundColor:white;
+            ${props=>
+                props.clicked?
+                `background-color:rgba(190, 190, 191, 0.8);`
+                :
+                `&:hover{background-color:#f8f8f8;}`
+            };
+            // &:hover{background-color:#f8f8f8;}
+            // 수정해야함
+            &:active{background-color:rgba(190, 190, 191, 0.8);}
+        `)
+        :
+        (props.isCardMode ?
+            css`
+                height:100%;
+                border-radius:5px;
+                background-color:${props.backgroundColor};
+    
+                //&:hover{background-color:rgba(55,53,47,0.25);}
+            `
+            :
+            css`
+                // backgroundColor:white;
+                ${props=>
+                    props.clicked?
+                    `background-color:rgba(190, 190, 191, 0.8);`
+                    :
+                    `&:hover{background-color:#f8f8f8;}`
+                };
+                // &:hover{background-color:#f8f8f8;}
+                // 수정해야함
+                &:active{background-color:rgba(190, 190, 191, 0.8);}
+            `)
+    }
 `;
 
 const Content=styled(ContentBox)`
@@ -101,6 +120,7 @@ const LectureDelBtn=styled.button`
 `;
 
 function Lecture({
+    blockhover,//호버 막으려고 추가
     lecture,//추가
     width = "150px",
     height,
@@ -133,17 +153,17 @@ function Lecture({
                 
             }
             >
-            {/* <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor}> */}
-            <ContentBox>
+            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} >
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>
-                        {isListMode?
+                        {/* {isListMode?
                         <></>
                         :
 
                         <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
-                        }   
+                        }    */}
+                        {blockhover && <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>}
 
                     </div>
                     <div>
@@ -173,7 +193,6 @@ function Lecture({
                     </div>
                 </Content>
             </ContentBox>
-            {/* </ContentBox> */}
         </DualMode>
     )
 }
