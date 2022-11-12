@@ -69,7 +69,7 @@ const Edit_button = styled.button`
 
 `;
 
-function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, setInnerText}){
+function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, setInnerText, setBlockHover}){
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
@@ -91,6 +91,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
             setActivate(true);
         }
     };
+
     const DefaultActivate = () => {
         setActivate(false);
     }
@@ -167,6 +168,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
     const In_Click = (id, year, semester, name) => {
         setOpenSelect(false);
         setOpenDetail(true);
+        setBlockHover(true);
         setTableId(id);
         setInnerText([year, semester, name]);
     }
