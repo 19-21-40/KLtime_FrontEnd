@@ -94,10 +94,10 @@ function MyTimeTable() {
                         </Link>
                     </nav>
                     {openSelect && <div>
-                        <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} innerText ={innerText} setInnerText={setInnerText}/>
+                        <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} innerText ={innerText} setInnerText={setInnerText} setBlockHover={setBlockHover} />
                         </div>}
                     {openDetail && <div>
-                        <Edit_TimeTable totalLectures={state.totalLectures} innerText={innerText} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail}/>
+                        <Edit_TimeTable totalLectures={state.totalLectures} innerText={innerText} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
                         </div>}
                 </Left_Container>
                 <Right_Container>

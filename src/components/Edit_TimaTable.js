@@ -220,7 +220,8 @@ const testtotalLectures=[
 
 
 
-function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOpenDetail}) {
+
+function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOpenDetail, setBlockHover}) {
 
     
     const [selectedLectures,setSelectedLectures]=useState([]);
@@ -260,6 +261,7 @@ function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOp
     const Back_click = () => {
         setOpenSelect(true);
         setOpenDetail(false);
+        setBlockHover(false);
     }
     
     return (

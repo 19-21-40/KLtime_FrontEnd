@@ -70,7 +70,8 @@ const Edit_button = styled.button`
 
 `;
 
-function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText}){
+
+function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText,setInnerText, setBlockHover}){
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
@@ -92,6 +93,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
             setActivate(true);
         }
     };
+
     const DefaultActivate = () => {
         setActivate(false);
     }
@@ -226,13 +228,6 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
       };//삭제
 
 
-    useEffect(() => {
-        if(!isFirstAddTable.current){
-            selectTimeTableOption.current.defaultValue=userTableState.totalTimeTable[userTableState.totalTimeTable.length-1].id;
-            selectTimeTableOption.current.value=userTableState.totalTimeTable[userTableState.totalTimeTable.length-1].id;
-        }
-    }, [userTableState.totalTimeTable]);  /// table select바 렌더링 처리
-
 
 
     const [isModifyTimeTable, setIsModifyTimeTable] = useState(false);
@@ -244,6 +239,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
     const In_Click = (id, year, semester, name) => {
         setOpenSelect(false);
         setOpenDetail(true);
+        setBlockHover(true);
         setTableId(id);
         setInnerText([year, semester, name]);
     }
@@ -260,10 +256,10 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                     <option>2019</option>
                 </Select>
                 <Select onChange={SelectSemester}>
-                        <option>1학기</option>
-                        <option>계절학기(하계)</option>
-                        <option>2학기</option>
-                        <option>계절학기(동계)</option>
+                    <option>1학기</option>
+                    <option>계절학기(하계)</option>
+                    <option>2학기</option>
+                    <option>계절학기(동계)</option>
                 </Select>
             </Select_Semester>
             <Time_table_list>
