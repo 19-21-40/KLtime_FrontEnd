@@ -11,6 +11,7 @@ import Edit_TimeTable from "../components/Edit_TimaTable";
 import Small_info from "../components/Small_info";
 import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
+import LectureDetail_B from "../components/LectureDetail_B";
 
 const Head_line = styled.div`
     
@@ -139,8 +140,10 @@ function MyTimeTable() {
 
     const [openSelect, setOpenSelect] = useState(true);
     const [openDetail, setOpenDetail] = useState(false);
+    const [openLectureDetail, setOpenLectureDetail] = useState(false);
     const [tableId, setTableId] = useState(0);
     const [blockhover, setBlockHover] = useState(false);
+    const [clickedLecture, setClickedLecture] = useState();
 
     const nextNumber = useRef(1);
 
@@ -189,10 +192,16 @@ function MyTimeTable() {
                     {openDetail && <div>
                         <Edit_TimeTable totalLectures={state.totalLectures} innerText={innerText} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
                         </div>}
+                    {openLectureDetail && <div>
+                        <LectureDetail_B setOpenLectureDetail={setOpenLectureDetail} setOpenDetail={setOpenDetail} lecture={clickedLecture} backgroundColor={clickedLecture.backgroundColor}/>
+                        </div>}
                 </Left_Container>
                 <Right_Container>
                     <TimeTable
                     blockhover={blockhover}
+                    setOpenLectureDetail={setOpenLectureDetail}
+                    setClickedLecture={setClickedLecture}
+                    setOpenDetail={setOpenDetail}
                     width={670}
                     height={713.46}
                     />
