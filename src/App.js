@@ -12,7 +12,6 @@ import PasswdSearch from "./routes/PasswdSearch";
 import MainPage from "./routes/mainpage";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import Klas from "./routes/Klas";
 import Edit_TimeTable from "./components/Edit_TimaTable";
 import { UserTableProvider } from "./context/UserTableContext";
 
@@ -48,8 +47,6 @@ function App() {
       <Route path="/MyPage" element={<MyPage />}>
       </Route>
       <Route path="/PasswdSearch" element={<PasswdSearch />}>
-      </Route>
-      <Route path="/Klas" element={<Klas />}>
       </Route>
     </Routes>
     {/* <Copyright/> */}

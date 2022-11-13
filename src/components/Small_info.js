@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Main_Modal from "./Main_Modal";
+import Klas from "./Klas";
 
 const Small_info_Container = styled.div`
     display: flex;
@@ -62,19 +62,10 @@ const Info_list = styled.span`
 
 function Small_info( {name, std_num} ){
 
-    const [modalOpen, setModalOpen] = useState(false);//모달
-    const [Detail, setDetail] = useState(false);//그래프
     const [Edit, setEdit] = useState(false);//계정정보 수정
-    const [Klas, setKlas] = useState(false);//Klas 연동하기
+    const [klas, setKlas] = useState(false);//Klas 연동하기
 
-    // 모달창 노출
-    const showModal = () => {
-        setModalOpen(true);
-    };
 
-    const showDetail = () => {
-        setDetail(true);    
-    };
 
     const showEdit = () => {
         setEdit(true);    
@@ -92,14 +83,12 @@ function Small_info( {name, std_num} ){
                 <li><Info_list>이름: {name}</Info_list></li>
             </Student_info>
             <KlasButton onClick={ () =>  {
-                showModal()
                 showKlas()
             }} >KLAS 연동하기</KlasButton>
             <ModifyButton onClick={ () =>  {
-                showModal()
                 showEdit()
             }} >계정정보 수정하기</ModifyButton>
-            <div>{modalOpen && <Main_Modal setModalOpen={setModalOpen} setDetail={setDetail} setEdit={setEdit} setKlas={setKlas} Detail={Detail} Edit={Edit} Klas={Klas} />}</div>
+            <div>{klas ? <Klas/> : <></>}</div>
         </Small_info_Container>
     );
 }

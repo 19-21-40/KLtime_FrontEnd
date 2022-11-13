@@ -3,6 +3,7 @@ import { UserTableProvider } from "../context/UserTableContext";
 import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import styled from "styled-components";
+import axios from "axios";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
 // const Logo_Image = styled.div`
@@ -69,7 +70,7 @@ const Edit_button = styled.button`
 
 `;
 
-function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, setInnerText}){
+function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText}){
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
@@ -102,6 +103,54 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
         });  
     };
 
+    const SelectYear = (e) => {
+        setInnerText({...innerText, year : e.target.value});
+    };
+
+    const SelectSemester = (e) => {
+        setInnerText({...innerText, semester : e.target.value});
+    };
+
+    useEffect(()=>{ 
+        
+        console.log(innerText);
+
+        axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/totalTimeTableList`, {
+            "token":"1234",
+            "number":"2019203082"
+       }, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+            }, withCredentials: true,
+        }).then(res=> {
+            userTableDispatch({
+                type:'READ_TOTAL_TIMETABLE',
+                totalTimeTable:res.data.totalTableList,
+            }); 
+            console.log(res.data);
+        }
+        );
+
+        // axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/totalLectureList`, {
+        //     token:"1234",
+        //     number:"2019203082"
+        // }, {
+        //     headers: {
+        //         'Content-type': 'application/json; charset=UTF-8',
+        //         'Accept': '*/*',
+        //     }, withCredentials: true,
+        // }).then(res=> {
+        //     userTableDispatch({
+        //         type:'READ_TOTAL_LECTURES',
+        //         totalLectures:res.data.lectureList,
+        //         searchedLectures:res.data.lectureList
+        //     });
+        //     console.log(res.data);
+        // }
+        // );
+    }, [innerText]);
+
     const selectTimeTable = (e) => {
         
         const idx = e.target.selectedIndex;
@@ -116,36 +165,64 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
 
     const addTimeTable = () => {
 
+        // 시간표 이름이나 id값이 중복되는지 확인
+        nextNumber.current = userTableState.totalTimeTable.length;
         nextNumber.current += 1;
+        userTableState.totalTimeTable.map(timeTable => {
+            if(timeTable.id == nextNumber.curret ||
+                 timeTable.tableName == `시간표${nextNumber.current}`){
+                nextNumber.current += 1;
+            } 
+        })
+        
+        // 시간표 이름 선언 및 초기화
+        const newTableName = `시간표${nextNumber.current}`
 
+        // dispatch로 state에 새로운 table 추가
         userTableDispatch({
             type: 'CREATE_TABLE', 
             timeTable: {
                 id: nextNumber.current,
-                tableName: `시간표${nextNumber.current}`,
+                tableName: newTableName,
                 lectureList: [],
+                isprimary: false,
             },
             selectedId: nextNumber.current,
         });
 
+        // 시간표 이름과 student정보를 백으로 던져줌
+        axios.post(`http://localhost:8080/api/timetable/2022/1학기/add/${newTableName}`, {
+            "token":"1234",
+            "number":"2019203082"
+       }, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+            }, withCredentials: true,
+        }).then(res=> {
+        }
+        );
+
         isFirstAddTable.current = false;
     };
 
-    // const deleteTimeTable = () => {
-    //     userTableDispatch({
-    //         type: 'DELETE_TABLE',
-    //         id: parseInt(selectTimeTableOption.current.value),
-    //     });
 
-    //     console.log(userTableState.totalTimeTable);
-    // };
-
-    const onRemove = (id) => {
+    const onRemove = (id, tableName) => {
         userTableDispatch({
           type: 'DELETE_TABLE',
           id,
         });
-        console.log(userTableState.totalTimeTable);
+        axios.post(`http://localhost:8080/api/timetable/2022/1학기/delete/${tableName}`, {
+            "token":"1234",
+            "number":"2019203082"
+       }, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+            }, withCredentials: true,
+        }).then(res=> {
+        }
+        );
       };//삭제
 
 
@@ -175,17 +252,18 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
         <Total_Container>
             <UserTableProvider>
             <Select_Semester>
-                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].year} 
-                key={userTableState.totalTimeTable_big[0].year} onChange={selectTimeTable}>
-                    {userTableState.totalTimeTable_big.map((table)=> { return (
-                        <option value={table.id} key={table.id}> {table.year} </option>
-                    )})}
+                <Select onChange={SelectYear}>
+                    // 학생의 학번부터 생성되게 해야함
+                    <option>2022</option>
+                    <option>2021</option>
+                    <option>2020</option>
+                    <option>2019</option>
                 </Select>
-                <Select ref={selectTimeTableOption} defaultValue={userTableState.totalTimeTable_big[0].semester} 
-                key={userTableState.totalTimeTable_big[0].semester} onChange={selectTimeTable}>
-                    {userTableState.totalTimeTable_big.map((table)=> { return (
-                        <option value={table.id} key={table.id}> {table.semester} </option>
-                    )})}
+                <Select onChange={SelectSemester}>
+                        <option>1학기</option>
+                        <option>계절학기(하계)</option>
+                        <option>2학기</option>
+                        <option>계절학기(동계)</option>
                 </Select>
             </Select_Semester>
             <Time_table_list>
@@ -196,9 +274,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                         // update_Table(table.id)
                     }}>
                         <Delete_button onClick={ () => {
-                            // selectTimeTable()
-                            // deleteTimeTable(table.id)
-                            onRemove(table.id)
+                            onRemove(table.id, table.tableName)
                         }}>X</Delete_button>
                         {table.tableName}
                         {activate && countIndex === idx && <Edit_button onClick={ () => {

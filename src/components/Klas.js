@@ -4,6 +4,9 @@ import { UserState } from '../context/UserInfoContext';
 import { call } from "../service/ApiService";
 import { JSEncrypt } from 'jsencrypt';
 import axios from "axios";
+import styled from "styled-components";
+import { Circles } from 'react-loader-spinner';
+
 
 function reducer(state, action) {
     switch (action.type) {
@@ -54,10 +57,10 @@ function Klas() {
             axios.post(
                 //publicKey를 받아옴
                 '/proxy/usr/cmn/login/LoginSecurity.do', "", {
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8',
-                        'Accept': '*/*',
-                    },
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                },
                 withCredentials: true
             }).then((response) => {
                 //로그인을 시행
@@ -81,49 +84,46 @@ function Klas() {
                         'Accept': '*/*',
                     }, withCredentials: true,
                 })
-                .then(()=>{
-                    axios.post('/proxy/std/cps/inqire/AtnlcScreSungjukInfo.do')
-                    .then((resData)=>{
-                        dispatch({ type: 'SUCCESS', data: resData });
-                        call("/api/Klas/link","POST",resData);
-                    })
+                    .then(() => {
+                        axios.post('/proxy/std/cps/inqire/AtnlcScreSungjukInfo.do')
+                            .then(async (resData) => {
+                                let klasTimeTableDTO=[];
+                                const promises = resData.data.map(async (value, index) => {
+                                    if(value.hakgi<3){
+                                        await axios.post('/proxy/std/cmn/frame/StdHome.do',JSON.stringify({"searchYearhakgi" :`${value.thisYear},${value.hakgi}`}), {
+                                            headers: {
+                                                'Content-type': 'application/json; charset=UTF-8',
+                                                'Accept': '*/*',
+                                            }
+                                        }).then((d)=>klasTimeTableDTO.push(d.data.atnlcSbjectList));
+                                    }
+                                });
+                                await Promise.all(promises);
+                                dispatch({ type: 'SUCCESS', data: {
+                                    klasTookLectureListDTOList:resData.data,
+                                    klasTimeTableDTO:klasTimeTableDTO
+                                }});
+                                call("/api/Klas/link", "POST", {
+                                    studentDTO: {
+                                        token: "1234",
+                                        number: loginId
+                                    }, klasTookLectureListDTOList: resData.data
+                                    ,klasTimeTableDTOListList:klasTimeTableDTO
+                                }); 
+                            })
+                        
                     }
-                )   
+                    )
             });
         } catch (e) {
             dispatch({ type: 'ERROR', error: e });
         }
 
+        
 
-
-        // call("/usr/cmn/login/LoginSecurity.do", "POST", "")
-        //     .then((res) => {
-        // const login = JSON.stringify({
-        //     "loginId": loginId,
-        //     "loginPwd": loginPwd,
-        //     "storeIdYn": "N"
-        // });
-        // const encrypt = new JSEncrypt();
-        // encrypt.setPublicKey(res.publicKey);
-        // const loginToken = encrypt.encrypt(login);
-        // const data = JSON.stringify({
-        //     "loginToken": loginToken,
-        //     "redirectUrl": "",
-        //     "redirectTabUrl": ""
-        // })
-        // call("/usr/cmn/login/LoginConfirm.do", "POST", data, page)
-        //     .then((res) => {
-        //         call("std/cmn/frame/YearhakgiAtnlcSbjectList.do", "POST", "{}", page)
-        //             .then((res) => {
-        //                 setData(res);
-        //             })
-        //     })
-        // })
 
     }
 
-    // if (loading) return <div>로딩중..</div>;
-    // if (error) return <div>에러가 발생했습니다</div>;
 
     return (
         <div>
@@ -132,6 +132,15 @@ function Klas() {
                     <div>
                         <label htmlFor="stdnum">학번<br /></label>
                         <input onChange={onChange} id="loginId" type="text" name="loginId" value={loginId} placeholder="학번을 입력하시오." />
+                        {state.loading ? <Circles
+                            height="80"
+                            width="80"
+                            radius="9"
+                            color="green"
+                            ariaLabel="loading"
+                            wrapperStyle
+                            wrapperClass
+                        /> : <></>}
                     </div>
                     <div>
                         <label htmlFor="password">비밀번호<br /></label>
@@ -143,20 +152,6 @@ function Klas() {
                 <button onClick={onClick}>로그인</button>
                 <button>비밀번호 찾기</button>
             </div>
-
-            {/* {
-                data?.map((array) => {
-                    array?.map((value) =>
-                        <div>
-                            <div>{value.label}</div>
-                            <div>{value.subjList.map((list) => (
-                                <div>{list?.label}</div>)
-                            )}
-                            </div>
-                        </div>
-                    )
-                })
-            } */}
         </div>
     );
 }

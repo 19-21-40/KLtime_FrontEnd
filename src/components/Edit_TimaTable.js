@@ -220,7 +220,7 @@ const testtotalLectures=[
 
 
 
-function Edit_TimeTable({totalLectures, InnerText, tableId, setOpenSelect, setOpenDetail}) {
+function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOpenDetail}) {
 
     
     const [selectedLectures,setSelectedLectures]=useState([]);
@@ -267,8 +267,8 @@ function Edit_TimeTable({totalLectures, InnerText, tableId, setOpenSelect, setOp
             <Headcomponent>
                     <Back_Button onClick={Back_click}>{'<'}</Back_Button>
                     <Text_Box>
-                        <h1>{InnerText[0]} {InnerText[1]}</h1>
-                        <h2>{InnerText[2]} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></h2>
+                        <h1>{innerText[0]} {innerText[1]}</h1>
+                        <h2>{innerText[2]} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></h2>
                     </Text_Box>
                     <GR_Button>졸업요건 확인</GR_Button>
             </Headcomponent>

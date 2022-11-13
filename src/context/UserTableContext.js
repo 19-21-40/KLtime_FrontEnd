@@ -124,12 +124,14 @@ const initialState = {
         {
             id:1,
             tableName:"시간표1",
-            lectureList:[]
+            lectureList:[],
+            isprimary: true,
         },
         {
             id:2,
             tableName:"시간표2",
-            lectureList:[]
+            lectureList:[],
+            isprimary: false,
         },
     ],
     selectedId:1,
@@ -140,10 +142,10 @@ const initialState = {
 
 function timeTableReducer(state,action){
     switch(action.type){
-        case 'READ_TOTAL_LECTURES':
+        case 'READ_TOTAL_TIMETABLE': // 시간표 목록 불러오기
             return{
                 ...state,
-                searchedLectures:action.searchedLectures
+                totalTimeTable:action.totalTimeTable,
             }
         case 'CREATE_TABLE'://시간표 추가
             return{
@@ -178,6 +180,12 @@ function timeTableReducer(state,action){
                 ...state,
                 selectedId: isFirstIndex? state.totalTimeTable[1].id : state.totalTimeTable[0].id,
                 totalTimeTable: state.totalTimeTable.filter(timeTable=>timeTable.id!==action.id),
+            }
+        case 'READ_TOTAL_LECTURES': // 강의 목록 불러오기
+            return{
+                ...state,
+                totalLectures:action.totalLectures,
+                searchedLectures:action.searchedLectures
             }
         case 'SEARCH_LECTURE': //강의 검색 // 이성훈이 추가함
             return{
