@@ -210,22 +210,25 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
 
 
     const onRemove = (id, tableName) => {
-        userTableDispatch({
-          type: 'DELETE_TABLE',
-          id,
-        });
-        axios.post(`http://localhost:8080/api/timetable/2022/1학기/delete/${tableName}`, {
-            "token":"1234",
-            "number":"2019203082"
-       }, {
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': '*/*',
-            }, withCredentials: true,
-        }).then(res=> {
+        if(userTableState.totalTimeTable.length != 1){
+            userTableDispatch({
+                type: 'DELETE_TABLE',
+                id,
+              });
+              axios.post(`http://localhost:8080/api/timetable/2022/1학기/delete/${tableName}`, {
+                  "token":"1234",
+                  "number":"2019203082"
+             }, {
+                  headers: {
+                      'Content-type': 'application/json; charset=UTF-8',
+                      'Accept': '*/*',
+                  }, withCredentials: true,
+              }).then(res=> {
+              }
+              );
+            };//삭제
         }
-        );
-      };//삭제
+        
 
 
 
@@ -274,7 +277,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                         }}>X</Delete_button>
                         {table.tableName}
                         {activate && countIndex === idx && <Edit_button onClick={ () => {
-                            In_Click(table.id, userTableState.totalTimeTable_big[0].year, userTableState.totalTimeTable_big[0].semester,table.tableName)
+                            In_Click(table.id, innerText.year, innerText.semester, table.tableName)
                             update_Table(table.id)
                         }}>Edit</Edit_button>}
                         </Time_table_box>
