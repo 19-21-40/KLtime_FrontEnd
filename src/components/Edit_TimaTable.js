@@ -10,66 +10,118 @@ import { useUserTableDispatch, useUserTableState } from "../context/UserTableCon
 
 
 const Total_Container = styled.div `
-    width: 667px;
-    height: 786px;
-    left: 264px;
-    top: 232px;
+    width: 750px;
+    height: 891px;
+
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-    border: 2px solid black;
-    border-radius: 20px;
+
+    position: relative;
+    background: #FFFFFF;
+    /* 학점그래프카드 그림자효과 */
+
+    box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
 `;
 
 const Search_box = styled.div `
-    box-sizing: border-box;
+    width:680px;
 
-    // position: absolute;
-    left: 7.35%;
-    right: 6.75%;
-    top: 17.3%;
-    bottom: 53.94%;
+    display: flex;
+    position: relative;
+    justify-content:center;
+
+    box-sizing: border-box;
+    
+    margin-bottom: 30px;
 `;
 
 const LectureList_box = styled.div `
+    
+    width: 680px;
+    
+    position: relative;
+    
     box-sizing: border-box;
 
-    left: 7.35%;
-    right: 6.75%;
-    top: 17.3%;
-    bottom: 53.94%;
 `;
 
 const Headcomponent =styled.div`
     display: flex;
+    justify-content: center;
+
+    width:100%;
+    height: 160px;
+
+    position: relative;
 `;
 
-const Text_Box =styled.div`
 
+const TableInfo_1 = styled.div`
+    position: absolute;
+    top: 35px;
+    left: 90px;
+    
+    font-size:25px;
+`;
+
+const TableInfo_2 = styled.div`
+    position: absolute;
+    top: 70px;
+    left: 90px;
+    font-size:50px;
+    font-weight: 900;
 `;
 
 const Back_Button = styled.button`
+    width: 30px;
+    height: 50px;
+
+    position: absolute;
+    top: 25px;
+    right: 90%;
+
+    font-size: 30px;
+    border: 2px solid #828282;
+
+    background-color: transparent;
 
 `;
 
 const Edit_Name_Button = styled.button`
+    width: 50px;
+    height: 30px;
 
+    position: absolute;
+    top: 90px;
+    right: 430px;
 `;
 
 const GR_Button = styled.button`
+    
+    width: 147px;
+    height: 60px;
+
+    position: absolute;
+    top: 60px;
+    right: 100px;
+
     background: #D9D9D9;
+    border: 1px;
     border-radius: 20px;
+
+    font-size: 18px;
 `;
 
 const EditContainer = styled.div`
-        position: relative;
-        width:100%;               
-        max-width:400px;     
-        overflow:hidden;          
-        border-radius: 10px;
-        background-color:#264db5; 
-        box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3); 
+    position: relative;
+    width:100%;               
+    max-width:400px;     
+    overflow:hidden;          
+    border-radius: 10px;
+    background-color:#264db5; 
+    box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3); 
 `;
 
 const Title = styled.div`
@@ -104,121 +156,6 @@ const Body = styled.div`
     }
 `;
 
-const testtotalLectures=[
-    {
-        id: "H030-2-0448-02",
-        lectureName: "디지털논리",
-        professor: "김진우",
-        department: "소프트웨어학부",
-        lectureTimes: [
-            { day: "월", startTime: "15:00", endTime: "16:30" },
-            { day: "수", startTime: "16:30", endTime: "18:00" },
-        ],
-        level: 2,
-        section: "전선",
-        credit: 3,
-        notes: ""
-    },
-    {
-        id: "0000-1-0670-01",
-        lectureName: "법과생활",
-        professor: "손명지",
-        department: "전체공통",
-        lectureTimes: [
-            { day: "화", startTime: "08:00", endTime: "13:30" },
-            { day: "목", startTime: "13:30", endTime: "15:00" },
-        ],
-        level: 1,
-        section: "교선",
-        credit: 3,
-        notes: ""
-    },
-    {
-        id: "H030-2-1183-01",
-        lectureName: "이산구조",
-        professor: "최민규",
-        department: "소프트웨어학부",
-        lectureTimes: [
-            { day: "금", startTime: "9:00", endTime: "12:00" }
-        ],
-        level: 2,
-        section: "전선",
-        credit: 3,
-        notes: ""
-    },
-    {
-        id: "H030-2-3403-03",
-        lectureName: "고급프로그래밍",
-        professor: "이강훈",
-        department: "소프트웨어학부",
-        lectureTimes: [
-            { day: "화", startTime: "16:30", endTime: "18:00" },
-            { day: "목", startTime: "15:00", endTime: "16:30" },
-        ],
-        level: 2,
-        section: "전선",
-        credit: 3,
-        notes: ""
-    },
-    {
-        id: "H030-3-3663-01",
-        lectureName: "데이터베이스",
-        professor: "문승현",
-        department: "소프트웨어학부",
-        lectureTimes: [
-            { day: "화", startTime: "15:00", endTime: "16:30" },
-            { day: "목", startTime: "16:30", endTime: "18:00" },
-        ],
-        level: 3,
-        section: "전선",
-        credit: 3,
-        notes: ""
-    },
-    {
-        id: "H030-2-8484-01",
-        lectureName: "리눅스활용실습",
-        professor: "박병준",
-        department: "소프트웨어학부",
-        lectureTimes: [
-            { day: "금", startTime: "15:00", endTime: "18:00" },
-        ],
-        level: 2,
-        section: "전필",
-        credit: 2,
-        notes: ""
-    },
-    {
-        id: "H040-2-9616-02",
-        lectureName: "빅데이터언어",
-        professor: "임동혁",
-        department: "정보융합학부",
-        lectureTimes: [
-            { day: "월", startTime: "16:30", endTime: "18:00" },
-            { day: "수", startTime: "15:00", endTime: "16:30" },
-        ],
-        level: 2,
-        section: "일선",
-        credit: 3,
-        notes: ""
-    },
-    {
-        id: "1160-1-3415-01",
-        lectureName: "대학화학및실험1",
-        professor: "양재규",
-        department: "환경공학과",
-        lectureTimes: [
-            { day: "월", startTime: "09:00", endTime: "12:30" },
-            { day: "수", startTime: "10:30", endTime: "12:00" },
-        ],
-        level: 1,
-        section: "기필",
-        credit: 3,
-        notes: ""
-    },
-];
-
-
-
 
 
 function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOpenDetail, setBlockHover}) {
@@ -229,14 +166,15 @@ function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOp
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
     
-    const [editName, setEditName] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [newName, setNewName] = useState(innerText[2]);
 
     const Edit_click = () => {
-        if(editName){
-            setEditName(false);
+        if(edit){
+            setEdit(false);
         }
         else{
-            setEditName(true);
+            setEdit(true);
         }
     }
 
@@ -255,7 +193,7 @@ function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOp
             type: 'UPDATE_TABLE',
             tableName: currentTableName
         });
-        setEditName(false);
+        setEdit(false);
     };
 
     const Back_click = () => {
@@ -268,25 +206,14 @@ function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOp
         <Total_Container>
             <Headcomponent>
                     <Back_Button onClick={Back_click}>{'<'}</Back_Button>
-                    <Text_Box>
-                        <h1>{innerText[0]} {innerText[1]}</h1>
-                        <h2>{innerText[2]} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></h2>
-                    </Text_Box>
+                    <TableInfo_1>{`${innerText[0]}년`} {innerText[1]}</TableInfo_1>
+                    {edit ? null : <TableInfo_2>{innerText[2]} </TableInfo_2>}
+                    <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button>
                     <GR_Button>졸업요건 확인</GR_Button>
             </Headcomponent>
-            {editName && <EditContainer>
-                <Title>
-                    <h1>시간표 변경</h1>
-                    <XBtn onClick={() => setEditName(false)}> x </XBtn>
-                </Title>
-                <Body>
-                    <div>이름</div>
-                    <input type="text" onChange={handleChange} value={currentTableName}/>
-                    <button onClick={ () => {
-                            saveTimeTable()
-                        }}>설정 저장</button>
-                </Body>
-            </EditContainer>}
+            <form onSubmit={ console.log("aa") }>
+                <input defaultValue={innerText[2]} />
+            </form>
             <Search_box>
                 <Search
                 totalLectures={totalLectures}

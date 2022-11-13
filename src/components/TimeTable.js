@@ -66,7 +66,7 @@ const TimeTableZoneLayout = styled.div`
         height: 100%;
         position: relative;
         overflow: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     .timeTableGrid .timeTableGridScrollArea{

@@ -13,62 +13,121 @@ import axios from "axios";
 //     overflow: hidden;
 // `;
 const Total_Container = styled.div`
-    width: 667px;
-    height: 786px;
-    left: 264px;
-    top: 232px;
+    width: 750px;
+    height: 891px;
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border: 2px solid black;
-    border-radius: 20px;
+    
+    position: relative;
+    background: #FFFFFF;
+    /* 학점그래프카드 그림자효과 */
+
+    box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
 `;
 
 const Select = styled.select`
-    width: 100px;
-    height: 25px;
+    width: 180px;
+    height: 40px;
     margin-right: 10px;
+    font-size:20px;
+
+    border-radius: 0.25em;
+
+    text-align: center;
 `
 
-const Select_Semester = styled.div`
+const Select_container = styled.div`
     display: flex;
+
     width: 600px;
     height: 100px;
+
+    position: absolute;
+    top:50px;
 `;
 
 const Time_table_list = styled.div`
     display: flex;
     flex-wrap: wrap;
-    overflow: scroll;
-    width: 600px;
-    height: 700px;
+    overflow-y: auto;
+    width: 100%;
+    height: 686px;
+
+    position: absolute;
+    top:130px;
+    left: 1.8%;
+
+
 `;
 
 const Time_table_box = styled.div`
+
+    display: flex;
+    flex-direction: column;
+
     width: 160px;
     height: 140px;
-    border: 2px solid black;
-    border-radius: 20px;
+
     margin: 10px;
+
+    background: #FFFFFF;
+    /* 년도,학기별 시간표박스 */
+
+    border: 0.3px solid #A7A7A7;
+    /* 시간표박스 그림자 */
+
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.07);
+    border-radius: 5px
+
+`;
+
+const Time_table_info = styled.div`
+    margin-top: 10px;
+    margin-bottom: 20px;    
+
+    text-align: center;
+    font-size: 25px;
+`
+
+const Delete_button = styled.button`
+    width: 30px;
+    height: 30px;
+
+    position: relative;
+    left: 120px;
+
+    cursor: pointer;
+    font-size: 30px;
+    background-color: transparent;
+    border: none;
+`;
+
+const Edit_button = styled.button`
+    width: 50px;
+    height: 30px;
+
+    position: relative;
+    left: 100px;
+
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
 `;
 
 const Add_Button = styled.button`
-    width: 60px;
-    height: 60px;
+    width: 160px;
+    height: 140px;
     border: 2px solid black;
     border-radius: 10px;
     margin: 10px;
     cursor:pointer;
 `;
 
-const Delete_button = styled.button`
-
-`;
-
-const Edit_button = styled.button`
-
-`;
 
 
 function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText,setInnerText, setBlockHover}){
@@ -250,7 +309,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
     return (
         <Total_Container>
             <UserTableProvider>
-            <Select_Semester>
+            <Select_container>
                 <Select onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
                     <option>2022</option>
@@ -264,7 +323,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                     <option>2학기</option>
                     <option>계절학기(동계)</option>
                 </Select>
-            </Select_Semester>
+            </Select_container>
             <Time_table_list>
                 {userTableState.totalTimeTable.map((table, idx)=> { return (
                     <Time_table_box
@@ -274,13 +333,15 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                     }}>
                         <Delete_button onClick={ () => {
                             onRemove(table.id, table.tableName)
-                        }}>X</Delete_button>
+                        }}>x</Delete_button>
+                        <Time_table_info>
                         {table.tableName}
+                        </Time_table_info>
                         {activate && countIndex === idx && <Edit_button onClick={ () => {
                             In_Click(table.id, innerText.year, innerText.semester, table.tableName)
                             update_Table(table.id)
                         }}>Edit</Edit_button>}
-                        </Time_table_box>
+                    </Time_table_box>
                 )})}
                 <Time_table_box>
                     <h1>추천 시간표</h1>

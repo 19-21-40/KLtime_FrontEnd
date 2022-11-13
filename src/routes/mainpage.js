@@ -48,7 +48,7 @@ const Logo_Image = styled.div`
 const Body_line = styled.div`
     display: flex;
 
-    top:121px;
+    top:162px;
     position: relative;
     width: 100vw;
     height: 100vh;
@@ -63,9 +63,7 @@ const Component_position = styled.div`
 
     position: relative;
     width: 1600px;
-    height: 1091px;
-
-    top: 37px;
+    height: 1100px;
 
     text-align: center;
 
@@ -156,13 +154,14 @@ const Right_component = styled.div`
     display:flex;
     flex-direction: column;
 
-    width: 680px;
+    width: 750px;
 
     position: relative;
     top: 150px;
-    left: 53%;
+    left: 50%;
 
     margin-right:20px;
+
 `;
 
 const TimeTableHeader = styled.div`
@@ -184,7 +183,12 @@ const TimeTableBody = styled.div`
 
     top: 7%;
     width : 100%;
-    height: 100%;
+    height: 841px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
 `
 
 function MainPage(){
@@ -287,7 +291,7 @@ function MainPage(){
                             <TableName> 나의 시간표 </ TableName>
                         </TimeTableHeader>
                         <TimeTableBody>
-                            <TimeTable width={670} height={300} />    
+                            <TimeTable width={670} height={700} />    
                         </TimeTableBody>
                     </Right_component>
                 </Component_position>

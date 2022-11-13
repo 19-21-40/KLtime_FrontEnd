@@ -8,29 +8,111 @@ import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 import axios from "axios";
 import Edit_TimeTable from "../components/Edit_TimaTable";
+import Small_info from "../components/Small_info";
 import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
 
+const Head_line = styled.div`
+    
+    display:flex;
+    justify-content:center;
+
+    position: absolute;
+    width: 100vw;
+    height: 121px;
+    left: 0px;
+    top: 0px;
+
+    background: #A7A7A7;
+`;
+
+const Head_component = styled.div`
+    display:flex;    
+
+    position: absolute;
+    width: 1600px;
+    
+`;
+
+const Logo_Image = styled.div`
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 249px;
+    height: 72px;
+    left: 50px;
+    top: 24px;
+
+    /* 학점-숫자 */
+
+    border: 1px solid #5A5A5A;
+`;
+
+const Body_line = styled.div`
+    display: flex;
+
+    top:162px;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    
+    justify-content:center;
+`;
 
 const Total_Container = styled.div `
     display: flex;
-    width: 1461px;
-    height: 918px;
-    left: 230px;
-    top: 162px;
-    /* 시간표 라인 */
+    flec
 
+    position: relative;
+    width: 1600px;
+    height: 1100px;
+
+    justify-content:center;
+    
+    /* 시간표 라인 */
     border: 1px solid #D9D9D9;
     border-radius: 10px;
 `;
 
 const Left_Container = styled.div `
-    display: flex;
-    flex-direction: column;
+    
+    position: relative;
+
+    top: 5%;
+    right: 15px;
+
 `;
+
+
+const Button_to_main = styled.button `
+    
+    height: 30px;    
+    margin-bottom: 30px;
+
+    position: relative;
+    left:40px;
+
+
+    color: gray;
+    background-color : transparent;
+    border: none;
+    font-size: 25px;
+    cursor:pointer;
+`
 
 const Right_Container = styled.div `
     display: flex;
+    width : 760px;
+    height: 891px;
+
+    position: relative;
+    top: 113px;
+    left: 15px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
 `;
 
 const Detail_Button = styled.button `
@@ -86,11 +168,19 @@ function MyTimeTable() {
 
     
     return (
+        <>
+        <Head_line>
+            <Head_component>
+                <Logo_Image/>
+                <Small_info name="신재민" std_num={2021203022} />
+            </Head_component>
+        </Head_line>
+        <Body_line>
         <Total_Container>
                 <Left_Container>
                     <nav>
                         <Link to="/">
-                            <button> 메인으로! </button>
+                            <Button_to_main> 메인화면으로 가기 </Button_to_main>
                         </Link>
                     </nav>
                     {openSelect && <div>
@@ -107,14 +197,9 @@ function MyTimeTable() {
                     height={713.46}
                     />
                 </Right_Container>
-                {/* <Left_Container>
-                    <TimeTable
-                    width={600}
-                    height={250}
-                    />
-                </Left_Container> */}
         </Total_Container>
-
+        </Body_line>
+        </>
     )
 }
 

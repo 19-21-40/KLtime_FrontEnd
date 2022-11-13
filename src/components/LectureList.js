@@ -5,6 +5,14 @@ import { useUserTableState, useUserTableDispatch} from '../context/UserTableCont
 import styled ,{css}  from "styled-components";
 
 //styled-components
+
+const LectureList_container = styled.div`
+  position: relative;
+  
+  display: flex;
+  justify-content:center;
+`
+
 const DualMode=styled.div`
   ${props =>
     props.isCardMode ?''
@@ -89,8 +97,8 @@ function LectureList({
   }
 
   return (
-    <div>
-      <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} />
+    <LectureList_container>
+      {/* <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} /> */}
       <DualMode isCardMode={isCardMode}>
         <LineTablehead>
             <span>
@@ -137,7 +145,7 @@ function LectureList({
         </div>
 
       </DualMode>
-  </div>
+    </LectureList_container>
   );
 }
 

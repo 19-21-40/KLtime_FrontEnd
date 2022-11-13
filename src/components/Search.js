@@ -5,25 +5,33 @@ import styled from "styled-components";
 
 const Total_Container = styled.div`
     display: flex;
-    flex-direction: column;
-    width: 573px;
-    height: 226px;
-    border: 0.3px solid #D9D9D9;
-    /* 시간표박스 그림자 */
+    flex-wrap:wrap;
+    justify-content: center;
+    
+    width: 100%;
+    ${(props) => props.fold ? "300px" : "150px" };
+    
+    position: relative;
 
+    border: 0.3px solid #D9D9D9;
+    
+    /* 시간표박스 그림자 */
     box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.07);
     border-radius: 15px;
 `;
 
 const SelectIcon = styled.div`
     width: 573px;
-    height: 70px;
+    height: 40px;
 `;
 
 const IconContainer = styled.div`
     display: flex;
-    margin-bottom: 5px;
+
     height: 25px;
+
+    position: absolute;
+    top: 8px;
 `
 
 const Icon = styled.div`
@@ -49,6 +57,16 @@ const Icon = styled.div`
     }
 `
 
+const FoldButton = styled.button`
+    width: 30px;    
+    height: 30px;
+    
+    position: absolute;
+    top: 5px;
+    left: 625px;
+
+`
+
 const Select = styled.div`
     width: 252px;
     height: 31px;
@@ -72,16 +90,15 @@ const Select = styled.div`
 
 const SearchCollection = styled.div`
     display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    grid-template-rows: 1fr 1fr;
-    *{
-        margin-bottom: 5px;
-    }
+
     width: 573px;
     height: 226px;
+
+    position: relative;
+    flex-wrap: wrap;
+    
 `
 
 const Searchbar = styled.input`
@@ -90,7 +107,8 @@ const Searchbar = styled.input`
 `
 
 const SearchText = styled.span`
-
+    text-align: center;
+    width: 100px;
 `
 
 const SearchIcon = ({
@@ -200,7 +218,7 @@ function Search({totalLectures})
         if(fold){
             setFold(false);
         }
-        else{
+        else{ 
             setFold(true);
         }
     }
@@ -231,27 +249,33 @@ function Search({totalLectures})
         }
     }
 
+    useEffect ( () => {
+        // 검색창을 접었다가 펴도 검색어가 유지되도록 처리
+        if(fold==false){
+            inputref.current.value = searchInputs.input;
+        }
+    }, [fold])
     
     useEffect ( () => {
         let newIconList = iconListref.current;
         let result = userTableState.totalLectures;
 
         // 검색어 입력에 의한 처리
-        if(searchInputs.input !== ''){
-            result = totalLectures.filter((lecture)=> {
-                if (searchInputs.searchItem === '강의명'){
-                    return lecture.lectureName.includes(searchInputs.input);
-                }
-                else if (searchInputs.searchItem === '교수명'){
-                    return lecture.professor.includes(searchInputs.input);
-                }
-            });
+        if(fold==false) {
+            if(searchInputs.input !== ''){
+                result = totalLectures.filter((lecture)=> {
+                    if (searchInputs.searchItem === '강의명'){
+                        return lecture.lectureName.includes(searchInputs.input);
+                    }
+                    else if (searchInputs.searchItem === '교수명'){
+                        return lecture.professor.includes(searchInputs.input);
+                    }
+                });
+            }
+            else{
+                    inputref.current.placeholder=searchInputs.searchItem;
+            };
         }
-        else{
-            inputref.current.placeholder=searchInputs.searchItem;
-
-        };
-         
 
         // 학점 입력에 의한 처리
         if(searchInputs.credit !== 'null')
@@ -319,11 +343,11 @@ function Search({totalLectures})
     
 
     return (
-        <Total_Container>
+        <Total_Container fold={fold}>
             <SelectIcon>
                 <SearchIcon iconList={iconListref.current} inputDispatch={inputDispatch}/>
             </SelectIcon>
-            <button onClick={clickFold}>{'^'}</button>
+            <FoldButton onClick={clickFold}>{fold ? "↓" : '^'}</FoldButton>
             {!fold && <SearchCollection>
                 <Select>
                     <SearchText>학점</SearchText>
