@@ -384,6 +384,9 @@ function TimeTableZone({ selectedLectures, selectedTable, onClick, blockhover}) 
 }
 
 function TimeTable({
+    setClickedLecture,
+    setOpenDetail,
+    setOpenLectureDetail,
     blockhover,
     width,
     height,
@@ -396,7 +399,7 @@ function TimeTable({
         times: times.slice(9, 24),
         periods: periods.slice(2, 15)
     });
-    const [clickedLecture, setClickedLecture] = useState();
+    // const [clickedLecture, setClickedLecture] = useState();
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId)
     const selectedLectures = userTable.totalTimeTable.find(timeTable => timeTable.id === userTable.selectedId).lectureList;
     
@@ -405,6 +408,8 @@ function TimeTable({
             ...selectedLectures.find(lecture => lecture.id === id),
             backgroundColor: color,
         });
+        setOpenLectureDetail(true);
+        setOpenDetail(false);
     }
 
     const onHover = () => {
@@ -449,7 +454,7 @@ function TimeTable({
                     <DayNameZone selectedTable={selectedTable} />
                     <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
                 </div>
-                <div className="floatingLayer">
+                {/* <div className="floatingLayer">
                     <div className={styles.popupContainer}>
                         {
                             clickedLecture ?
@@ -460,9 +465,8 @@ function TimeTable({
                                 // onDeleteClick={() => { onDeleteClick(clickedLecture.id); setClickedLecture(false); }}
                                 /> : <></>
                         }
-                        {/* <EditLecture editAble={false} setSelectedLectures={setSelectedLectures}/> */}
                     </div>
-                </div>
+                </div> */}
             </div>
         </TimeTableContainer>
     )
