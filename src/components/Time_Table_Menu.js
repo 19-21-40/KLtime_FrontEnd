@@ -146,12 +146,6 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
     const handleOnClick = (e, idx) => {
         setCountIndex(idx);
         setActivate(true);
-        // if(activate){
-        //     setActivate(false);
-        // }
-        // else{
-        //     setActivate(true);
-        // }
     };
 
     const DefaultActivate = () => {
