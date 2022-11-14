@@ -140,6 +140,7 @@ function timeTableReducer(state,action){
             return{
                 ...state,
                 totalTimeTable:action.totalTimeTable,
+                selectedId:1,
             }
         case 'CREATE_TABLE'://시간표 추가
             return{
