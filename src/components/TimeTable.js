@@ -446,7 +446,7 @@ function TimeTable({
         })
     }, [selectedLectures, previewLecture])
 
-
+    
     return (
         <TimeTableContainer height={`${height}px`}>
             <div id="timeTable" style={{height:`${height - 50}px`}}>
