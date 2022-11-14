@@ -303,21 +303,21 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
         setOpenDetail(true);
         setBlockHover(true);
         setTableId(id);
-        setInnerText([year, semester, name]);
+        setInnerText({year: year,semester: semester, tableName: name});
     }
 
     return (
         <Total_Container>
             <UserTableProvider>
             <Select_container>
-                <Select onChange={SelectYear}>
+                <Select defaultValue={innerText.year} onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
                     <option>2022</option>
                     <option>2021</option>
                     <option>2020</option>
                     <option>2019</option>
                 </Select>
-                <Select onChange={SelectSemester}>
+                <Select defaultValue={innerText.semester} onChange={SelectSemester}>
                     <option>1학기</option>
                     <option>계절학기(하계)</option>
                     <option>2학기</option>

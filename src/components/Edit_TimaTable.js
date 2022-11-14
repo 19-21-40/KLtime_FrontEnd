@@ -7,6 +7,7 @@ import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 import { useUserTableDispatch, useUserTableState } from "../context/UserTableContext";
+import axios from "axios";
 
 
 const Total_Container = styled.div `
@@ -68,10 +69,22 @@ const TableInfo_1 = styled.div`
 
 const TableInfo_2 = styled.div`
     position: absolute;
-    top: 70px;
-    left: 90px;
+    top: 78px;
+    left: 94px;
     font-size:50px;
     font-weight: 900;
+`;
+
+const InputTableName = styled.input`
+    position: absolute;
+    top: 78px;
+    left: 94px;
+
+    width: 350px;
+
+    font-size:50px;
+    font-weight: 700;
+
 `;
 
 const Back_Button = styled.button`
@@ -94,8 +107,8 @@ const Edit_Name_Button = styled.button`
     height: 30px;
 
     position: absolute;
-    top: 90px;
-    right: 430px;
+    top:20px;
+    margin-left:10px;
 `;
 
 const GR_Button = styled.button`
@@ -158,8 +171,7 @@ const Body = styled.div`
 
 
 
-function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOpenDetail, setBlockHover}) {
-
+function Edit_TimeTable({totalLectures, innerText, setInnerText, tableId, setOpenSelect, setOpenDetail, setBlockHover}) {
     
     const [selectedLectures,setSelectedLectures]=useState([]);
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
@@ -167,34 +179,44 @@ function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOp
     const [hoveredLecture,setHoveredLecture]=useState();
     
     const [edit, setEdit] = useState(false);
-    const [newName, setNewName] = useState(innerText[2]);
+    const [newName, setNewName] = useState(innerText.tableName);
 
     const Edit_click = () => {
-        if(edit){
-            setEdit(false);
-        }
-        else{
-            setEdit(true);
-        }
+        setEdit(!edit);
     }
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
 
-    const [currentTableName, setCurrentTableName] = useState( () =>  userTableState.totalTimeTable.find(timeTable => timeTable.id === tableId).tableName );
-
-    const handleChange = (e) => {
-        setCurrentTableName(e.target.value)
+    const setTableNameOfInnerText = (name) => {
+        setInnerText({year: innerText.year, semester: innerText.semester, tableName: name});
     }
 
-    const saveTimeTable = (id) => {
-
+    const changeTableName = (e) => {
+        e.preventDefault();
+        
         userTableDispatch({
             type: 'UPDATE_TABLE',
-            tableName: currentTableName
+            tableName: newName
         });
         setEdit(false);
-    };
+
+        setTableNameOfInnerText(newName);
+        
+
+        axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/changeName/${innerText.tableName}/${newName}`, {
+            "token":"1234",
+            "number":"2019203082"
+        }, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+            }, withCredentials: true,
+        }).then(res=> {
+        }
+        );
+
+    }
 
     const Back_click = () => {
         setOpenSelect(true);
@@ -206,14 +228,14 @@ function Edit_TimeTable({totalLectures, innerText, tableId, setOpenSelect, setOp
         <Total_Container>
             <Headcomponent>
                     <Back_Button onClick={Back_click}>{'<'}</Back_Button>
-                    <TableInfo_1>{`${innerText[0]}년`} {innerText[1]}</TableInfo_1>
-                    {edit ? null : <TableInfo_2>{innerText[2]} </TableInfo_2>}
-                    <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button>
+                    <TableInfo_1>{`${innerText.year}년 ${innerText.semester}`}</TableInfo_1>
+                    {edit ? 
+                    <form onSubmit={ e => changeTableName(e) }>
+                        <InputTableName value={newName} maxLength={15} onChange={ (e) => setNewName(e.target.value)}/>
+                    </form> : <TableInfo_2>{newName} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></TableInfo_2>}
                     <GR_Button>졸업요건 확인</GR_Button>
             </Headcomponent>
-            <form onSubmit={ console.log("aa") }>
-                <input defaultValue={innerText[2]} />
-            </form>
+            
             <Search_box>
                 <Search
                 totalLectures={totalLectures}
