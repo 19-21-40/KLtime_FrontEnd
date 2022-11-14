@@ -2,7 +2,7 @@ import { useEffect, useRef, useState , useCallback} from "react";
 import { UserTableProvider } from "../context/UserTableContext";
 import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import axios from "axios";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
@@ -74,7 +74,7 @@ const Time_table_box = styled.div`
 
     margin: 10px;
 
-    background: #FFFFFF;
+    background-color: ${props=>(props.activate && props.countIndex === props.idx ? 'pink': 'white')};
     /* 년도,학기별 시간표박스 */
 
     border: 0.3px solid #A7A7A7;
@@ -145,12 +145,13 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
 
     const handleOnClick = (e, idx) => {
         setCountIndex(idx);
-        if(activate){
-            setActivate(false);
-        }
-        else{
-            setActivate(true);
-        }
+        setActivate(true);
+        // if(activate){
+        //     setActivate(false);
+        // }
+        // else{
+        //     setActivate(true);
+        // }
     };
 
     const DefaultActivate = () => {
@@ -328,6 +329,8 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
                 {userTableState.totalTimeTable.map((table, idx)=> { return (
                     <Time_table_box
                     value={table.tableName} key={table.id}
+                    activate={activate}
+                    countIndex={countIndex} idx={idx}
                     onClick={e => {handleOnClick(e, idx)
                         update_Table(table.id)
                     }}>
