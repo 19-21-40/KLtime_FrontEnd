@@ -188,7 +188,7 @@ function MyTimeTable() {
                         </Link>
                     </nav>
                     {openSelect && <div>
-                        <Time_Table_Menu countIndex={countIndex} setCountIndex={setCountIndex} activate={activate} setActivate={setActivate} nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} innerText ={innerText} setInnerText={setInnerText} setBlockHover={setBlockHover} />
+                        <Time_Table_Menu countIndex={countIndex} setCountIndex={setCountIndex} activate={activate} setActivate={setActivate} nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
                         </div>}
                     {openDetail && <div>
                         <Edit_TimeTable totalLectures={state.totalLectures} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
