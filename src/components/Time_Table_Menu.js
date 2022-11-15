@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState , useCallback} from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { UserTableProvider } from "../context/UserTableContext";
 import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
-import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
-import styled, {css} from "styled-components";
+import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
+import styled, { css } from "styled-components";
 import axios from "axios";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
@@ -74,7 +74,7 @@ const Time_table_box = styled.div`
 
     margin: 10px;
 
-    background-color: ${props=>(props.activate && props.countIndex === props.idx ? 'pink': 'white')};
+    background-color: ${props => (props.activate && props.countIndex === props.idx ? 'pink' : 'white')};
     /* 년도,학기별 시간표박스 */
 
     border: 0.3px solid #A7A7A7;
@@ -128,13 +128,13 @@ const Add_Button = styled.button`
     cursor:pointer;
 `;
 
-function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText,setInnerText, setBlockHover}){
+function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText, setBlockHover }) {
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
-    
-                                                                // JSON.parse(localStorage.getItem('시간표'))를 하면 새로고침을 해도 유지가 됨, 다만 일부 버그가 존재
-                                                                // useRef를 사용해도 될까?
+
+    // JSON.parse(localStorage.getItem('시간표'))를 하면 새로고침을 해도 유지가 됨, 다만 일부 버그가 존재
+    // useRef를 사용해도 될까?
     // const nextNumber = useRef(2);
     const selectTimeTableOption = useRef(null);
     const isFirstAddTable = useRef(true);
@@ -152,51 +152,56 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         userTableDispatch({
             type: 'READ_TABLE',
             id: id,
-        });  
+        });
     };
 
     const SelectYear = (e) => {
         userTableDispatch({
-            type:'CHANGE_YEAR_SEMESTER',
+            type: 'CHANGE_YEAR_SEMESTER',
             currentSet: {
                 year: parseInt(e.target.value),
-                semester: "1학기"},
-        }); 
+                semester: "1학기"
+            },
+        });
         // setInnerText({...innerText, year : e.target.value});
     };
 
     const SelectSemester = (e) => {
         userTableDispatch({
-            type:'CHANGE_YEAR_SEMESTER',
+            type: 'CHANGE_YEAR_SEMESTER',
             currentSet: {
                 year: userTableState.currentSet.year,
-                semester: e.target.value},
-        }); 
+                semester: e.target.value
+            },
+        });
         // setInnerText({...innerText, semester : e.target.value});
     };
 
-    useEffect(()=>{ 
-        
-        axios.post(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
-            "token":"1234",
-            "number":"2019203082"
-        }, {
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': '*/*',
-            }, withCredentials: true,
-        }).then(res=> {
-            userTableDispatch({
-                type:'READ_TOTAL_TIMETABLE',
-                totalTimeTable:res.data.totalTableList,
-            }); 
+    useEffect(() => {
+        const accessToken = localStorage.getItem("ACCESS_TOKEN");
+        if (accessToken && accessToken !== null) {
+
+            axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
+                }, withCredentials: true,
+            }).then(res => {
+                userTableDispatch({
+                    type: 'READ_TOTAL_TIMETABLE',
+                    totalTimeTable: res.data.totalTableList,
+                });
+            }
+            );
+        } else {
+            window.location.href = "/Login"
         }
-        );
 
     }, [userTableState.currentSet]);
 
     const selectTimeTable = (e) => {
-        
+
         const idx = e.target.selectedIndex;
         const option = e.target.querySelectorAll('option')[idx];
         const name = option.getAttribute('name');
@@ -204,7 +209,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         userTableDispatch({
             type: 'READ_TABLE',
             id: parseInt(e.target.value),
-        });  
+        });
     };
 
     const addTimeTable = () => {
@@ -213,18 +218,18 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         nextNumber.current = userTableState.totalTimeTable.length;
         nextNumber.current += 1;
         userTableState.totalTimeTable.map(timeTable => {
-            if(timeTable.id == nextNumber.curret ||
-                 timeTable.tableName == `시간표${nextNumber.current}`){
+            if (timeTable.id == nextNumber.curret ||
+                timeTable.tableName == `시간표${nextNumber.current}`) {
                 nextNumber.current += 1;
-            } 
+            }
         })
-        
+
         // 시간표 이름 선언 및 초기화
         const newTableName = `시간표${nextNumber.current}`
 
         // dispatch로 state에 새로운 table 추가
         userTableDispatch({
-            type: 'CREATE_TABLE', 
+            type: 'CREATE_TABLE',
             timeTable: {
                 id: nextNumber.current,
                 tableName: newTableName,
@@ -236,14 +241,14 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
 
         // 시간표 이름과 student정보를 백으로 던져줌
         axios.post(`http://localhost:8080/api/timetable/2022/1학기/add/${newTableName}`, {
-            "token":"1234",
-            "number":"2019203082"
-       }, {
+            "token": "1234",
+            "number": "2019203082"
+        }, {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
             }, withCredentials: true,
-        }).then(res=> {
+        }).then(res => {
         }
         );
 
@@ -252,25 +257,25 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
 
 
     const onRemove = (id, tableName) => {
-        if(userTableState.totalTimeTable.length != 1){
+        if (userTableState.totalTimeTable.length != 1) {
             userTableDispatch({
                 type: 'DELETE_TABLE',
                 id,
-              });
-              axios.post(`http://localhost:8080/api/timetable/2022/1학기/delete/${tableName}`, {
-                  "token":"1234",
-                  "number":"2019203082"
-             }, {
-                  headers: {
-                      'Content-type': 'application/json; charset=UTF-8',
-                      'Accept': '*/*',
-                  }, withCredentials: true,
-              }).then(res=> {
-              }
-              );
-            };//삭제
-        }
-        
+            });
+            axios.post(`http://localhost:8080/api/timetable/2022/1학기/delete/${tableName}`, {
+                "token": "1234",
+                "number": "2019203082"
+            }, {
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                }, withCredentials: true,
+            }).then(res => {
+            }
+            );
+        };//삭제
+    }
+
 
 
 
@@ -292,47 +297,50 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     return (
         <Total_Container>
             <UserTableProvider>
-            <Select_container>
-                <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
+                <Select_container>
+                    <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
-                    <option>2022</option>
-                    <option>2021</option>
-                    <option>2020</option>
-                    <option>2019</option>
-                </Select>
-                <Select defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
-                    <option>1학기</option>
-                    <option>계절학기(하계)</option>
-                    <option>2학기</option>
-                    <option>계절학기(동계)</option>
-                </Select>
-            </Select_container>
-            <Time_table_list>
-                {userTableState.totalTimeTable.map((table, idx)=> { return (
-                    <Time_table_box
-                    value={table.tableName} key={table.id}
-                    activate={activate}
-                    countIndex={countIndex} idx={idx}
-                    onClick={e => {handleOnClick(e, idx)
-                        update_Table(table.id)
-                    }}>
-                        <Delete_button onClick={ () => {
-                            onRemove(table.id, table.tableName)
-                        }}>x</Delete_button>
-                        <Time_table_info>
-                        {table.tableName}
-                        </Time_table_info>
-                        {activate && countIndex === idx && <Edit_button onClick={ () => {
-                            In_Click(table.id)
-                            update_Table(table.id)
-                        }}>Edit</Edit_button>}
+                        <option>2022</option>
+                        <option>2021</option>
+                        <option>2020</option>
+                        <option>2019</option>
+                    </Select>
+                    <Select defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
+                        <option>1학기</option>
+                        <option>계절학기(하계)</option>
+                        <option>2학기</option>
+                        <option>계절학기(동계)</option>
+                    </Select>
+                </Select_container>
+                <Time_table_list>
+                    {userTableState.totalTimeTable.map((table, idx) => {
+                        return (
+                            <Time_table_box
+                                value={table.tableName} key={table.id}
+                                activate={activate}
+                                countIndex={countIndex} idx={idx}
+                                onClick={e => {
+                                    handleOnClick(e, idx)
+                                    update_Table(table.id)
+                                }}>
+                                <Delete_button onClick={() => {
+                                    onRemove(table.id, table.tableName)
+                                }}>x</Delete_button>
+                                <Time_table_info>
+                                    {table.tableName}
+                                </Time_table_info>
+                                {activate && countIndex === idx && <Edit_button onClick={() => {
+                                    In_Click(table.id)
+                                    update_Table(table.id)
+                                }}>Edit</Edit_button>}
+                            </Time_table_box>
+                        )
+                    })}
+                    <Time_table_box>
+                        <h1>추천 시간표</h1>
                     </Time_table_box>
-                )})}
-                <Time_table_box>
-                    <h1>추천 시간표</h1>
-                </Time_table_box>
-                <Add_Button onClick={addTimeTable}>+</Add_Button>
-            </Time_table_list>
+                    <Add_Button onClick={addTimeTable}>+</Add_Button>
+                </Time_table_list>
             </UserTableProvider>
         </Total_Container>
     );

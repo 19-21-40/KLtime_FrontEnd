@@ -254,20 +254,22 @@ function MainPage(){
 
     useEffect(
         ()=>{
-            axios.post("http://localhost:8080/api/gradConditionAndCredit", {
-                token:"1234",
-                number:"2019203082"
-            }, {
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                    'Accept': '*/*',
-                }, withCredentials: true,
-            }).then(res=>{
-                setData(res.data);
-                console.log(res.data);
+            const accessToken = localStorage.getItem("ACCESS_TOKEN");
+            if (accessToken && accessToken !== null) {
+
+                axios.get("http://localhost:8080/api/gradConditionAndCredit", {
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'Accept': '*/*',
+                        'Authorization': "Bearer " + accessToken
+                    }, withCredentials: true,
+                }).then(res => {
+                    setData(res.data);
+                }
+                );
+            } else {
+                window.location.href = "/Login"
             }
-                
-            );
         }
     ,[]);
     
