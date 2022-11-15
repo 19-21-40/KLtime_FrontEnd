@@ -114,6 +114,11 @@ const testtotalLectures=[
 ];
 
 const initialState = {
+    currentSet:{
+        year: 2022,
+        semester: "1학기",
+        // tableName은 selectedId == id로 하면 됨.
+    },
     totalTimeTable:[
         {
             id:1,
@@ -136,6 +141,11 @@ const initialState = {
 
 function timeTableReducer(state,action){
     switch(action.type){
+        case 'CHANGE_YEAR_SEMESTER':
+            return{
+                ...state,
+                currentSet:action.currentSet
+            }
         case 'READ_TOTAL_TIMETABLE': // 시간표 목록 불러오기
             return{
                 ...state,

@@ -136,7 +136,7 @@ function MyTimeTable() {
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
 
-    const [innerText, setInnerText] = useState({year : 2022, semester : "1학기", tableName : "시간표1"});
+    // const [innerText, setInnerText] = useState({year : 2022, semester : "1학기", tableName : "시간표1"});
 
     const [openSelect, setOpenSelect] = useState(true);
     const [openDetail, setOpenDetail] = useState(false);
@@ -148,10 +148,9 @@ function MyTimeTable() {
     const nextNumber = useRef(1);
 
     useEffect(()=>{
-        console.log(state);
+
         
-        
-        axios.post("http://localhost:8080/api/timetable/2022/1학기/totalLectureList", {
+        axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalLectureList`, {
             token:"1234",
             number:"2019203082"
         }, {
@@ -187,10 +186,10 @@ function MyTimeTable() {
                         </Link>
                     </nav>
                     {openSelect && <div>
-                        <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} innerText ={innerText} setInnerText={setInnerText} setBlockHover={setBlockHover} />
+                        <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
                         </div>}
                     {openDetail && <div>
-                        <Edit_TimeTable totalLectures={state.totalLectures} innerText={innerText} setInnerText={setInnerText} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
+                        <Edit_TimeTable totalLectures={state.totalLectures} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
                         </div>}
                     {openLectureDetail && <div>
                         <LectureDetail_B setOpenLectureDetail={setOpenLectureDetail} setOpenDetail={setOpenDetail} lecture={clickedLecture} backgroundColor={clickedLecture.backgroundColor}/>

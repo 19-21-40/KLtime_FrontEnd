@@ -3,6 +3,7 @@ import Lecture from "./Lecture";
 //추가
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
 import styled ,{css}  from "styled-components";
+import axios from "axios";
 
 //styled-components
 
@@ -73,19 +74,37 @@ function LectureList({
   const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
   const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
 
+  
+
   useEffect(()=>{
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
 
   },[state.selectedId, state.totalTimeTable])
 
+  
 
-
-  const onClick = (index) => {
+  const onClick = (index, lectureId) => {
     //추가
     dispatch({
       type: 'ADD_LECTURE',
       lecture:state.searchedLectures[index],
-    })
+    });
+    const currentTableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
+    
+    axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`, {
+            token:"1234",
+            number:"2019203082"
+        }, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+            }, withCredentials: true,
+        }).then(res=> {
+        }
+    );
+
+    // response가 오면 
+
   };
 
   const onHovered=(index)=>{
@@ -136,7 +155,7 @@ function LectureList({
                 key={searchedLecture.id} 
                 isCardMode={isCardMode}
                 isListMode={true}//수정
-                onClick={() => onClick(index)}
+                onClick={() => onClick(index, searchedLecture.id)}
                 onHovered={()=>onHovered(index)}//수정
                 isClicked={clickeds[index]}
                 />

@@ -6,7 +6,7 @@ import SelectTimeTable  from "../components/SelectTimeTable"
 import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
-import { useUserTableDispatch, useUserTableState } from "../context/UserTableContext";
+import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import axios from "axios";
 
 
@@ -118,7 +118,7 @@ const GR_Button = styled.button`
 
     position: absolute;
     top: 60px;
-    right: 100px;
+    right: 40px;
 
     background: #D9D9D9;
     border: 1px;
@@ -171,26 +171,29 @@ const Body = styled.div`
 
 
 
-function Edit_TimeTable({totalLectures, innerText, setInnerText, tableId, setOpenSelect, setOpenDetail, setBlockHover}) {
+function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, setBlockHover}) {
     
+    const userTableDispatch = useUserTableDispatch(); //
+    const userTableState = useUserTableState();
+
     const [selectedLectures,setSelectedLectures]=useState([]);
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
     const [hoveredLecture,setHoveredLecture]=useState();
     
     const [edit, setEdit] = useState(false);
-    const [newName, setNewName] = useState(innerText.tableName);
+    const [newName, setNewName] = useState( " " );
 
     const Edit_click = () => {
         setEdit(!edit);
     }
 
-    const userTableDispatch = useUserTableDispatch(); //
-    const userTableState = useUserTableState();
+    useEffect (() => {
+        const tableName = userTableState.totalTimeTable.find( timeTable => timeTable.id == userTableState.selectedId ).tableName;
+        setNewName(tableName);
+    }, []);
 
-    const setTableNameOfInnerText = (name) => {
-        setInnerText({year: innerText.year, semester: innerText.semester, tableName: name});
-    }
+    const currentTableName = userTableState.totalTimeTable.filter( timeTable => timeTable.id == userTableState.selectedId ).tableName; 
 
     const changeTableName = (e) => {
         e.preventDefault();
@@ -201,10 +204,7 @@ function Edit_TimeTable({totalLectures, innerText, setInnerText, tableId, setOpe
         });
         setEdit(false);
 
-        setTableNameOfInnerText(newName);
-        
-
-        axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/changeName/${innerText.tableName}/${newName}`, {
+        axios.post(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${currentTableName}/${newName}`, {
             "token":"1234",
             "number":"2019203082"
         }, {
@@ -228,14 +228,13 @@ function Edit_TimeTable({totalLectures, innerText, setInnerText, tableId, setOpe
         <Total_Container>
             <Headcomponent>
                     <Back_Button onClick={Back_click}>{'<'}</Back_Button>
-                    <TableInfo_1>{`${innerText.year}년 ${innerText.semester}`}</TableInfo_1>
+                    <TableInfo_1>{`${userTableState.currentSet.year}년 ${userTableState.currentSet.semester}`}</TableInfo_1>
                     {edit ? 
                     <form onSubmit={ e => changeTableName(e) }>
                         <InputTableName value={newName} maxLength={15} onChange={ (e) => setNewName(e.target.value)}/>
                     </form> : <TableInfo_2>{newName} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></TableInfo_2>}
                     <GR_Button>졸업요건 확인</GR_Button>
             </Headcomponent>
-            
             <Search_box>
                 <Search
                 totalLectures={totalLectures}
