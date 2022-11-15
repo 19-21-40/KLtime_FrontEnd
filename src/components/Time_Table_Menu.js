@@ -130,7 +130,7 @@ const Add_Button = styled.button`
 
 
 
-function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText,setInnerText, setBlockHover}){
+function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText,setInnerText, setBlockHover}){
 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
@@ -140,8 +140,6 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
     // const nextNumber = useRef(2);
     const selectTimeTableOption = useRef(null);
     const isFirstAddTable = useRef(true);
-    const [countIndex, setCountIndex] = useState(-1);
-    const [activate, setActivate] = useState(false);
 
     const handleOnClick = (e, idx) => {
         setCountIndex(idx);
@@ -174,7 +172,7 @@ function Time_Table_Menu({nextNumber, setTableId, setOpenSelect, setOpenDetail, 
         axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/totalTimeTableList`, {
             "token":"1234",
             "number":"2019203082"
-       }, {
+        }, {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',

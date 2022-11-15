@@ -149,8 +149,7 @@ function Klas() {
                 </div>
             </form>
             <div>
-                <button onClick={onClick}>로그인</button>
-                <button>비밀번호 찾기</button>
+                <button onClick={onClick}>연동하기</button>
             </div>
         </div>
     );
