@@ -470,13 +470,13 @@ function TimeTable({
         })
     }, [selectedLectures, previewLecture])
 
-
+    
     return (
         <TimeTableContainer height={`${height}px`}>
             <div id="timeTable" style={{height:`${height - 50}px`}}>
                 <div className="tableContainer" style={{width:`${width}px`}}>
                     <DayNameZone selectedTable={selectedTable} />
-                    <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
+                    <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={ blockhover ? onClick : undefined } blockhover={blockhover} />
                 </div>
                 {/* <div className="floatingLayer">
                     <div className={styles.popupContainer}>

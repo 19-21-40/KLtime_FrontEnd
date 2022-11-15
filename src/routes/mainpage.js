@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { call } from "../service/ApiService";
 import { isOptionGroup } from "@mui/base";
+import Klas from "../components/Klas";
 
 
 const Head_line = styled.div`
@@ -54,6 +55,8 @@ const Body_line = styled.div`
     height: 100vh;
     
     justify-content:center;
+
+    z-index: 1;
 `;
 
 
@@ -191,7 +194,41 @@ const TimeTableBody = styled.div`
     border-radius: 50px;
 `
 
+const Klas_Box = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    position: fixed;
+    z-index: 10;
+
+    width: 50%;
+    height: 60%;
+
+    border-radius: 20px;
+
+    background-color: pink;
+
+    top:25%;
+    left:25%;
+`;
+
+const P_Button = styled.button`
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+`;
+
 function MainPage(){
+
+    const [klas, setKlas] = useState(false);//Klas 연동하기
+
+    const onClose = () => {
+        setKlas(false);
+    }
+
     const [data,setData]=useState(
         {
             "gradcondition": {
@@ -240,7 +277,7 @@ function MainPage(){
             <Head_line>
                 <Head_component>
                     <Logo_Image/>
-                    <Small_info name="신재민" std_num={2021203022} />
+                    <Small_info name="신재민" std_num={2021203022} klas={klas} setKlas={setKlas} />
                 </Head_component>
             </Head_line>
             <Body_line>
@@ -294,6 +331,7 @@ function MainPage(){
                             <TimeTable width={670} height={700} />    
                         </TimeTableBody>
                     </Right_component>
+                    {klas ? <Klas_Box><Klas/> <P_Button onClick={onClose} >X</P_Button></Klas_Box>: <></>} 
                 </Component_position>
             </Body_line>
         </UserTableProvider>

@@ -51,21 +51,17 @@ const Student_info = styled.ul`
     font-size: 23px;
 `;
 
-
-
 const Info_list = styled.span`
     margin: 30px;
 `;
 
+const logout_button = styled.button`
 
+`;
 
-
-function Small_info( {name, std_num} ){
+function Small_info( {name, std_num, klas, setKlas} ){
 
     const [Edit, setEdit] = useState(false);//계정정보 수정
-    const [klas, setKlas] = useState(false);//Klas 연동하기
-
-
 
     const showEdit = () => {
         setEdit(true);    
@@ -80,7 +76,7 @@ function Small_info( {name, std_num} ){
         <Small_info_Container>
             <Student_info>
                 <li><Info_list>학번: {std_num}</Info_list></li>
-                <li><Info_list>이름: {name}</Info_list></li>
+                <li><Info_list>이름: {name} <logout_button>🚪</logout_button></Info_list></li>
             </Student_info>
             <KlasButton onClick={ () =>  {
                 showKlas()
@@ -88,7 +84,7 @@ function Small_info( {name, std_num} ){
             <ModifyButton onClick={ () =>  {
                 showEdit()
             }} >계정정보 수정하기</ModifyButton>
-            <div>{klas ? <Klas/> : <></>}</div>
+            {/* <Klas_Box>{klas ? <Klas/> : <></>}</Klas_Box> */}
         </Small_info_Container>
     );
 }

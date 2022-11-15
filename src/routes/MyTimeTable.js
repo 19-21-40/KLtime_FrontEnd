@@ -144,6 +144,8 @@ function MyTimeTable() {
     const [tableId, setTableId] = useState(0);
     const [blockhover, setBlockHover] = useState(false);
     const [clickedLecture, setClickedLecture] = useState();
+    const [countIndex, setCountIndex] = useState(-1);
+    const [activate, setActivate] = useState(false);
 
     const nextNumber = useRef(1);
 
@@ -186,7 +188,7 @@ function MyTimeTable() {
                         </Link>
                     </nav>
                     {openSelect && <div>
-                        <Time_Table_Menu nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
+                        <Time_Table_Menu countIndex={countIndex} setCountIndex={setCountIndex} activate={activate} setActivate={setActivate} nextNumber={nextNumber} setTableId={setTableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} innerText ={innerText} setInnerText={setInnerText} setBlockHover={setBlockHover} />
                         </div>}
                     {openDetail && <div>
                         <Edit_TimeTable totalLectures={state.totalLectures} tableId={tableId} setOpenSelect={setOpenSelect} setOpenDetail={setOpenDetail} setBlockHover={setBlockHover} />
