@@ -7,6 +7,7 @@ import LectureDetail from "./LectureDetail";
 import EditLecture from "./EditLecture";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import styled from "styled-components";
+import axios from "axios";
 
 const TimeTableContainer = styled.div`
 
@@ -272,13 +273,36 @@ function TimeTableTimeZone({ selectedTable }) {
 
 
 function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover}) {
+    
     const timeToMinute = (time) => parseInt(time.split(':')[0] * 60) + parseInt(time.split(':')[1]);
     const userTable=useUserTableState();
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId);
     const dispatch = useUserTableDispatch();
+    const state=useUserTableState();
     const onDeleteClick = (id) => {
         if (window.confirm("강의를 삭제하시겠습니까?")) {
-            dispatch({ type: "DELETE_LECTURE", id })
+
+            const tableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
+
+            dispatch({ type: "DELETE_LECTURE", id });
+
+            axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/deleteLecture/${tableName}`, {
+            "studentDto" : {
+                "token" :"1234",
+                "number" :"2019203082"
+            },
+            "lectureDto" : {
+                "id": id,
+            },
+            "timeSlotDtoList": []
+       }, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+            }, withCredentials: true,
+        }).then(res=> {
+        }
+        );
         }
     };
     return (<TimeTableDayBlockLayout>

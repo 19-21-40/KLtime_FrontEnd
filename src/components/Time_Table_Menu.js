@@ -128,8 +128,6 @@ const Add_Button = styled.button`
     cursor:pointer;
 `;
 
-
-
 function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText,setInnerText, setBlockHover}){
 
     const userTableDispatch = useUserTableDispatch(); //
@@ -158,18 +156,28 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     };
 
     const SelectYear = (e) => {
-        setInnerText({...innerText, year : e.target.value});
+        userTableDispatch({
+            type:'CHANGE_YEAR_SEMESTER',
+            currentSet: {
+                year: parseInt(e.target.value),
+                semester: "1학기"},
+        }); 
+        // setInnerText({...innerText, year : e.target.value});
     };
 
     const SelectSemester = (e) => {
-        setInnerText({...innerText, semester : e.target.value});
+        userTableDispatch({
+            type:'CHANGE_YEAR_SEMESTER',
+            currentSet: {
+                year: userTableState.currentSet.year,
+                semester: e.target.value},
+        }); 
+        // setInnerText({...innerText, semester : e.target.value});
     };
 
     useEffect(()=>{ 
         
-        console.log(innerText);
-
-        axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/totalTimeTableList`, {
+        axios.post(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
             "token":"1234",
             "number":"2019203082"
         }, {
@@ -182,28 +190,10 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 type:'READ_TOTAL_TIMETABLE',
                 totalTimeTable:res.data.totalTableList,
             }); 
-            console.log(res.data);
         }
         );
 
-        // axios.post(`http://localhost:8080/api/timetable/${innerText.year}/${innerText.semester}/totalLectureList`, {
-        //     token:"1234",
-        //     number:"2019203082"
-        // }, {
-        //     headers: {
-        //         'Content-type': 'application/json; charset=UTF-8',
-        //         'Accept': '*/*',
-        //     }, withCredentials: true,
-        // }).then(res=> {
-        //     userTableDispatch({
-        //         type:'READ_TOTAL_LECTURES',
-        //         totalLectures:res.data.lectureList,
-        //         searchedLectures:res.data.lectureList
-        //     });
-        //     console.log(res.data);
-        // }
-        // );
-    }, [innerText]);
+    }, [userTableState.currentSet]);
 
     const selectTimeTable = (e) => {
         
@@ -291,26 +281,26 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         setIsModifyTimeTable(true);
     }
 
-    const In_Click = (id, year, semester, name) => {
+    const In_Click = (id) => {
         setOpenSelect(false);
         setOpenDetail(true);
         setBlockHover(true);
         setTableId(id);
-        setInnerText({year: year,semester: semester, tableName: name});
+        // setInnerText({year: year,semester: semester, tableName: name});
     }
 
     return (
         <Total_Container>
             <UserTableProvider>
             <Select_container>
-                <Select defaultValue={innerText.year} onChange={SelectYear}>
+                <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
                     <option>2022</option>
                     <option>2021</option>
                     <option>2020</option>
                     <option>2019</option>
                 </Select>
-                <Select defaultValue={innerText.semester} onChange={SelectSemester}>
+                <Select defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
                     <option>1학기</option>
                     <option>계절학기(하계)</option>
                     <option>2학기</option>
@@ -333,7 +323,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                         {table.tableName}
                         </Time_table_info>
                         {activate && countIndex === idx && <Edit_button onClick={ () => {
-                            In_Click(table.id, innerText.year, innerText.semester, table.tableName)
+                            In_Click(table.id)
                             update_Table(table.id)
                         }}>Edit</Edit_button>}
                     </Time_table_box>
