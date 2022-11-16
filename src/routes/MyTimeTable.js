@@ -150,6 +150,21 @@ function MyTimeTable() {
     const nextNumber = useRef(1);
 
     useEffect(() => {
+        console.log('컴포넌트가 화면에 나타남');
+        update_Table(1);
+        return () => {
+            console.log('뿅');
+        };
+    }, []);
+
+    const update_Table = (id) => {
+        dispatch({
+            type: 'READ_TABLE',
+            id: id,
+        });
+    };
+
+    useEffect(() => {
 
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {

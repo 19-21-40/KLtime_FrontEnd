@@ -231,11 +231,26 @@ const GoTable_Btn = styled.button`
 
 function MainPage(){
 
+    // useEffect(() => {
+    //     console.log('컴포넌트가 화면에 나타남');
+    //     update_Table();
+    //     return () => {
+    //         console.log('뿅');
+    //     };
+    // }, []);
+
     const [klas, setKlas] = useState(false);//Klas 연동하기
 
     const onClose = () => {
         setKlas(false);
     }
+
+    // const update_Table = (id) => {
+    //     userTableDispatch({
+    //         type: 'READ_TABLE',
+    //         id: id,
+    //     });
+    // };
 
     const [data,setData]=useState(
         {
