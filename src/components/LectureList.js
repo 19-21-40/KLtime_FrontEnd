@@ -92,7 +92,6 @@ function LectureList({
     });
     const currentTableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
 
-
     if (accessToken && accessToken !== null) {
       axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`,
        null,{
@@ -107,9 +106,8 @@ function LectureList({
     }else {
       
     }
-      // response가 오면 
+  }
 
-    };
 
   const onHovered=(index)=>{
     //추가
