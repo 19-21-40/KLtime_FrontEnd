@@ -139,6 +139,8 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     const selectTimeTableOption = useRef(null);
     const isFirstAddTable = useRef(true);
 
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
     const handleOnClick = (e, idx) => {
         setCountIndex(idx);
         setActivate(true);
@@ -239,19 +241,21 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
             selectedId: nextNumber.current,
         });
 
+        
         // 시간표 이름과 student정보를 백으로 던져줌
-        axios.post(`http://localhost:8080/api/timetable/2022/1학기/add/${newTableName}`, {
-            "token": "1234",
-            "number": "2019203082"
-        }, {
+        if (accessToken && accessToken !== null) {
+        axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`, {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
+                'Authorization': "Bearer " + accessToken,
             }, withCredentials: true,
         }).then(res => {
         }
         );
+    } else {
 
+    }
         isFirstAddTable.current = false;
     };
 
@@ -262,13 +266,11 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 type: 'DELETE_TABLE',
                 id,
             });
-            axios.post(`http://localhost:8080/api/timetable/2022/1학기/delete/${tableName}`, {
-                "token": "1234",
-                "number": "2019203082"
-            }, {
+            axios.post(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/delete/${tableName}`,{
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken,
                 }, withCredentials: true,
             }).then(res => {
             }
