@@ -8,7 +8,11 @@ import axios from "axios";
 import { call } from "../service/ApiService";
 import { isOptionGroup } from "@mui/base";
 import Klas from "../components/Klas";
+import { Link } from "react-router-dom";
 
+const total_div = styled.div`
+
+`;
 
 const Head_line = styled.div`
     
@@ -221,6 +225,10 @@ const P_Button = styled.button`
     height: 20px;
 `;
 
+const GoTable_Btn = styled.button`
+
+`;
+
 function MainPage(){
 
     const [klas, setKlas] = useState(false);//Klas 연동하기
@@ -275,7 +283,7 @@ function MainPage(){
     
 
     return (
-        <UserTableProvider>
+        <total_div>
             <Head_line>
                 <Head_component>
                     <Logo_Image/>
@@ -328,6 +336,9 @@ function MainPage(){
                     <Right_component>
                         <TimeTableHeader>
                             <TableName> 나의 시간표 </ TableName>
+                            <Link to="/MyTimeTable">
+                                <GoTable_Btn>시간표 바로가기</GoTable_Btn>
+                            </Link>
                         </TimeTableHeader>
                         <TimeTableBody>
                             <TimeTable width={670} height={700} />    
@@ -336,8 +347,7 @@ function MainPage(){
                     {klas ? <Klas_Box><Klas/> <P_Button onClick={onClose} >X</P_Button></Klas_Box>: <></>} 
                 </Component_position>
             </Body_line>
-        </UserTableProvider>
-        
+        </total_div>
     )
 }
 
