@@ -163,8 +163,10 @@ function Lecture({
 
                         <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
                         }    */}
-                        {blockhover && <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>}
-
+                        {blockhover && <LectureDelBtn onClick={(event)=>{
+                            onDeleteClick(lecture.id)
+                            event.stopPropagation()
+                            }}>x</LectureDelBtn>}
                     </div>
                     <div>
                         {lecture.professor}
