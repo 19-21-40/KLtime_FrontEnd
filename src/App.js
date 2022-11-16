@@ -30,10 +30,12 @@ function App() {
 
   return (<Router>
     <Routes>
-      <Route path="/" element={<MainPage/>}>
+      <Route path="/" element={
+      <UserTableProvider>
+      <MainPage/>
+      </UserTableProvider>}>
       </Route>
       <Route path="/MyTimeTable" element={
-      
       <UserTableProvider>
       <MyTimeTable/>
       </UserTableProvider>}>
