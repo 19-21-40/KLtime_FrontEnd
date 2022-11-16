@@ -168,9 +168,15 @@ function Lecture({
                             event.stopPropagation()
                             }}>x</LectureDelBtn>}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 9b811f7 (강의삭제시 강의정보 출력됐던 버그 수정)
+=======
+=======
+
+>>>>>>> 26ec717 (강의 삭제 버블링 수정)
+>>>>>>> 3a841e2 (commit)
                     </div>
                     <div>
                         {lecture.professor}
