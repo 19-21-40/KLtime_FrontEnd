@@ -139,6 +139,14 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     const selectTimeTableOption = useRef(null);
     const isFirstAddTable = useRef(true);
 
+    useEffect(() => {
+        console.log('컴포넌트가 화면에 나타남');
+        update_Table(1);
+        return () => {
+          console.log('뿅');
+        };
+      }, []);
+
     const handleOnClick = (e, idx) => {
         setCountIndex(idx);
         setActivate(true);

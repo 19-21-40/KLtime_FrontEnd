@@ -427,8 +427,7 @@ function TimeTable({
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId)
     const selectedLectures = userTable.totalTimeTable.find(timeTable => timeTable.id === userTable.selectedId).lectureList;
     
-    const onClick = (id, color, event) => {
-        event.stopPropagation();
+    const onClick = (id, color) => {
         setClickedLecture({
             ...selectedLectures.find(lecture => lecture.id === id),
             backgroundColor: color,

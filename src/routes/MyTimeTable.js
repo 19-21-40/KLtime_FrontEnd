@@ -144,8 +144,8 @@ function MyTimeTable() {
     const [tableId, setTableId] = useState(0);
     const [blockhover, setBlockHover] = useState(false);
     const [clickedLecture, setClickedLecture] = useState();
-    const [countIndex, setCountIndex] = useState(-1);
-    const [activate, setActivate] = useState(false);
+    const [countIndex, setCountIndex] = useState(0);
+    const [activate, setActivate] = useState(true);
 
     const nextNumber = useRef(1);
 
