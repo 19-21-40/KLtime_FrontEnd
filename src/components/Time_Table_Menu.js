@@ -140,6 +140,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     const isFirstAddTable = useRef(true);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     useEffect(() => {
         console.log('컴포넌트가 화면에 나타남');
         update_Table(1);
@@ -150,6 +151,18 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
 =======
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
 >>>>>>> 8061e4b (post->get)
+=======
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+=======
+    useEffect(() => {
+        console.log('컴포넌트가 화면에 나타남');
+        update_Table(1);
+        return () => {
+          console.log('뿅');
+        };
+      }, []);
+>>>>>>> 5cf9d07 (잡버그 수정)
+>>>>>>> 19a8af4 (commit)
 
     const handleOnClick = (e, idx) => {
         setCountIndex(idx);
