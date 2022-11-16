@@ -192,6 +192,7 @@ const colors = [
 ];
 
 
+
 function DayNameZone({ selectedTable }) {
     return (
         <DayNameLayout>
@@ -444,6 +445,7 @@ function TimeTable({
 
 
     useEffect(() => {
+        
         let maxDay = 5;
         let minTime = 9;
         let minPeriod = 2;

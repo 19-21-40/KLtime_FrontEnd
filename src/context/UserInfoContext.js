@@ -9,45 +9,7 @@ const initialState = {
     pw_c: '',
     department: '',
     email: '',
-  },
-  users:[
-    {
-      id:1,
-      // stdnum: "2021203022",
-      // password: "jolovh!",
-      // department: "소프트웨어학부",
-      // email: "sour_jam0220@naver.com",
-      name: "법과생활",
-      section: "교선",
-      sectionDetail: "사회와경제",
-      level: 1,
-      credit: 3,
-    },
-    {
-      id:2,
-      // stdnum: "2021203023",
-      // password: "jelovh!",
-      // department: "소프트웨어학부",
-      // email: "lsw8681@naver.com",
-      name: "시스템소프트웨어",
-      section: "전선",
-      sectionDetail: "몰랑",
-      level: 1,
-      credit: 3,
-    },
-    {
-      id:3,
-      // stdnum: "2021203024",
-      // password: "hellov!",
-      // department: "소프트웨어학부",
-      // email: "luv925@naver.com",
-      name: "자료구조",
-      section: "교필",
-      sectionDetail: "사회와경제",
-      level: 1,
-      credit: 3,
-    },
-  ],
+  }
 };
 
 

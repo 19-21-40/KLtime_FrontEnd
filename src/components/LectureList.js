@@ -78,12 +78,14 @@ function LectureList({
 
   useEffect(()=>{
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
-
+    console.log(state.searchedLectures)
+    console.log(state.searchedLectures.filter(lecture=>lecture.dup==true))
   },[state.selectedId, state.totalTimeTable])
 
   
 
   const onClick = (index, lectureId) => {
+    
     //추가
     dispatch({
       type: 'ADD_LECTURE',
@@ -102,6 +104,7 @@ function LectureList({
         }).then(res=> {
         }
     );
+    
 
     // response가 오면 
 
@@ -158,6 +161,7 @@ function LectureList({
                 onClick={() => onClick(index, searchedLecture.id)}
                 onHovered={()=>onHovered(index)}//수정
                 isClicked={clickeds[index]}
+                backgroundColor={searchedLecture.dup==true?"rgba(190, 190, 191, 0.8)":"rgb(255, 255, 255)"}
                 />
             ))}
         </LineTable>

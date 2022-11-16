@@ -50,7 +50,8 @@ const ContentBox=styled(DualMode)`
                 props.clicked?
                 `background-color:rgba(190, 190, 191, 0.8);`
                 :
-                `&:hover{background-color:#f8f8f8;}`
+                `background-color:${props.backgroundColor};
+                &:hover{background-color:#f8f8f8;}`
             };
             // &:hover{background-color:#f8f8f8;}
             // 수정해야함
@@ -72,7 +73,8 @@ const ContentBox=styled(DualMode)`
                     props.clicked?
                     `background-color:rgba(190, 190, 191, 0.8);`
                     :
-                    `&:hover{background-color:#f8f8f8;}`
+                    `background-color:${props.backgroundColor};
+                    &:hover{background-color:#f8f8f8;}`
                 };
                 // &:hover{background-color:#f8f8f8;}
                 // 수정해야함

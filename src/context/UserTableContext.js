@@ -1,6 +1,6 @@
 import React, { useReducer, createContext, useContext } from 'react';
 
-const testtotalLectures=[
+const testtotalLectures = [
     {
         id: "H030-2-0448-02",
         lectureName: "디지털논리",
@@ -13,7 +13,8 @@ const testtotalLectures=[
         level: 2,
         section: "전선",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "0000-1-0670-01",
@@ -27,7 +28,8 @@ const testtotalLectures=[
         level: 1,
         section: "교선",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "H030-2-1183-01",
@@ -40,7 +42,8 @@ const testtotalLectures=[
         level: 2,
         section: "전선",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "H030-2-3403-03",
@@ -54,7 +57,8 @@ const testtotalLectures=[
         level: 2,
         section: "전선",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "H030-3-3663-01",
@@ -68,7 +72,8 @@ const testtotalLectures=[
         level: 3,
         section: "전선",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "H030-2-8484-01",
@@ -81,7 +86,8 @@ const testtotalLectures=[
         level: 2,
         section: "전필",
         credit: 2,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "H040-2-9616-02",
@@ -95,7 +101,8 @@ const testtotalLectures=[
         level: 2,
         section: "일선",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
     {
         id: "1160-1-3415-01",
@@ -109,155 +116,227 @@ const testtotalLectures=[
         level: 1,
         section: "기필",
         credit: 3,
-        notes: ""
+        notes: "",
+        dup: false
     },
 ];
 
 const initialState = {
-    currentSet:{
+    currentSet: {
         year: 2022,
         semester: "1학기",
         // tableName은 selectedId == id로 하면 됨.
     },
-    totalTimeTable:[
+    totalTimeTable: [
         {
-            id:1,
-            tableName:"시간표1",
-            lectureList:[],
+            id: 1,
+            tableName: "시간표1",
+            lectureList: [],
             isprimary: true,
         },
         {
-            id:2,
-            tableName:"시간표2",
-            lectureList:[],
+            id: 2,
+            tableName: "시간표2",
+            lectureList: [],
             isprimary: false,
         },
     ],
-    selectedId:1,
-    totalLectures:testtotalLectures,
-    searchedLectures:testtotalLectures,
-    previewId:-1
+    selectedId: 1,
+    totalLectures: testtotalLectures,
+    searchedLectures: testtotalLectures,
+    previewId: -1
 };
 
-function timeTableReducer(state,action){
-    switch(action.type){
+
+
+function timeTableReducer(state, action) {
+    const timeToMinute = (time) => parseInt(time.split(':')[0] * 60) + parseInt(time.split(':')[1]);
+    switch (action.type) {
         case 'CHANGE_YEAR_SEMESTER':
-            return{
+            return {
                 ...state,
-                currentSet:action.currentSet
+                currentSet: action.currentSet
             }
         case 'READ_TOTAL_TIMETABLE': // 시간표 목록 불러오기
-            return{
+            return {
                 ...state,
-                totalTimeTable:action.totalTimeTable,
-                selectedId:1,
+                totalTimeTable: action.totalTimeTable,
+                selectedId: 1,
             }
         case 'CREATE_TABLE'://시간표 추가
-            return{
+            return {
                 ...state,
-                totalTimeTable:state.totalTimeTable.concat(action.timeTable),
-                selectedId:action.selectedId,
+                totalTimeTable: state.totalTimeTable.concat(action.timeTable),
+                selectedId: action.selectedId,
             }
         case 'READ_TABLE'://시간표 선택시 불러오기
-            return{
+            return {
                 ...state,
-                selectedId:action.id,
+                selectedId: action.id,
+                totalLectures: state.totalLectures.map(function (lecture) {
+                    let isDup = false;
+                    lecture.lectureTimes.forEach((time) => {
+                        state.totalTimeTable.find(timeTable => timeTable.id === state.selectedId).lectureList
+                            .forEach(tableLecture => tableLecture.lectureTimes
+                                .forEach((addLectureTime) => {
+                                    if (time.day === addLectureTime.day
+                                        && !(timeToMinute(time.endTime) <= timeToMinute(addLectureTime.startTime) || timeToMinute(time.startTime) >= timeToMinute(addLectureTime.endTime))) {
+                                        isDup = true;
+                                    }
+                                })
+                            )
+                    })
+                    return {
+                        ...lecture,
+                        dup: isDup
+                    }
+                }),
+
             }
         case 'UPDATE_TABLE'://시간표 수정(이름)
-            return{
+            return {
                 ...state,
-                totalTimeTable:state.totalTimeTable.map(timeTable=>
-                    timeTable.id===state.selectedId?
-                    {
-                        ...timeTable,
-                        tableName:action.tableName
-                    }
-                        :timeTable),
+                totalTimeTable: state.totalTimeTable.map(timeTable =>
+                    timeTable.id === state.selectedId ?
+                        {
+                            ...timeTable,
+                            tableName: action.tableName
+                        }
+                        : timeTable),
             }
         case 'DELETE_TABLE'://시간표 삭제
             let isFirstIndex = false;
-            if(action.id === state.totalTimeTable[0].id){
+            if (action.id === state.totalTimeTable[0].id) {
                 isFirstIndex = true;
             }
-            if(state.totalTimeTable.length === 1)
-            { return {...state} }
+            if (state.totalTimeTable.length === 1) { return { ...state } }
             return {
                 ...state,
-                selectedId: isFirstIndex? state.totalTimeTable[1].id : state.totalTimeTable[0].id,
-                totalTimeTable: state.totalTimeTable.filter(timeTable=>timeTable.id!==action.id),
+                selectedId: isFirstIndex ? state.totalTimeTable[1].id : state.totalTimeTable[0].id,
+                totalTimeTable: state.totalTimeTable.filter(timeTable => timeTable.id !== action.id),
             }
         case 'READ_TOTAL_LECTURES': // 강의 목록 불러오기
-            return{
+            return {
                 ...state,
-                totalLectures:action.totalLectures,
-                searchedLectures:action.searchedLectures
+                totalLectures: action.totalLectures,
+                searchedLectures: action.searchedLectures
             }
         case 'SEARCH_LECTURE': //강의 검색 // 이성훈이 추가함
-            return{
+            return {
                 ...state,
-                searchedLectures:action.searchedLectures,
+                searchedLectures: action.searchedLectures,
             }
         case 'ADD_LECTURE'://강의 추가
-            return{
+
+            return {
                 ...state,
-                totalTimeTable:state.totalTimeTable.map(timeTable=>
-                    timeTable.id===state.selectedId?
-                    {
-                        ...timeTable,
-                        lectureList:timeTable.lectureList.concat(action.lecture)
+                totalTimeTable: state.totalTimeTable.map(timeTable =>
+                    timeTable.id === state.selectedId ?
+                        {
+                            ...timeTable,
+                            lectureList: timeTable.lectureList.concat(action.lecture),
+
+                        }
+                        : timeTable),
+                totalLectures: state.totalLectures.map(function (lecture) {
+                    let isdup = false;
+                    lecture.lectureTimes.forEach((time) => {
+                        action.lecture.lectureTimes.forEach((addLectureTime) => {
+                            if (time.day === addLectureTime.day
+                                && !(timeToMinute(time.endTime) <= timeToMinute(addLectureTime.startTime) || timeToMinute(time.startTime) >= timeToMinute(addLectureTime.endTime))) {
+                                isdup = true;
+                            }
+                        })
+                    })
+                    return {
+                        ...lecture,
+                        dup: isdup
                     }
-                    :timeTable),
+                }),
+                searchedLectures: state.searchedLectures.map(function (lecture) {
+                    let isdup = false;
+                    lecture.lectureTimes.forEach((time) => {
+                        action.lecture.lectureTimes.forEach((addLectureTime) => {
+                            if (time.day === addLectureTime.day
+                                && !(timeToMinute(time.endTime) <= timeToMinute(addLectureTime.startTime) || timeToMinute(time.startTime) >= timeToMinute(addLectureTime.endTime))) {
+                                isdup = true;
+                            }
+                        })
+                    })
+                    return {
+                        ...lecture,
+                        dup: isdup
+                    }
+                })
             }
         case 'EDIT_LECTURE'://강의 편집
-            return{
+            return {
                 ...state,
-                totalTimeTable:state.totalTimeTable.map(timeTable=>
-                    timeTable.id===state.selectedId?
-                    {
-                        ...timeTable,
-                        lectureList:timeTable.lectureList.map(lecture=>lecture.id===action.id?action.lecture:lecture)
-                    }
-                    :timeTable)
+                searchedLectures: state.searchedLectures.map(timeTable =>
+                    timeTable.id === state.selectedId ?
+                        {
+                            ...timeTable,
+                            lectureList: timeTable.lectureList.map(lecture => lecture.id === action.id ? action.lecture : lecture)
+                        }
+                        : timeTable)
             }
         case 'DELETE_LECTURE'://강의 삭제
-            return{
+            return {
                 ...state,
-                totalTimeTable:state.totalTimeTable.map(timeTable=>
-                    timeTable.id===state.selectedId?
-                    {
-                        ...timeTable,
-                        lectureList:timeTable.lectureList.filter(lecture=>lecture.id!==action.id)
+                totalTimeTable: state.totalTimeTable.map(timeTable =>
+                    timeTable.id === state.selectedId ?
+                        {
+                            ...timeTable,
+                            lectureList: timeTable.lectureList.filter(lecture => lecture.id !== action.id)
+                        }
+                        : timeTable),
+                totalLectures: state.totalLectures.map(function (lecture) {
+                    let isDup = false;
+                    lecture.lectureTimes.forEach((time) => {
+                        state.totalTimeTable.find(timeTable => timeTable.id === state.selectedId).lectureList.filter(lecture => lecture.id !== action.id)
+                            .forEach(tableLecture => tableLecture.lectureTimes
+                                .forEach((addLectureTime) => {
+                                    if (time.day === addLectureTime.day
+                                        && !(timeToMinute(time.endTime) <= timeToMinute(addLectureTime.startTime) || timeToMinute(time.startTime) >= timeToMinute(addLectureTime.endTime))) {
+                                        isDup = true;
+                                    }
+                                })
+                            )
+                    })
+                    return {
+                        ...lecture,
+                        dup: isDup
                     }
-                    :timeTable)
+                }),
             }
         case 'PREVIEW_LECTURE'://강의 호버
-            return{
+            return {
                 ...state,
-                previewId:state.previewId===-1?action.id:-1
+                previewId: state.previewId === -1 ? action.id : -1
             }
         default:
             return state;
     }
 }
 
-const UserTableStateContext=createContext();
-const UserTableDispatchContext=createContext();
+const UserTableStateContext = createContext();
+const UserTableDispatchContext = createContext();
 
 export function UserTableProvider({ children }) {
-  const [state, dispatch] = useReducer(timeTableReducer, initialState);
-  return (
-    <UserTableStateContext.Provider value={state}>
-      <UserTableDispatchContext.Provider value={dispatch}>
-        {children}
-      </UserTableDispatchContext.Provider>
-    </UserTableStateContext.Provider>
-  );
+    const [state, dispatch] = useReducer(timeTableReducer, initialState);
+    return (
+        <UserTableStateContext.Provider value={state}>
+            <UserTableDispatchContext.Provider value={dispatch}>
+                {children}
+            </UserTableDispatchContext.Provider>
+        </UserTableStateContext.Provider>
+    );
 }
 
 export function useUserTableState() {
-  return useContext(UserTableStateContext);
+    return useContext(UserTableStateContext);
 }
 
 export function useUserTableDispatch() {
-  return useContext(UserTableDispatchContext);
+    return useContext(UserTableDispatchContext);
 }

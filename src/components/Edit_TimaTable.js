@@ -237,7 +237,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
             </Headcomponent>
             <Search_box>
                 <Search
-                totalLectures={totalLectures}
+                totalLectures={userTableState.totalLectures}
                 />
             </Search_box>
             <LectureList_box>
