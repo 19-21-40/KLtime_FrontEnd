@@ -167,7 +167,10 @@ function Lecture({
                             onDeleteClick(lecture.id)
                             event.stopPropagation()
                             }}>x</LectureDelBtn>}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9b811f7 (강의삭제시 강의정보 출력됐던 버그 수정)
                     </div>
                     <div>
                         {lecture.professor}
