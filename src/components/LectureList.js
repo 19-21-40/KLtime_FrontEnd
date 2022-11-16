@@ -92,16 +92,6 @@ function LectureList({
     });
     const currentTableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    console.log(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`);
->>>>>>> c269303 (기본 logic token처리 완료)
-=======
->>>>>>> 56e07cf (commit)
->>>>>>> dbbacd4 (commit)
     if (accessToken && accessToken !== null) {
       axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`,
        null,{
@@ -113,30 +103,10 @@ function LectureList({
           }).then(res=> {
           }
           );
-<<<<<<< HEAD
     }else {
       
     }
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-    }else {
-      
-    }
-=======
-
-      // response가 오면 
-
-    };
->>>>>>> c269303 (기본 logic token처리 완료)
-=======
-    }else {
-      
-    }
->>>>>>> 56e07cf (commit)
->>>>>>> dbbacd4 (commit)
   }
-
 
   const onHovered=(index)=>{
     //추가
