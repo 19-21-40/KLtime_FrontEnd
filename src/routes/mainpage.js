@@ -9,10 +9,8 @@ import { call } from "../service/ApiService";
 import { isOptionGroup } from "@mui/base";
 import Klas from "../components/Klas";
 import { Link } from "react-router-dom";
+import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 
-const total_div = styled.div`
-
-`;
 
 const Head_line = styled.div`
     
@@ -231,11 +229,56 @@ const GoTable_Btn = styled.button`
 
 function MainPage(){
 
+    const dispatch = useUserTableDispatch();
+    const state = useUserTableState();
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem("ACCESS_TOKEN");
+        if (accessToken && accessToken !== null) {
+
+            axios.get(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalTimeTableList`, {
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
+                }, withCredentials: true,
+            }).then(res => {
+                dispatch({
+                    type: 'READ_TOTAL_TIMETABLE',
+                    totalTimeTable: res.data.totalTableList,
+                });
+            }
+            );
+        } else {
+            // window.location.href = "/Login"
+        }
+
+        
+        
+    }, []);
+
+    useEffect(() => {
+
+        const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary==true).id;
+        dispatch({
+            type: 'READ_TABLE',
+            id: primaryId,
+        });
+
+    }, [state.totalTimeTable]);
+
     const [klas, setKlas] = useState(false);//Klas 연동하기
 
     const onClose = () => {
         setKlas(false);
     }
+
+    // const update_Table = (id) => {
+    //     userTableDispatch({
+    //         type: 'READ_TABLE',
+    //         id: id,
+    //     });
+    // };
 
     const [data,setData]=useState(
         {
@@ -283,7 +326,7 @@ function MainPage(){
     
 
     return (
-        <total_div>
+        <>
             <Head_line>
                 <Head_component>
                     <Logo_Image/>
@@ -347,7 +390,7 @@ function MainPage(){
                     {klas ? <Klas_Box><Klas/> <P_Button onClick={onClose} >X</P_Button></Klas_Box>: <></>} 
                 </Component_position>
             </Body_line>
-        </total_div>
+        </>
     )
 }
 

@@ -28,18 +28,19 @@ import { UserTableProvider } from "./context/UserTableContext";
 
 function App() {
 
-  return (<Router>
+  return (
+    <UserTableProvider>
+      <Router>
     <Routes>
       <Route path="/" element={
-      <UserTableProvider>
       <MainPage/>
-      </UserTableProvider>}>
+      }>
       </Route>
       <Route path="/MyTimeTable" element={
-      <UserTableProvider>
       <MyTimeTable/>
-      </UserTableProvider>}>
+      }>
       </Route>
+    
       {/* <Route path="/EditTimeTable" element={<Edit_TimeTable/>}>
       </Route> */}
       <Route path="/SignUp" element={<SignUp />}>
@@ -52,7 +53,8 @@ function App() {
       </Route>
     </Routes>
     {/* <Copyright/> */}
-  </Router>)
+  </Router>
+  </UserTableProvider>)
 }
 
 export default App;

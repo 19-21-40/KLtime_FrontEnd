@@ -159,14 +159,10 @@ function Lecture({
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>
-                        {/* {isListMode?
-                        <></>
-                        :
-
-                        <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
-                        }    */}
-                        {blockhover && <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>}
-
+                        {blockhover && <LectureDelBtn onClick={(event)=>{
+                            onDeleteClick(lecture.id)
+                            event.stopPropagation()
+                            }}>x</LectureDelBtn>}
                     </div>
                     <div>
                         {lecture.professor}

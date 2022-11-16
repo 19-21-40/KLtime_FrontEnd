@@ -284,26 +284,25 @@ function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover})
         if (window.confirm("강의를 삭제하시겠습니까?")) {
 
             const tableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
-
+            const accessToken = localStorage.getItem("ACCESS_TOKEN");
+            
             dispatch({ type: "DELETE_LECTURE", id });
-
-            axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/deleteLecture/${tableName}`, {
-            "studentDto" : {
-                "token" :"1234",
-                "number" :"2019203082"
-            },
-            "lectureDto" : {
-                "id": id,
-            },
-            "timeSlotDtoList": []
-       }, {
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': '*/*',
-            }, withCredentials: true,
-        }).then(res=> {
-        }
-        );
+            if (accessToken && accessToken !== null) {
+                axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/deleteLecture/${tableName}`, {
+                    "lectureDto" : {
+                        "id": id,
+                    },
+                    "timeSlotDtoList": []
+                }, {
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken,
+                }, withCredentials: true,
+                }).then(res=> {
+                }
+                );
+            }
         }
     };
     return (<TimeTableDayBlockLayout>
@@ -396,7 +395,7 @@ function TiemTableLectureZone({selectedTable,selectedLectures,onClick, blockhove
 
 function TimeTableZone({ selectedLectures, selectedTable, onClick, blockhover}) {
     return (
-        <TimeTableZoneLayout height="432px" position="relative  ">
+        <TimeTableZoneLayout height="800px" position="relative  ">
             <div className="timeTableGrid">
                 <div className="timeTableGridScrollArea">
                     <TimeTablePeriodZone selectedTable={selectedTable} />
@@ -433,7 +432,13 @@ function TimeTable({
             ...selectedLectures.find(lecture => lecture.id === id),
             backgroundColor: color,
         });
-        setOpenLectureDetail(true);
+        if(blockhover){
+            setOpenLectureDetail(true);
+        }
+        else{
+            setOpenLectureDetail(false);
+        }
+        
         setOpenDetail(false);
     }
 
@@ -472,13 +477,13 @@ function TimeTable({
         })
     }, [selectedLectures, previewLecture])
 
-    
+
     return (
         <TimeTableContainer height={`${height}px`}>
             <div id="timeTable" style={{height:`${height - 50}px`}}>
                 <div className="tableContainer" style={{width:`${width}px`}}>
                     <DayNameZone selectedTable={selectedTable} />
-                    <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={ blockhover ? onClick : undefined } blockhover={blockhover} />
+                    <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
                 </div>
                 {/* <div className="floatingLayer">
                     <div className={styles.popupContainer}>

@@ -74,7 +74,7 @@ function LectureList({
   const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
   const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
 
-  
+  const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
   useEffect(()=>{
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
@@ -87,28 +87,28 @@ function LectureList({
   const onClick = (index, lectureId) => {
     
     //추가
+    
     dispatch({
       type: 'ADD_LECTURE',
       lecture:state.searchedLectures[index],
     });
     const currentTableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
-    
-    axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`, {
-            token:"1234",
-            number:"2019203082"
-        }, {
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': '*/*',
-            }, withCredentials: true,
-        }).then(res=> {
-        }
-    );
-    
 
-    // response가 오면 
-
-  };
+    if (accessToken && accessToken !== null) {
+      axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`,
+        null,{
+              headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+                  'Accept': '*/*',
+                  'Authorization': "Bearer " + accessToken,
+              }, withCredentials: true,
+          }).then(res=> {
+          }
+          );
+    }else {
+      
+    }
+  }
 
   const onHovered=(index)=>{
     //추가

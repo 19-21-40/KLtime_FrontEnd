@@ -205,7 +205,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
             tableName: newName
         });
         setEdit(false);
-
+        if (accessToken && accessToken !== null) {
         axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${tableName}/${newName}`,{
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -215,7 +215,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         }).then(res=> {
         }
         );
-
+     }
     }
 
     const Back_click = () => {
