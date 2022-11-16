@@ -167,6 +167,10 @@ function Lecture({
                             onDeleteClick(lecture.id)
                             event.stopPropagation()
                             }}>x</LectureDelBtn>}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 26ec717 (강의 삭제 버블링 수정)
                     </div>
                     <div>
                         {lecture.professor}
