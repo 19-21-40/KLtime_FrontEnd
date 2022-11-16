@@ -431,7 +431,13 @@ function TimeTable({
             ...selectedLectures.find(lecture => lecture.id === id),
             backgroundColor: color,
         });
-        setOpenLectureDetail(true);
+        if(blockhover){
+            setOpenLectureDetail(true);
+        }
+        else{
+            setOpenLectureDetail(false);
+        }
+        
         setOpenDetail(false);
     }
 

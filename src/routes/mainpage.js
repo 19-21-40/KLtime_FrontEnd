@@ -267,13 +267,18 @@ function MainPage(){
 
     }, [state.totalTimeTable]);
 
-
-
     const [klas, setKlas] = useState(false);//Klas 연동하기
 
     const onClose = () => {
         setKlas(false);
     }
+
+    // const update_Table = (id) => {
+    //     userTableDispatch({
+    //         type: 'READ_TABLE',
+    //         id: id,
+    //     });
+    // };
 
     const [data,setData]=useState(
         {

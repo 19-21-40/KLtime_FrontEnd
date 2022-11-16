@@ -94,7 +94,7 @@ function LectureList({
 
     if (accessToken && accessToken !== null) {
       axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`,
-       null,{
+        null,{
               headers: {
                   'Content-type': 'application/json; charset=UTF-8',
                   'Accept': '*/*',

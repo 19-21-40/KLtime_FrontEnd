@@ -130,7 +130,7 @@ const Add_Button = styled.button`
 
 function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText, setBlockHover }) {
 
-    const userTableDispatch = useUserTableDispatch(); //
+    const userTableDispatch = useUserTableDispatch();
     const userTableState = useUserTableState();
 
     // JSON.parse(localStorage.getItem('시간표'))를 하면 새로고침을 해도 유지가 됨, 다만 일부 버그가 존재
@@ -138,14 +138,6 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     // const nextNumber = useRef(2);
     const selectTimeTableOption = useRef(null);
     const isFirstAddTable = useRef(true);
-    
-    useEffect(() => {
-        console.log('컴포넌트가 화면에 나타남');
-        update_Table(1);
-        return () => {
-            console.log('뿅');
-        };
-    }, []);
 
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
     
