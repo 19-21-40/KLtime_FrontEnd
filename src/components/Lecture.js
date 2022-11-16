@@ -157,26 +157,10 @@ function Lecture({
                 <Content isCardMode={isCardMode}>
                     <div>
                         <strong>{lecture.lectureName}</strong>
-                        {/* {isListMode?
-                        <></>
-                        :
-
-                        <LectureDelBtn onClick={(id)=>onDeleteClick(lecture.id)}>x</LectureDelBtn>
-                        }    */}
                         {blockhover && <LectureDelBtn onClick={(event)=>{
                             onDeleteClick(lecture.id)
                             event.stopPropagation()
                             }}>x</LectureDelBtn>}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 26ec717 (강의 삭제 버블링 수정)
-=======
-
-=======
->>>>>>> 9b811f7 (강의삭제시 강의정보 출력됐던 버그 수정)
->>>>>>> 56e07cf (commit)
                     </div>
                     <div>
                         {lecture.professor}
