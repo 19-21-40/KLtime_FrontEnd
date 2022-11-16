@@ -55,7 +55,7 @@ const Info_list = styled.span`
     margin: 30px;
 `;
 
-const logout_button = styled.button`
+const LogoutButton = styled.button`
 
 `;
 
@@ -76,7 +76,7 @@ function Small_info( {name, std_num, klas, setKlas} ){
         <Small_info_Container>
             <Student_info>
                 <li><Info_list>학번: {std_num}</Info_list></li>
-                <li><Info_list>이름: {name} <logout_button>🚪</logout_button></Info_list></li>
+                <li><Info_list>이름: {name} <LogoutButton>🚪</LogoutButton> </Info_list></li>
             </Student_info>
             <KlasButton onClick={ () =>  {
                 showKlas()

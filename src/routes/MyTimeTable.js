@@ -149,6 +149,8 @@ function MyTimeTable() {
 
     const nextNumber = useRef(1);
 
+
+
     useEffect(() => {
         console.log('컴포넌트가 화면에 나타남');
         update_Table(1);

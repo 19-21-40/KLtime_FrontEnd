@@ -394,7 +394,7 @@ function TiemTableLectureZone({selectedTable,selectedLectures,onClick, blockhove
 
 function TimeTableZone({ selectedLectures, selectedTable, onClick, blockhover}) {
     return (
-        <TimeTableZoneLayout height="432px" position="relative  ">
+        <TimeTableZoneLayout height="800px" position="relative  ">
             <div className="timeTableGrid">
                 <div className="timeTableGridScrollArea">
                     <TimeTablePeriodZone selectedTable={selectedTable} />
