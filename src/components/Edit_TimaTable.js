@@ -184,16 +184,18 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     const [edit, setEdit] = useState(false);
     const [newName, setNewName] = useState( " " );
 
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
     const Edit_click = () => {
         setEdit(!edit);
     }
 
+
+    const tableName = userTableState.totalTimeTable.find( timeTable => timeTable.id == userTableState.selectedId ).tableName;
     useEffect (() => {
-        const tableName = userTableState.totalTimeTable.find( timeTable => timeTable.id == userTableState.selectedId ).tableName;
         setNewName(tableName);
     }, []);
 
-    const currentTableName = userTableState.totalTimeTable.filter( timeTable => timeTable.id == userTableState.selectedId ).tableName; 
 
     const changeTableName = (e) => {
         e.preventDefault();
@@ -204,13 +206,11 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         });
         setEdit(false);
 
-        axios.post(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${currentTableName}/${newName}`, {
-            "token":"1234",
-            "number":"2019203082"
-        }, {
+        axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${tableName}/${newName}`,{
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
+                'Authorization': "Bearer " + accessToken,
             }, withCredentials: true,
         }).then(res=> {
         }
