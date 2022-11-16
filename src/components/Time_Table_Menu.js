@@ -195,7 +195,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
             }
             );
         } else {
-            window.location.href = "/Login"
+            // window.location.href = "/Login"
         }
 
     }, [userTableState.currentSet]);
@@ -323,8 +323,9 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                                     handleOnClick(e, idx)
                                     update_Table(table.id)
                                 }}>
-                                <Delete_button onClick={() => {
+                                <Delete_button onClick={(event) => {
                                     onRemove(table.id, table.tableName)
+                                    event.stopPropagation()
                                 }}>x</Delete_button>
                                 <Time_table_info>
                                     {table.tableName}
