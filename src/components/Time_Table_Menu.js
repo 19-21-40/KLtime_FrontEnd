@@ -5,6 +5,7 @@ import { useUserTableState, useUserTableDispatch } from '../context/UserTableCon
 import styled, { css } from "styled-components";
 import axios from "axios";
 import { API_BASE_URL } from "../app-config";
+import userEvent from "@testing-library/user-event";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
 // const Logo_Image = styled.div`
@@ -183,7 +184,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     useEffect(() => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {
-
+            console.log(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`);
             axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -195,25 +196,33 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                     type: 'READ_TOTAL_TIMETABLE',
                     totalTimeTable: res.data.totalTableList,
                 });
+
+                
             }
             );
         } else {
+            
             // window.location.href = "/Login"
         }
 
+
     }, [userTableState.currentSet]);
 
-    const selectTimeTable = (e) => {
+    useEffect(() => {
 
-        const idx = e.target.selectedIndex;
-        const option = e.target.querySelectorAll('option')[idx];
-        const name = option.getAttribute('name');
 
-        userTableDispatch({
-            type: 'READ_TABLE',
-            id: parseInt(e.target.value),
-        });
-    };
+        const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id
+                setCountIndex(() => primaryId-1);
+
+                console.log(primaryId);
+
+                userTableDispatch({
+                    type: 'READ_TABLE',
+                    id: primaryId,
+                })
+
+    }, [userTableState.totalTimeTable])
+
 
     const addTimeTable = () => {
 
@@ -237,7 +246,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 id: nextNumber.current,
                 tableName: newTableName,
                 lectureList: [],
-                isprimary: false,
+                primary: false,
             },
             selectedId: nextNumber.current,
         });

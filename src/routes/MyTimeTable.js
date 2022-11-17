@@ -153,19 +153,14 @@ function MyTimeTable() {
 
 
     useEffect(() => {
-        console.log('컴포넌트가 화면에 나타남');
-        update_Table(1);
-        return () => {
-            console.log('뿅');
-        };
-    }, []);
-
-    const update_Table = (id) => {
+        const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary==true).id
+        setCountIndex(primaryId-1);
         dispatch({
             type: 'READ_TABLE',
-            id: id,
+            id: primaryId   ,
         });
-    };
+    }, []);
+
 
     useEffect(() => {
 

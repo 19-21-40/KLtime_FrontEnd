@@ -205,8 +205,8 @@ const Klas_Box = styled.div`
     position: fixed;
     z-index: 10;
 
-    width: 50%;
-    height: 60%;
+    width: 100%;
+    height: 100%;
 
     border-radius: 20px;
 
@@ -237,7 +237,7 @@ function MainPage(){
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {
 
-            axios.get(`${API_BASE_URL}/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalTimeTableList`, {
+            axios.get(`${API_BASE_URL}/api/timetable/2022/2학기/totalTimeTableList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',

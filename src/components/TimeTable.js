@@ -425,8 +425,12 @@ function TimeTable({
         periods: periods.slice(2, 15)
     });
     // const [clickedLecture, setClickedLecture] = useState();
-    const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId)
-    const selectedLectures = userTable.totalTimeTable.find(timeTable => timeTable.id === userTable.selectedId).lectureList;
+
+    const selectedId = userTable.totalTimeTable.find(timeTable => timeTable.primary==true).id
+    
+    
+    const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId);
+    const selectedLectures = userTable.totalTimeTable.find(timeTable => timeTable.id === selectedId).lectureList;
     
     const onClick = (id, color) => {
         setClickedLecture({

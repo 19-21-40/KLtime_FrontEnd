@@ -176,7 +176,7 @@ function timeTableReducer(state, action) {
                 totalLectures: state.totalLectures.map(function (lecture) {
                     let isDup = false;
                     lecture.lectureTimes.forEach((time) => {
-                        state.totalTimeTable.find(timeTable => timeTable.id === state.selectedId).lectureList
+                        state.totalTimeTable.find(timeTable => timeTable.id === state.selectedId)?.lectureList
                             .forEach(tableLecture => tableLecture.lectureTimes
                                 .forEach((addLectureTime) => {
                                     if (time.day === addLectureTime.day
