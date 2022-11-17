@@ -182,7 +182,7 @@ function MyTimeTable() {
             }
             );
         } else {
-            // window.location.href = "/Login"
+            window.location.href = "/Login"
         }
     }, [])
 
