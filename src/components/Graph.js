@@ -45,31 +45,59 @@ const Text_box = styled.div`
     
 `;
 
-function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2} ){
+function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2 }) {
 
   const [modalOpen, setModalOpen] = useState(false);//모달
   const [Al, setAl] = useState(Already_num);
   const [Fu, setFu] = useState(Full_num);
+  const [AlT, setAlT] = useState();
+  const [FuT, setFuT] = useState();
 
   useEffect(() => {
-    
+    console.log("시작");
     console.log(Already_num);
     console.log(Full_num);
 
-  }, [Already_num, Full_num]);
-    // 모달창 노출
-    const showModal = () => {
-      if(modalOpen == false){
-        setModalOpen(true);
-      }
-        
-    };
+    console.log(Al);
+    console.log(Fu);
+    console.log("끝");
 
-    const closeModal = () => {
-      if(modalOpen == true) {
-        setModalOpen(false);
-      }
-      
+  }, [Already_num, Full_num, Al, Fu]);
+  // 모달창 노출
+
+  useEffect(() => {
+    if (Full_num == 0) {
+      setAl(1);
+      setFu(1);
+      setAlT("-");
+      setFuT("-");
+    }
+    else if (Already_num > Full_num) {
+      setAl(Full_num);
+      setFu(Full_num);
+      setAlT(Already_num);
+      setFuT(Full_num);
+    }
+    else {
+      setAl(Already_num);
+      setFu(Full_num);
+      setAlT(Already_num);
+      setFuT(Full_num);
+    }
+  }, [Already_num, Full_num]);
+
+  const showModal = () => {
+    if (modalOpen == false) {
+      setModalOpen(true);
+    }
+
+  };
+
+  const closeModal = () => {
+    if (modalOpen == true) {
+      setModalOpen(false);
+    }
+
   };
 
 
@@ -77,21 +105,21 @@ function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
 
   return (
     <Design_Box Width={Width} Height={Height} >
-      <Full_box onClick={ () =>  {
+      <Full_box onClick={() => {
         showModal()
       }} Top_css={Top_css} >
         <PieChart
-          style={{ position: "relative", height: `${Chart_size}px`, top: `${Top_css}`, left: `${Left_css}`}}
+          style={{ position: "relative", height: `${Chart_size}px`, top: `${Top_css}`, left: `${Left_css}` }}
           data={[
             {
-            value: Already_num / Full_num*100,
-            color: "#F6CB44",
-            name: "name1",
+              value: Al / Fu * 100,
+              color: "#F6CB44",
+              name: "name1",
             },
           ]}
           startAngle={270}
           // reveal={12/60*100} //퍼센트 치수
-          reveal={Already_num / Full_num * 100}
+          reveal={Al / Fu * 100}
           lineWidth={35} //도넛 두께
           background="#f3f3f3"
           lengthAngle={(360)}
@@ -99,17 +127,17 @@ function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
           animate
           label={({ dataEntry }) => `${Math.round(dataEntry?.value)}%`}
           labelStyle={{
-          fontSize: "26px",
-          fill: "#33333",
+            fontSize: "26px",
+            fill: "#33333",
           }}
           labelPosition={0}
-          />
-          <Text_box font_1={font_1} font_2={font_2} >
-            <h1>{Kind}</h1>
-            <h2>기준 학점 : {Full_num}</h2>
-            <h2>이수 학점 : {Already_num}</h2>
-          </Text_box>
-          {modalOpen ? <Main_Modal closeModal={closeModal} section={section}/> : null}
+        />
+        <Text_box font_1={font_1} font_2={font_2} >
+          <h1>{Kind}</h1>
+          <h2>기준 학점 : {FuT}</h2>
+          <h2>이수 학점 : {AlT}</h2>
+        </Text_box>
+        {modalOpen ? <Main_Modal closeModal={closeModal} section={section} /> : null}
       </Full_box>
     </Design_Box>
   );

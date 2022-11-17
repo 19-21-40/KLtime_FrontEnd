@@ -147,6 +147,7 @@ const Su_Body_Chart_Box = styled.div`
 
 const Sl_Body_Chart_Box = styled.div`
     display:flex;
+    justify-content: space-around;
 `;
 
 const Design_Box = styled.div`
@@ -358,8 +359,8 @@ function MainPage(){
                                             <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" section="basic" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5} font_1={30} font_2={20} />
                                     </Su_Body_Chart_Box>
                                     <Sl_Body_Chart_Box>
-                                        <Piechart Full_num={999} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={30} font_2={20} />
-                                        <Piechart Full_num={999} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={30} font_2={20} />
+                                        <Piechart Full_num={0} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} />
+                                        <Piechart Full_num={0} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} />
                                     </Sl_Body_Chart_Box>
                                 </Small_Body_Chart_Box>
                                 </Design_Box>
@@ -369,8 +370,8 @@ function MainPage(){
                                         <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="교양학점" section="essBal" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5} font_1={30} font_2={20} />
                                     </Su_Body_Chart_Box>
                                     <Sl_Body_Chart_Box>
-                                        <Piechart Full_num={999} Already_num={data?.credit.balCredit} Kind="균형" section="bal" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={30} font_2={20} />
-                                        <Piechart Full_num={999} Already_num={data?.credit.essCredit} Kind="필수" section="ess" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={30} font_2={20} />
+                                        <Piechart Full_num={0} Already_num={data?.credit.balCredit} Kind="균형" section="bal" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} />
+                                        <Piechart Full_num={0} Already_num={data?.credit.essCredit} Kind="필수" section="ess" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} />
                                     </Sl_Body_Chart_Box>
                                 </Small_Body_Chart_Box>
                                 </Design_Box>

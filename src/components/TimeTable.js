@@ -9,6 +9,7 @@ import { useUserTableState, useUserTableDispatch } from '../context/UserTableCon
 import styled from "styled-components";
 import axios from "axios";
 import { API_BASE_URL } from "../app-config";
+import { render } from "@testing-library/react";
 
 const TimeTableContainer = styled.div`
 
@@ -61,8 +62,8 @@ const DayNameLayout = styled.div`
 `;
 
 const TimeTableZoneLayout = styled.div`
-    height:${props=>props.height};
-    position:${props=>props.position};
+    height:${props => props.height};
+    position:${props => props.position};
 
     .timeTableGrid{
         height: 100%;
@@ -78,8 +79,8 @@ const TimeTableZoneLayout = styled.div`
 
 
 `
-    
-const TimeTableDayLayout=styled.div`
+
+const TimeTableDayLayout = styled.div`
     background: none;
     position: absolute;
     height: 100%; 
@@ -87,7 +88,7 @@ const TimeTableDayLayout=styled.div`
     box-sizing: content-box;
 `
 
-const TimeTableDayBlockLayout=styled.div`
+const TimeTableDayBlockLayout = styled.div`
     position: relative;
     height: 100%;
     margin-right:8px;
@@ -242,10 +243,10 @@ function TimeTablePeriodZone({ selectedTable }) {
     return (
         <PeriodZoneLayout>
             <div className="timeTablePeriod"
-                    style={{ width: "100%"}}>
-                    {selectedTable.periods.map((period) => (
-                        <Period key={period} period={period} selectedTable={selectedTable} />
-                    ))}
+                style={{ width: "100%" }}>
+                {selectedTable.periods.map((period) => (
+                    <Period key={period} period={period} selectedTable={selectedTable} />
+                ))}
             </div>
         </PeriodZoneLayout>
     );
@@ -261,7 +262,7 @@ function TimeTableTimeZone({ selectedTable }) {
                         className={"tableTimePiece"}
                         style={{
                             // top: `${index/selectedTable.times.length*100}%`,
-                            height:"48px",
+                            height: "48px",
                             color: '#bbb',
                             fontWeight: 'normal',
                         }}
@@ -274,33 +275,33 @@ function TimeTableTimeZone({ selectedTable }) {
 }
 
 
-function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover}) {
-    
+function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover }) {
+
     const timeToMinute = (time) => parseInt(time.split(':')[0] * 60) + parseInt(time.split(':')[1]);
-    const userTable=useUserTableState();
+    const userTable = useUserTableState();
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId);
     const dispatch = useUserTableDispatch();
-    const state=useUserTableState();
+    const state = useUserTableState();
     const onDeleteClick = (id) => {
         if (window.confirm("강의를 삭제하시겠습니까?")) {
 
-            const tableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
+            const tableName = state.totalTimeTable.find(timeTable => timeTable.id == state.selectedId).tableName;
             const accessToken = localStorage.getItem("ACCESS_TOKEN");
-            
+
             dispatch({ type: "DELETE_LECTURE", id });
             if (accessToken && accessToken !== null) {
                 axios.post(`${API_BASE_URL}/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/deleteLecture/${tableName}`, {
-                    "lectureDto" : {
+                    "lectureDto": {
                         "id": id,
                     },
                     "timeSlotDtoList": []
                 }, {
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                    'Accept': '*/*',
-                    'Authorization': "Bearer " + accessToken,
-                }, withCredentials: true,
-                }).then(res=> {
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'Accept': '*/*',
+                        'Authorization': "Bearer " + accessToken,
+                    }, withCredentials: true,
+                }).then(res => {
                 }
                 );
             }
@@ -320,31 +321,31 @@ function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover})
                         isCardMode={true}
                         isListMode={false}//수정
                         onClick={(e) => onClick(lecture.id, colors[lecture.lectureIndex])}
-                        onDeleteClick={()=> onDeleteClick(lecture.id)}
+                        onDeleteClick={() => onDeleteClick(lecture.id)}
                         blockhover={blockhover}
                     />
                 ))
             ))
         }
         {
-        userTable.previewId !== -1?previewLecture.lectureTimes?.map((time) => (
-            day !== time.day ? false :
-                <Lecture
-                    key={previewLecture.id}
-                    width='100%'
-                    height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
-                    top={((timeToMinute(time.startTime) - (timeToMinute(selectedTable.times[0]))) * 0.8).toString() + 'px'}
-                    isCardMode={true}
-                    isListMode={false}//수정
-                    lecture={previewLecture}
-                    backgroundColor='rgba(190, 190, 191, 0.8)'
-                />
-        )):<></>
+            userTable.previewId !== -1 ? previewLecture.lectureTimes?.map((time) => (
+                day !== time.day ? false :
+                    <Lecture
+                        key={previewLecture.id}
+                        width='100%'
+                        height={((timeToMinute(time.endTime) - timeToMinute(time.startTime)) * 0.8 - 1).toString() + 'px'}
+                        top={((timeToMinute(time.startTime) - (timeToMinute(selectedTable.times[0]))) * 0.8).toString() + 'px'}
+                        isCardMode={true}
+                        isListMode={false}//수정
+                        lecture={previewLecture}
+                        backgroundColor='rgba(190, 190, 191, 0.8)'
+                    />
+            )) : <></>
         }
     </TimeTableDayBlockLayout>);
 }
 
-function TimeTableDayViewer({ selectedLectures, selectedTable, day, dayIndex, onClick , blockhover}) {
+function TimeTableDayViewer({ selectedLectures, selectedTable, day, dayIndex, onClick, blockhover }) {
     const dayLectures = [];
     selectedLectures.forEach((lecture, lectureIndex) => {
         const times = lecture.lectureTimes.filter(time => time.day === day);
@@ -367,34 +368,34 @@ function TimeTableDayViewer({ selectedLectures, selectedTable, day, dayIndex, on
     );
 }
 
-function TiemTableLectureZone({selectedTable,selectedLectures,onClick, blockhover}){
+function TiemTableLectureZone({ selectedTable, selectedLectures, onClick, blockhover }) {
     return (
-    <LecutreZoneLayout>
-        <div className="timeTableGridLines">
-            {
-                selectedTable.times.map((time, timeIndex) => ([0,1].map((i)=>(
-                        <div key={i===0?`${time}_half`:time} className="timeTableGridHalf" style={{height: "24px", borderBottom: i===0?"none":"1px solid #e5e5e5" }}></div>
+        <LecutreZoneLayout>
+            <div className="timeTableGridLines">
+                {
+                    selectedTable.times.map((time, timeIndex) => ([0, 1].map((i) => (
+                        <div key={i === 0 ? `${time}_half` : time} className="timeTableGridHalf" style={{ height: "24px", borderBottom: i === 0 ? "none" : "1px solid #e5e5e5" }}></div>
                     ))))
-            }
-        </div>
-        <div style={{
+                }
+            </div>
+            <div style={{
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                left:"0%",
-                top:"0",
-        }}>
-        {
-            selectedTable.dayNames.map((day, dayIndex) => (
-                <TimeTableDayViewer key={day} day={day} dayIndex={dayIndex} selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
-            ))
-        }
-        </div>
-    </LecutreZoneLayout>
+                left: "0%",
+                top: "0",
+            }}>
+                {
+                    selectedTable.dayNames.map((day, dayIndex) => (
+                        <TimeTableDayViewer key={day} day={day} dayIndex={dayIndex} selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
+                    ))
+                }
+            </div>
+        </LecutreZoneLayout>
     );
 }
 
-function TimeTableZone({ selectedLectures, selectedTable, onClick, blockhover}) {
+function TimeTableZone({ selectedLectures, selectedTable, onClick, blockhover }) {
     return (
         <TimeTableZoneLayout height="800px" position="relative  ">
             <div className="timeTableGrid">
@@ -426,36 +427,37 @@ function TimeTable({
     });
     // const [clickedLecture, setClickedLecture] = useState();
 
-    const selectedId = userTable.totalTimeTable.find(timeTable => timeTable.primary==true).id
-    
-    
+    const selectedId = userTable.totalTimeTable.find(timeTable => timeTable.primary == true).id
+
+
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId);
     const selectedLectures = userTable.totalTimeTable.find(timeTable => timeTable.id === selectedId).lectureList;
-    
+
     const onClick = (id, color) => {
         setClickedLecture({
             ...selectedLectures.find(lecture => lecture.id === id),
             backgroundColor: color,
         });
-        if(blockhover){
+        if (blockhover) {
             setOpenLectureDetail(true);
         }
-        else{
+        else {
             setOpenLectureDetail(false);
         }
-        
+
         setOpenDetail(false);
+        console.log("클릭");
     }
 
     const onHover = () => {
-        
+
     }
 
     const dispatch = useUserTableDispatch();
 
 
     useEffect(() => {
-        
+
         let maxDay = 5;
         let minTime = 9;
         let minPeriod = 2;
@@ -485,8 +487,8 @@ function TimeTable({
 
     return (
         <TimeTableContainer height={`${height}px`}>
-            <div id="timeTable" style={{height:`${height - 50}px`}}>
-                <div className="tableContainer" style={{width:`${width}px`}}>
+            <div id="timeTable" style={{ height: `${height - 50}px` }}>
+                <div className="tableContainer" style={{ width: `${width}px` }}>
                     <DayNameZone selectedTable={selectedTable} />
                     <TimeTableZone selectedLectures={selectedLectures} selectedTable={selectedTable} onClick={onClick} blockhover={blockhover} />
                 </div>
