@@ -4,6 +4,7 @@ import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import styled, { css } from "styled-components";
 import axios from "axios";
+import { API_BASE_URL } from "../app-config";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
 // const Logo_Image = styled.div`
@@ -183,7 +184,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {
 
-            axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
+            axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
@@ -244,7 +245,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         
         // 시간표 이름과 student정보를 백으로 던져줌
         if (accessToken && accessToken !== null) {
-        axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`, {
+        axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`, {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
@@ -266,7 +267,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 type: 'DELETE_TABLE',
                 id,
             });
-            axios.post(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/delete/${tableName}`,{
+            axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/delete/${tableName}`,{
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',

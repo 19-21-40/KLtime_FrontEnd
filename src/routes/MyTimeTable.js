@@ -12,6 +12,7 @@ import Small_info from "../components/Small_info";
 import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import LectureDetail_B from "../components/LectureDetail_B";
+import { API_BASE_URL } from "../app-config";
 
 const Head_line = styled.div`
     
@@ -171,7 +172,7 @@ function MyTimeTable() {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {
 
-            axios.get(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalLectureList`, {
+            axios.get(`${API_BASE_URL}/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalLectureList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',

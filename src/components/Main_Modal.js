@@ -5,6 +5,7 @@ import axios from "axios";
 
 import MyPage from '../routes/MyPage';
 import Klas_Peristalsis from './Klas_Peristalsis';
+import { API_BASE_URL } from '../app-config';
 
 /* 모달창을 화면 중앙. 최상단에 노출 */
 const Background = styled.div`
@@ -206,17 +207,17 @@ const Main_Modal = ( { closeModal, section } ) => {
     );
 
     useEffect(()=> {
+        const accessToken = localStorage.getItem("ACCESS_TOKEN");
+        if(accessToken && accessToken !== null) {
         if(section=="total"){
             
         }else if(section == "main"){
 
-        axios.post("http://localhost:8080/api/mainLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+        axios.get(`${API_BASE_URL}/api/mainLectureList`,  {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 console.log(Object.entries(res.data.data));
@@ -231,13 +232,11 @@ const Main_Modal = ( { closeModal, section } ) => {
 
 
         }else if(section == "basic"){
-            axios.post("http://localhost:8080/api/basicLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+            axios.get(`${API_BASE_URL}/api/basicLectureList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));
@@ -245,13 +244,11 @@ const Main_Modal = ( { closeModal, section } ) => {
                 
             );
         }else if(section == "math"){
-            axios.post("http://localhost:8080/api/mathLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+            axios.get(`${API_BASE_URL}/api/mathLectureList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));
@@ -259,13 +256,11 @@ const Main_Modal = ( { closeModal, section } ) => {
                 
             );
         }else if(section == "basicScience"){
-            axios.post("http://localhost:8080/api/basicScienceLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+            axios.get(`${API_BASE_URL}/api/basicScienceLectureList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));
@@ -273,13 +268,11 @@ const Main_Modal = ( { closeModal, section } ) => {
                 
             );
         }else if(section == "essBal"){
-            axios.post("http://localhost:8080/api/essBalLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+            axios.get(`${API_BASE_URL}/api/essBalLectureList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));
@@ -287,13 +280,11 @@ const Main_Modal = ( { closeModal, section } ) => {
                 
             );
         }else if(section == "ess"){
-            axios.post("http://localhost:8080/api/essLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+            axios.get(`${API_BASE_URL}/api/essLectureList`,  {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));
@@ -304,10 +295,7 @@ const Main_Modal = ( { closeModal, section } ) => {
 
 
         }else if(section == "bal"){
-            axios.post("http://localhost:8080/api/balLectureList", {
-                token:"1234",
-                number:"2019203082"
-            }, {
+            axios.get(`${API_BASE_URL}/api/balLectureList`,  {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
@@ -323,6 +311,9 @@ const Main_Modal = ( { closeModal, section } ) => {
         }else{
             console.log("아무것도 안함");
         }
+    }else{
+        window.location.href="/Login"
+    }
         
     }, [])
 

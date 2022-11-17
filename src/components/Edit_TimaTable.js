@@ -8,6 +8,7 @@ import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import axios from "axios";
+import { API_BASE_URL } from "../app-config";
 
 
 const Total_Container = styled.div `
@@ -206,7 +207,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         });
         setEdit(false);
         if (accessToken && accessToken !== null) {
-        axios.get(`http://localhost:8080/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${tableName}/${newName}`,{
+        axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${tableName}/${newName}`,{
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',

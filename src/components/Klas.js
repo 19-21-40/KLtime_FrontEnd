@@ -6,7 +6,7 @@ import { JSEncrypt } from 'jsencrypt';
 import axios from "axios";
 import styled from "styled-components";
 import { Circles } from 'react-loader-spinner';
-
+import { API_BASE_URL } from "../app-config";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -51,75 +51,86 @@ function Klas() {
     });
     const { loading, data, error } = state;
     const onClick = () => {
+        const accessToken = localStorage.getItem("ACCESS_TOKEN");
         dispatch({ type: 'LOADING' });
         try {
-            const encrypt = new JSEncrypt();
-            axios.post(
-                //publicKey를 받아옴
-                '/proxy/usr/cmn/login/LoginSecurity.do', "", {
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                    'Accept': '*/*',
-                },
-                withCredentials: true
-            }).then((response) => {
-                //로그인을 시행
-                let login = JSON.stringify({
-                    "loginId": loginId,
-                    "loginPwd": loginPwd,
-                    "storeIdYn": "N"
-                });
-                console.log(login);
-                encrypt.setPublicKey(response.data?.publicKey);
-                let loginToken = encrypt.encrypt(login);
-                let requestData = JSON.stringify({
-                    "loginToken": loginToken,
-                    "redirectUrl": "",
-                    "redirectTabUrl": ""
-                })
-                console.log(requestData);
-                axios.post('/proxy/usr/cmn/login/LoginConfirm.do', requestData, {
+            if (accessToken && accessToken !== null) {
+                const encrypt = new JSEncrypt();
+                axios.post(
+                    //publicKey를 받아옴
+                    '/proxy/usr/cmn/login/LoginSecurity.do', "", {
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
                         'Accept': '*/*',
-                    }, withCredentials: true,
-                })
-                    .then(() => {
-                        axios.post('/proxy/std/cps/inqire/AtnlcScreSungjukInfo.do')
-                            .then(async (resData) => {
-                                let klasTimeTableDTO=[];
-                                const promises = resData.data.map(async (value, index) => {
-                                    if(value.hakgi<3){
-                                        await axios.post('/proxy/std/cmn/frame/StdHome.do',JSON.stringify({"searchYearhakgi" :`${value.thisYear},${value.hakgi}`}), {
-                                            headers: {
-                                                'Content-type': 'application/json; charset=UTF-8',
-                                                'Accept': '*/*',
-                                            }
-                                        }).then((d)=>klasTimeTableDTO.push(d.data.atnlcSbjectList));
+                    },
+                    withCredentials: true
+                }).then((response) => {
+                    //로그인을 시행
+                    let login = JSON.stringify({
+                        "loginId": loginId,
+                        "loginPwd": loginPwd,
+                        "storeIdYn": "N"
+                    });
+                    console.log(login);
+                    encrypt.setPublicKey(response.data?.publicKey);
+                    let loginToken = encrypt.encrypt(login);
+                    let requestData = JSON.stringify({
+                        "loginToken": loginToken,
+                        "redirectUrl": "",
+                        "redirectTabUrl": ""
+                    })
+                    console.log(requestData);
+                    axios.post('/proxy/usr/cmn/login/LoginConfirm.do', requestData, {
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8',
+                            'Accept': '*/*',
+                        }, withCredentials: true,
+                    })
+                        .then(() => {
+                            axios.post('/proxy/std/cps/inqire/AtnlcScreSungjukInfo.do')
+                                .then(async (resData) => {
+                                    let klasTimeTableDTO = [];
+                                    const promises = resData.data.map(async (value, index) => {
+                                        if (value.hakgi < 3) {
+                                            await axios.post('/proxy/std/cmn/frame/StdHome.do', JSON.stringify({ "searchYearhakgi": `${value.thisYear},${value.hakgi}` }), {
+                                                headers: {
+                                                    'Content-type': 'application/json; charset=UTF-8',
+                                                    'Accept': '*/*',
+                                                }
+                                            }).then((d) => klasTimeTableDTO.push(d.data.atnlcSbjectList));
+                                        }
+                                    });
+                                    await Promise.all(promises);
+                                    dispatch({
+                                        type: 'SUCCESS', data: {
+                                            klasTookLectureListDTOList: resData.data,
+                                            klasTimeTableDTO: klasTimeTableDTO
+                                        }
+                                    });
+                                    axios.post(`${API_BASE_URL}/api/Klas/link`, {
+                                        klasTookLectureListDTOList: resData.data
+                                        , klasTimeTableDTOListList: klasTimeTableDTO
+                                    }, {
+                                        headers: {
+                                            'Content-type': 'application/json; charset=UTF-8',
+                                            'Accept': '*/*',
+                                            'Authorization': "Bearer " + accessToken,
+                                        },
                                     }
-                                });
-                                await Promise.all(promises);
-                                dispatch({ type: 'SUCCESS', data: {
-                                    klasTookLectureListDTOList:resData.data,
-                                    klasTimeTableDTO:klasTimeTableDTO
-                                }});
-                                call("/api/Klas/link", "POST", {
-                                    studentDTO: {
-                                        token: "1234",
-                                        number: loginId
-                                    }, klasTookLectureListDTOList: resData.data
-                                    ,klasTimeTableDTOListList:klasTimeTableDTO
-                                }); 
-                            })
-                        
-                    }
-                    )
-            });
+                                    );
+                                })
+
+                        }
+                        )
+                });
+            } else {
+                window.location.href = "/Login"
+            }
         } catch (e) {
             dispatch({ type: 'ERROR', error: e });
         }
 
-        
+
 
 
     }

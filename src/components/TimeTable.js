@@ -8,6 +8,7 @@ import EditLecture from "./EditLecture";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import styled from "styled-components";
 import axios from "axios";
+import { API_BASE_URL } from "../app-config";
 
 const TimeTableContainer = styled.div`
 
@@ -288,7 +289,7 @@ function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover})
             
             dispatch({ type: "DELETE_LECTURE", id });
             if (accessToken && accessToken !== null) {
-                axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/deleteLecture/${tableName}`, {
+                axios.post(`${API_BASE_URL}/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/deleteLecture/${tableName}`, {
                     "lectureDto" : {
                         "id": id,
                     },

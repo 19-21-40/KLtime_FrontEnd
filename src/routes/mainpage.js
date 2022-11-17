@@ -10,6 +10,7 @@ import { isOptionGroup } from "@mui/base";
 import Klas from "../components/Klas";
 import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
+import { API_BASE_URL } from "../app-config";
 
 
 const Head_line = styled.div`
@@ -236,7 +237,7 @@ function MainPage(){
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {
 
-            axios.get(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalTimeTableList`, {
+            axios.get(`${API_BASE_URL}/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/totalTimeTableList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
@@ -308,7 +309,7 @@ function MainPage(){
             const accessToken = localStorage.getItem("ACCESS_TOKEN");
             if (accessToken && accessToken !== null) {
 
-                axios.get("http://localhost:8080/api/gradConditionAndCredit", {
+                axios.get(`${API_BASE_URL}/api/gradConditionAndCredit`, {
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
                         'Accept': '*/*',

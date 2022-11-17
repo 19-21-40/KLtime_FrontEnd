@@ -4,6 +4,7 @@ import useInputs from "../hooks/useInputs";
 import { UserState } from '../context/UserInfoContext';
 import axios from "axios";
 import { useEffect } from "react";
+import { API_BASE_URL } from "../app-config";
 
 function LoginFrom() {
     const [{ stdnum, password }, onChange, reset] = useInputs({
@@ -21,7 +22,7 @@ function LoginFrom() {
     },[])
 
     const onClick_l = () => {
-        axios.post("http://localhost:8080/auth/sign_in",{number:stdnum,password:password})
+        axios.post(`${API_BASE_URL}/auth/sign_in`,{number:stdnum,password:password})
         .then(res=>{
             localStorage.setItem("ACCESS_TOKEN",res.data.token)
             window.location.href="/"
