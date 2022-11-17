@@ -142,18 +142,21 @@ function Lecture({
         setClicked(isClicked);
     },[state.selectedId,isClicked])
 
+    const clilick = () => {
+        if(!clicked){
+            onClick();
+            setClicked(true);
+        }
+        if(!isListMode){
+            onClick();
+        }
+    }
 
     return (
         <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
-            onClick={
-                clicked?()=>{}:()=>{
-                onClick();
-                setClicked(true);
-                }
-                
-            }
+            onClick={clilick}
             >
             <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} >
                 <Content isCardMode={isCardMode}>
