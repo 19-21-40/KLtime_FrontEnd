@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import LectureDetail_B from "../components/LectureDetail_B";
 import { API_BASE_URL } from "../app-config";
+import KLTimeLogo from "../image/KLTimeLogo.png"
 
 const Head_line = styled.div`
     
@@ -33,21 +34,21 @@ const Head_component = styled.div`
 
     position: absolute;
     width: 1600px;
+    height: 100%;
     
 `;
 
-const Logo_Image = styled.div`
+const Logo_Image = styled.img`
     box-sizing: border-box;
 
     position: absolute;
-    width: 249px;
-    height: 72px;
     left: 50px;
-    top: 24px;
+    top: 13px;
 
     /* 학점-숫자 */
 
-    border: 1px solid #5A5A5A;
+    cursor: pointer;
+    border: none;
 `;
 
 const Body_line = styled.div`
@@ -153,11 +154,11 @@ function MyTimeTable() {
 
 
     useEffect(() => {
-        const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary==true).id
-        setCountIndex(primaryId-1);
+        const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary == true).id
+        setCountIndex(primaryId - 1);
         dispatch({
             type: 'READ_TABLE',
-            id: primaryId   ,
+            id: primaryId,
         });
     }, []);
 
@@ -191,7 +192,11 @@ function MyTimeTable() {
         <>
             <Head_line>
                 <Head_component>
-                    <Logo_Image />
+                    <nav>
+                        <Link to="/">
+                            <Logo_Image src={KLTimeLogo} />
+                        </Link>
+                    </nav>
                     <Small_info name="신재민" std_num={2021203022} />
                 </Head_component>
             </Head_line>

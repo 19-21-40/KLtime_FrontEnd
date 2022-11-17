@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import axios from "axios";
 import { API_BASE_URL } from "../app-config";
+import editImage from "../image/Group.png"
+import backImage from "../image/Back.png"
 
 
 const Total_Container = styled.div `
@@ -88,27 +90,26 @@ const InputTableName = styled.input`
 
 `;
 
-const Back_Button = styled.button`
-    width: 30px;
-    height: 50px;
+const Back_Button = styled.img`
 
     position: absolute;
-    top: 25px;
+    top: 35px;
     right: 90%;
 
     font-size: 30px;
-    border: 2px solid #828282;
+    border: none;
 
     background-color: transparent;
 
+    cursor:pointer;
+
 `;
 
-const Edit_Name_Button = styled.button`
-    width: 50px;
-    height: 30px;
+const Edit_Name_Button = styled.img`
 
+    cursor: pointer;
     position: absolute;
-    top:20px;
+    top:25px;
     margin-left:10px;
 `;
 
@@ -160,15 +161,6 @@ const XBtn = styled.button`
     cursor: pointer;
 `;
 
-const Body = styled.div`
-    width: 100%;
-    max-width: 400px;
-    height: 200px;
-    background-color: #ffffff;
-    div{
-        font-size: 25px;
-    }
-`;
 
 
 
@@ -207,7 +199,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         });
         setEdit(false);
         if (accessToken && accessToken !== null) {
-        axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${tableName}/${newName}`,{
+        axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changeName/${tableName}/${newName}`,null,{
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
@@ -228,12 +220,13 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     return (
         <Total_Container>
             <Headcomponent>
-                    <Back_Button onClick={Back_click}>{'<'}</Back_Button>
+                    <Back_Button  src={backImage} onClick={Back_click}/>
                     <TableInfo_1>{`${userTableState.currentSet.year}년 ${userTableState.currentSet.semester}`}</TableInfo_1>
                     {edit ? 
                     <form onSubmit={ e => changeTableName(e) }>
                         <InputTableName value={newName} maxLength={15} onChange={ (e) => setNewName(e.target.value)}/>
-                    </form> : <TableInfo_2>{newName} <Edit_Name_Button onClick={Edit_click}>수정</Edit_Name_Button></TableInfo_2>}
+                    </form> : <TableInfo_2>{newName} <Edit_Name_Button src={editImage} onClick={Edit_click} width={25} />
+                    </TableInfo_2>}
                     <GR_Button>졸업요건 확인</GR_Button>
             </Headcomponent>
             <Search_box>

@@ -7,6 +7,55 @@ import axios from "axios";
 import styled from "styled-components";
 import { Circles } from 'react-loader-spinner';
 import { API_BASE_URL } from "../app-config";
+import KwangWoon_text_logo from "../image/KwangwoonTextLogo.png"
+
+const KwangWoonTextLogo_ = styled.img`
+    width: 200px;
+    margin-bottom: 40px;
+`
+
+const InputContainer = styled.div`
+    display : flex;
+    margin-bottom: 30px;
+`
+// const Label = styled.label`
+//     margin-right: 15px;
+//     width: 80px;
+//     height: 50px;
+
+//     text-align: center;
+//     line-height: 50px;
+//     font-size:20px;
+//     color:white;
+// `
+
+const Input = styled.input`
+    width: 300px;
+    height: 50px;
+    padding: 5px 20px;
+
+    border-radius: 25px;
+    background: rgb(255,255,255);
+
+    font-size:20px;
+`
+
+const Button = styled.button`
+
+    width: 100%;
+    height: 50px;
+
+    background: #8b0b02;
+    
+    padding: 6px;
+    border-radius: 20px;
+
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+
+    cursor: pointer;
+`
 
 function reducer(state, action) {
     switch (action.type) {
@@ -117,6 +166,9 @@ function Klas() {
                                             'Authorization': "Bearer " + accessToken,
                                         },
                                     }
+                                    ).then(
+                                        () => {
+                                            window.location.href="/";}
                                     );
                                 })
 
@@ -138,12 +190,7 @@ function Klas() {
 
     return (
         <div>
-            <form>
-                <div>
-                    <div>
-                        <label htmlFor="stdnum">학번<br /></label>
-                        <input onChange={onChange} id="loginId" type="text" name="loginId" value={loginId} placeholder="학번을 입력하시오." />
-                        {state.loading ? <Circles
+            {state.loading ? <Circles
                             height="80"
                             width="80"
                             radius="9"
@@ -151,17 +198,25 @@ function Klas() {
                             ariaLabel="loading"
                             wrapperStyle
                             wrapperClass
-                        /> : <></>}
-                    </div>
-                    <div>
-                        <label htmlFor="password">비밀번호<br /></label>
-                        <input onChange={onChange} id="loginPwd" type="password" name="loginPwd" value={loginPwd} placeholder="비밀번호를 입력하시오." />
-                    </div>
-                </div>
-            </form>
-            <div>
-                <button onClick={onClick}>연동하기</button>
-            </div>
+                        /> : <>
+                        <form>
+                            <div>
+                                <KwangWoonTextLogo_ src={KwangWoon_text_logo} />
+                                <InputContainer>
+                                    {/* <Label htmlFor="stdnum">학번<br /></Label> */}
+                                    <Input onChange={onChange} id="loginId" type="text" name="loginId" value={loginId} placeholder="학번을 입력하시오." />
+                                </InputContainer>
+                                <InputContainer>
+                                    {/* <Label htmlFor="password">비밀번호<br /></Label> */}
+                                    <Input onChange={onChange} id="loginPwd" type="password" name="loginPwd" value={loginPwd} placeholder="비밀번호를 입력하시오." />
+                                </InputContainer>
+                            </div>
+                        </form>
+                        <div>
+                            <Button onClick={onClick}>연동하기</Button>
+                        </div>
+                        </>}
+            
         </div>
     );
 }

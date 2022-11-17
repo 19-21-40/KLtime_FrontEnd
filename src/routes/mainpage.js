@@ -11,6 +11,8 @@ import Klas from "../components/Klas";
 import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import { API_BASE_URL } from "../app-config";
+import KLTimeLogo from "../image/KLTimeLogo.png"
+import LoginBg from "../image/loginbg.jpg"
 
 
 const Head_line = styled.div`
@@ -32,21 +34,21 @@ const Head_component = styled.div`
 
     position: absolute;
     width: 1600px;
+    height: 100%;
     
 `;
 
-const Logo_Image = styled.div`
+const Logo_Image = styled.img`
     box-sizing: border-box;
 
     position: absolute;
-    width: 249px;
-    height: 72px;
     left: 50px;
-    top: 24px;
+    top: 13px;
 
     /* 학점-숫자 */
 
-    border: 1px solid #5A5A5A;
+    cursor: pointer;
+    border: none;
 `;
 
 const Body_line = styled.div`
@@ -163,7 +165,7 @@ const Right_component = styled.div`
     width: 750px;
 
     position: relative;
-    top: 150px;
+    top: 80px;
     left: 50%;
 
     margin-right:20px;
@@ -189,7 +191,7 @@ const TimeTableBody = styled.div`
 
     top: 7%;
     width : 100%;
-    height: 841px;
+    height: 910px;
 
     background: #FFFFFF;
 
@@ -197,23 +199,38 @@ const TimeTableBody = styled.div`
     border-radius: 50px;
 `
 
+const Box_container = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+`
+
 const Klas_Box = styled.div`
     display: flex;
     justify-content:center;
     align-items:center;
 
-    position: fixed;
+    position: absolute;
     z-index: 10;
 
-    width: 100%;
-    height: 100%;
+    width: 680px;
+    height: 900px;
 
     border-radius: 20px;
 
-    background-color: pink;
+    background: #000 url(${LoginBg}) no-repeat 0 0 !important;
+    background-image: url(${LoginBg});
+    background-position-x: 0px;
+    background-position-y: 0px;
+    background-size: 100% !important;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(0, 0, 0);
 
-    top:25%;
-    left:25%;
 `;
 
 const P_Button = styled.button`
@@ -222,13 +239,23 @@ const P_Button = styled.button`
     justify-content: center;
     width: 20px;
     height: 20px;
+
+    position:absolute;
+    top:30px;
+    right: 30px;
+
+    font-size: 30px;
+    color:white;
+    background-color: transparent;
+    
+    cursor: pointer;
 `;
 
 const GoTable_Btn = styled.button`
 
 `;
 
-function MainPage(){
+function MainPage() {
 
     const dispatch = useUserTableDispatch();
     const state = useUserTableState();
@@ -254,13 +281,13 @@ function MainPage(){
             // window.location.href = "/Login"
         }
 
-        
-        
+
+
     }, []);
 
     useEffect(() => {
 
-        const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary==true).id;
+        const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary == true).id;
         dispatch({
             type: 'READ_TABLE',
             id: primaryId,
@@ -281,7 +308,7 @@ function MainPage(){
     //     });
     // };
 
-    const [data,setData]=useState(
+    const [data, setData] = useState(
         {
             "gradcondition": {
                 "admissionYear": 999,
@@ -305,7 +332,7 @@ function MainPage(){
     );
 
     useEffect(
-        ()=>{
+        () => {
             const accessToken = localStorage.getItem("ACCESS_TOKEN");
             if (accessToken && accessToken !== null) {
 
@@ -323,14 +350,14 @@ function MainPage(){
                 // window.location.href = "/Login"
             }
         }
-    ,[]);
-    
+        , []);
+
 
     return (
         <>
             <Head_line>
                 <Head_component>
-                    <Logo_Image/>
+                        <Logo_Image src={KLTimeLogo} onClick={() => window.location.href="/"}/>
                     <Small_info name="신재민" std_num={2021203022} klas={klas} setKlas={setKlas} />
                 </Head_component>
             </Head_line>
@@ -345,37 +372,37 @@ function MainPage(){
                         <Body_Chart_Box>
                             <Upper_Body_Chart_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" section="main" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5}/>
+                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" section="main" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} />
                                 </Design_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={999} Already_num={999} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5}/>
+                                    <Piechart Full_num={999} Already_num={999} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} />
                                 </Design_Box>
                             </Upper_Body_Chart_Box>
                             <Lower_Body_Chart_Box>
                                 <Design_Box>
-                                <Small_Body_Chart_Box>
-                                    <Su_Body_Chart_Box>
-                                            <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" section="basic" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5}/>
-                                    </Su_Body_Chart_Box>
-                                    <Sl_Body_Chart_Box>
-                                        <Piechart Full_num={999} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
-                                        <Piechart Full_num={999} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
-                                    </Sl_Body_Chart_Box>
-                                </Small_Body_Chart_Box>
+                                    <Small_Body_Chart_Box>
+                                        <Su_Body_Chart_Box>
+                                            <Piechart Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" section="basic" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5} />
+                                        </Su_Body_Chart_Box>
+                                        <Sl_Body_Chart_Box>
+                                            <Piechart Full_num={999} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} />
+                                            <Piechart Full_num={999} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} />
+                                        </Sl_Body_Chart_Box>
+                                    </Small_Body_Chart_Box>
                                 </Design_Box>
                                 <Design_Box>
-                                <Small_Body_Chart_Box>
-                                    <Su_Body_Chart_Box>
-                                        <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit+data?.credit.essCredit} Kind="교양학점" section="essBal" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5}/>
-                                    </Su_Body_Chart_Box>
-                                    <Sl_Body_Chart_Box>
-                                        <Piechart Full_num={999} Already_num={data?.credit.balCredit} Kind="균형" section="bal" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
-                                        <Piechart Full_num={999} Already_num={data?.credit.essCredit} Kind="필수" section="ess" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15}/>
-                                    </Sl_Body_Chart_Box>
-                                </Small_Body_Chart_Box>
+                                    <Small_Body_Chart_Box>
+                                        <Su_Body_Chart_Box>
+                                            <Piechart Full_num={data?.gradcondition.essBalCredit} Already_num={data?.credit.balCredit + data?.credit.essCredit} Kind="교양학점" section="essBal" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5} />
+                                        </Su_Body_Chart_Box>
+                                        <Sl_Body_Chart_Box>
+                                            <Piechart Full_num={999} Already_num={data?.credit.balCredit} Kind="균형" section="bal" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} />
+                                            <Piechart Full_num={999} Already_num={data?.credit.essCredit} Kind="필수" section="ess" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} />
+                                        </Sl_Body_Chart_Box>
+                                    </Small_Body_Chart_Box>
                                 </Design_Box>
                             </Lower_Body_Chart_Box>
-                        </Body_Chart_Box>    
+                        </Body_Chart_Box>
                     </Left_component>
                     <Right_component>
                         <TimeTableHeader>
@@ -385,10 +412,12 @@ function MainPage(){
                             </Link>
                         </TimeTableHeader>
                         <TimeTableBody>
-                            <TimeTable width={670} height={700} />    
+                            <TimeTable width={670} height={900} />
                         </TimeTableBody>
                     </Right_component>
-                    {klas ? <Klas_Box><Klas/> <P_Button onClick={onClose} >X</P_Button></Klas_Box>: <></>} 
+                    <Box_container>
+                        {klas ? <Klas_Box><Klas /> <P_Button onClick={onClose} >X</P_Button></Klas_Box> : <></>}
+                    </Box_container>
                 </Component_position>
             </Body_line>
         </>

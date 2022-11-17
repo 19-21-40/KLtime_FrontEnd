@@ -153,10 +153,14 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     }
 
     const update_Table = (id) => {
+        console.log(userTableState);
+        console.log(id);
+        
         userTableDispatch({
             type: 'READ_TABLE',
             id: id,
         });
+        console.log(userTableState.selectedId);
     };
 
     const SelectYear = (e) => {
@@ -182,9 +186,21 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     };
 
     useEffect(() => {
+
+
+        const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id
+                setCountIndex(() => primaryId-1);
+
+                userTableDispatch({
+                    type: 'READ_TABLE',
+                    id: primaryId,
+                })
+
+    }, [userTableState.totalTimeTable])
+
+    useEffect(() => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if (accessToken && accessToken !== null) {
-            console.log(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`);
             axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/totalTimeTableList`, {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -208,20 +224,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
 
     }, [userTableState.currentSet]);
 
-    useEffect(() => {
-
-
-        const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id
-                setCountIndex(() => primaryId-1);
-
-                console.log(primaryId);
-
-                userTableDispatch({
-                    type: 'READ_TABLE',
-                    id: primaryId,
-                })
-
-    }, [userTableState.totalTimeTable])
+    
 
 
     const addTimeTable = () => {
@@ -276,7 +279,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 type: 'DELETE_TABLE',
                 id,
             });
-            axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/delete/${tableName}`,{
+            axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/delete/${tableName}`, null,{
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
