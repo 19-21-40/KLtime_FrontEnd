@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PieChart } from "react-minimal-pie-chart";
 import Main_Modal from './Main_Modal';
 import styled from "styled-components";
@@ -32,14 +32,31 @@ const Text_box = styled.div`
     align-items: center;
     justify-content: center;
     text-align:center;
+
+    h1 {
+      font-size: ${props => `${props.font_1}px`};
+      margin: 0 0 10px 0;
+    }
+
+    h2 {
+      font-size: ${props => `${props.font_2}px`};
+      margin: 0 0 10px 0;
+    }
     
 `;
 
-function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section} ){
+function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2} ){
 
   const [modalOpen, setModalOpen] = useState(false);//모달
+  const [Al, setAl] = useState(Already_num);
+  const [Fu, setFu] = useState(Full_num);
 
+  useEffect(() => {
+    
+    console.log(Already_num);
+    console.log(Full_num);
 
+  }, [Already_num, Full_num]);
     // 모달창 노출
     const showModal = () => {
       if(modalOpen == false){
@@ -87,10 +104,10 @@ function Piechart( {Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
           }}
           labelPosition={0}
           />
-          <Text_box>
+          <Text_box font_1={font_1} font_2={font_2} >
             <h1>{Kind}</h1>
-            <div>기준 학점 : {Full_num}</div>
-            <div>이수 학점 : {Already_num}</div>
+            <h2>기준 학점 : {Full_num}</h2>
+            <h2>이수 학점 : {Already_num}</h2>
           </Text_box>
           {modalOpen ? <Main_Modal closeModal={closeModal} section={section}/> : null}
       </Full_box>
