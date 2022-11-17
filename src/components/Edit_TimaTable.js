@@ -176,6 +176,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     
     const [edit, setEdit] = useState(false);
     const [newName, setNewName] = useState( " " );
+    const [fold, setFold] = useState(false);
 
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
@@ -231,11 +232,11 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
             </Headcomponent>
             <Search_box>
                 <Search
-                totalLectures={userTableState.totalLectures}
+                fold={fold} setFold={setFold}
                 />
             </Search_box>
             <LectureList_box>
-                <LectureList />
+                <LectureList fold={fold}/>
             </LectureList_box>
         </Total_Container>
     )

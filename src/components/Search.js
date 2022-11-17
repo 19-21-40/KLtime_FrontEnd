@@ -200,7 +200,7 @@ const searchInputReducer = (state, action) => {
 
 }
 
-function Search({totalLectures}) 
+function Search({fold, setFold}) 
 { 
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
@@ -212,7 +212,7 @@ function Search({totalLectures})
 
     const [searchInputs, inputDispatch] = useReducer(searchInputReducer, initialInputs);
 
-    const [fold, setFold] = useState(false);
+    
 
     const clickFold = () => {
         if(fold){
@@ -235,7 +235,14 @@ function Search({totalLectures})
                 inputDispatch({type: 'INPUT', input: event.target.value});
                 break;
             case 'credit':
-                inputDispatch({type: 'CREDIT', credit: parseInt(event.target.value)});
+                let newCredit=event.target.value;
+                if(event.target.value != 'null'){
+                    newCredit = parseInt(event.target.value);
+                }else{
+                    newCredit = 'null';
+                }
+                   
+                inputDispatch({type: 'CREDIT', credit: newCredit});
                 break;
             case 'section':
                 inputDispatch({type: 'SECTION', section: event.target.value});
@@ -244,7 +251,13 @@ function Search({totalLectures})
                 inputDispatch({type: 'department', department: event.target.value});
                 break;
             case 'level':
-                inputDispatch({type: 'LEVEL', level: parseInt(event.target.value)});
+                let newLevel=event.target.value;
+                if(event.target.value != 'null'){
+                    newLevel = parseInt(event.target.value);
+                }else{
+                    newLevel = 'null';
+                }
+                inputDispatch({type: 'LEVEL', level: newLevel});
                 break;
         }
     }
@@ -263,7 +276,7 @@ function Search({totalLectures})
         // 검색어 입력에 의한 처리
         if(fold==false) {
             if(searchInputs.input !== ''){
-                result = totalLectures.filter((lecture)=> {
+                result = userTableState.totalLectures.filter((lecture)=> {
                     if (searchInputs.searchItem === '강의명'){
                         return lecture.lectureName.includes(searchInputs.input);
                     }

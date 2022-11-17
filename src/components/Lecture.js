@@ -14,10 +14,11 @@ const DualMode=styled.div`
         box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
         width:${props=>props.width};
         height:${props=>props.height};
+
+        align-items:center;
         top:${props=>props.top};
         left: 0%;
         border-radius: 5px;
-        border: 3px solid ${props=>props.backgroundColor};
         margin-left: 0px;
         color: rgb(255, 255, 255);
         background-color:${props=>props.backgroundColor};
@@ -27,7 +28,7 @@ const DualMode=styled.div`
     `
     :
     css`
-    
+
     `
   }
 `;
@@ -114,7 +115,13 @@ const Content=styled(ContentBox)`
     }
 `;
 const LectureDelBtn=styled.button`
-    box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
+
+    background-color: transparent;
+    border:none;
+    position: absolute;
+    right: 3px;
+    cursor: pointer;
+
     // display:none;
     &:hover{
         display:block;
@@ -129,7 +136,7 @@ function Lecture({
     top,
     backgroundColor = "rgb(255, 187, 59)",
     isCardMode,
-    isListMode,//수정
+    isListMode=false,//수정
     onClick,
     onDeleteClick,
     onHovered,
@@ -142,56 +149,70 @@ function Lecture({
         setClicked(isClicked);
     },[state.selectedId,isClicked])
 
-    const clilick = () => {
-        if(!clicked){
-            onClick();
-            setClicked(true);
-        }
-        if(!isListMode){
-            onClick();
-        }
-    }
 
     return (
         <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
-            onClick={clilick}
+            onClick={
+                clicked?()=>{}:()=>{
+                onClick();
+                setClicked(true);
+                }
+                
+            }
             >
             <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} >
                 <Content isCardMode={isCardMode}>
+                    {isListMode?
+                    <>
                     <div>
-                        <strong>{lecture.lectureName}</strong>
-                        {blockhover && <LectureDelBtn onClick={(event)=>{
+                       <strong>{lecture.lectureName}</strong>
+                       {blockhover && <LectureDelBtn onClick={(event)=>{
+                           onDeleteClick(lecture.id)
+                           event.stopPropagation()
+                           }}>x</LectureDelBtn>}
+                   </div>
+                   <div>
+                       {lecture.professor}
+                   </div>
+                   <div>
+                       {lecture.department}
+                   </div>
+                   <div>
+                       {lecture.lectureTimes.map((lectureTime,index) => (
+                           <span key={index}>
+                               {`${lectureTime.day} ${lectureTime.startTime} ${lectureTime.endTime}`}
+                           </span>
+                       ))}
+                   </div>
+                   <div>
+                       {lecture.level}
+                   </div>
+                   <div>
+                       {lecture.section}
+                   </div>
+                   <div>
+                       {lecture.credit}
+                   </div>
+                   <div style={{ display: isCardMode ? 'none' : 'block'}}>
+                       {lecture.notes}
+                   </div>
+                   </>
+                     :
+                     <>
+                     {blockhover && <LectureDelBtn onClick={(event)=>{
                             onDeleteClick(lecture.id)
                             event.stopPropagation()
                             }}>x</LectureDelBtn>}
+                    <div style={{marginTop: "6px" ,fontWeight: 900}}>
+                        {lecture.lectureName}
                     </div>
                     <div>
                         {lecture.professor}
                     </div>
-                    <div>
-                        {lecture.department}
-                    </div>
-                    <div>
-                        {lecture.lectureTimes.map((lectureTime,index) => (
-                            <span key={index}>
-                                {`${lectureTime.day} ${lectureTime.startTime} ${lectureTime.endTime}`}
-                            </span>
-                        ))}
-                    </div>
-                    <div>
-                        {lecture.level}
-                    </div>
-                    <div>
-                        {lecture.section}
-                    </div>
-                    <div>
-                        {lecture.credit}
-                    </div>
-                    <div style={{ display: isCardMode ? 'none' : 'block'}}>
-                        {lecture.notes}
-                    </div>
+                    </>
+                    }
                 </Content>
             </ContentBox>
         </DualMode>

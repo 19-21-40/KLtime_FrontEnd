@@ -63,7 +63,7 @@ const LineTable=styled.div`
   
 `;
 
-function LectureList({
+function LectureList({fold
 }) {
   
   const [isCardMode,setIsCardMode]=useState(false); //토글버튼 만들 때 쓰일 것
@@ -147,7 +147,7 @@ function LectureList({
         </LineTablehead>
         <div style={
             {overflowY: 'scroll',
-            height:'300px'
+            height: fold? '580px' : '350px' 
         }} 
         >
         <LineTable isCardMode={isCardMode}>
