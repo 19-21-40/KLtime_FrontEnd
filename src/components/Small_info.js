@@ -107,13 +107,10 @@ function Small_info( {name, number, klas, setKlas} ){
             <Student_info>
 
                 <li><Info_list>학번: {number}</Info_list></li>
-                <li><Info_list>이름: {name} <LogoutButton onClick={onClick}>🚪</LogoutButton> </Info_list></li>
+                <li><Info_list>이름: {name} </Info_list></li>
 
             </Student_info>
-            <LogoutButton onClick={ () => {
-                window.localStorage.clear();
-                window.location.href="/login";
-            }}>로그아웃</LogoutButton>
+            <LogoutButton onClick={onClick}>로그아웃</LogoutButton>
             <ModifyButton onClick={ () =>  {
                 showEdit()
             }} >계정정보 수정하기</ModifyButton>
