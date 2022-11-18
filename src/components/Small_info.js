@@ -107,7 +107,7 @@ function Small_info( {name, number, klas, setKlas} ){
             <Student_info>
 
                 <li><Info_list>학번: {number}</Info_list></li>
-                <li><Info_list>이름: {name} <LogoutButton onClick={onClick}>🚪</LogoutButton> </Info_list></li>
+                <li><Info_list>이름: {name} </Info_list></li>
 
             </Student_info>
             <LogoutButton onClick={ () => {
