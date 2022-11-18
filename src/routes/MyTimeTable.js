@@ -14,6 +14,7 @@ import { useUserTableState, useUserTableDispatch } from '../context/UserTableCon
 import LectureDetail_B from "../components/LectureDetail_B";
 import { API_BASE_URL } from "../app-config";
 import KLTimeLogo from "../image/KLTimeLogo.png"
+import { useUserInfoState } from "../context/UserInfoContext";
 
 const Head_line = styled.div`
     
@@ -125,7 +126,7 @@ const Right_Container = styled.div`
 function MyTimeTable() {
     const dispatch = useUserTableDispatch();
     const state = useUserTableState();
-
+    const user=useUserInfoState();
     const [selectedLectures, setSelectedLectures] = useState([]);
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
@@ -143,7 +144,7 @@ function MyTimeTable() {
     const [activate, setActivate] = useState(true);
 
     const nextNumber = useRef(1);
-
+    
 
 
     useEffect(() => {
@@ -190,7 +191,7 @@ function MyTimeTable() {
                             <Logo_Image src={KLTimeLogo} />
                         </Link>
                     </nav>
-                    <Small_info name="신재민" std_num={2021203022} />
+                    <Small_info name={user.name} number={user.number} />
                 </Head_component>
             </Head_line>
             <Body_line>

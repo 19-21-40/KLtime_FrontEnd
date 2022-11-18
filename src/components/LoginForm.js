@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
 import React, {useState, useContext} from "react";
 import useInputs from "../hooks/useInputs";
-import { UserState } from '../context/UserInfoContext';
+import { useUserInfoDispatch,useUserInfoState } from '../context/UserInfoContext';
 import axios from "axios";
 import { useEffect } from "react";
 import { API_BASE_URL } from "../app-config";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 import KLTimeLogo from "../image/KLTimeLogo.png"
 import LoginBg from "../image/loginbg.jpg"
 
@@ -124,34 +126,30 @@ const FindButton = styled.button`
     color: white;
     font-size: 15px;
     font-weight: 800;
-
     cursor: pointer;
 `
 
-
-
-
-
 function LoginFrom() {
-    const [{ stdnum, password }, onChange, reset] = useInputs({
-        stdnum: '',
+    let navigate = useNavigate();
+    const [{ number, password }, onChange, reset] = useInputs({
+        number: '',
         password: '',
     });
-    const userInfoState = useContext(UserState);
-    // const [stdnum_1, setStdnum] = useState("");
-    // const [pw, setPw] = useState("");
+
     useEffect(()=>{
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
             if (accessToken && accessToken !== null) {
-                window.location.href="/"
+                navigate("/");
             }
     },[])
 
-    const onClick_l = () => {
-        axios.post(`${API_BASE_URL}/auth/sign_in`,{number:stdnum,password:password})
+    
+    
+    const onClick = () => {
+        axios.post(`${API_BASE_URL}/auth/sign_in`,{number:number,password:password})
         .then(res=>{
             localStorage.setItem("ACCESS_TOKEN",res.data.token)
-            window.location.href="/"
+            navigate("/");
         })
     }
 
@@ -163,14 +161,14 @@ function LoginFrom() {
                 <Body>
                     <TotalInputContainer>
                         <InputContainer>
-                            <input onChange={onChange} id="stdnum" type="text" name="stdnum" value={stdnum} placeholder="학번을 입력하시오." />
+                            <input onChange={onChange} id="number" type="text" name="number" value={number} placeholder="학번을 입력하시오." />
                         </InputContainer>
                         <InputContainer>
                             <input  onChange={onChange} id="password" type="password" name="password" value={password} placeholder="비밀번호를 입력하시오." />
                         </InputContainer>
                     </TotalInputContainer>
                     <TotalButtonContainer>
-                        <LoginButton onClick={onClick_l} >로그인</LoginButton>
+                        <LoginButton onClick={onClick} >로그인</LoginButton>
                         <FindButton>비밀번호 찾기</FindButton>
                     </TotalButtonContainer>
                 </Body>
@@ -179,9 +177,5 @@ function LoginFrom() {
     </>
     );
 }
-//가입하기 눌렀을 때state 초기화
-// LoginForm.propTypes={
-//   text: PropTypes.string.isRequired,
-// }
 
 export default LoginFrom;

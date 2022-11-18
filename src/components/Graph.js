@@ -106,7 +106,7 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
           data={[
             {
               value: Al / Fu * 100,
-              color: "#F6CB44",
+              color: "#8b0b02",
               name: "name1",
             },
           ]}

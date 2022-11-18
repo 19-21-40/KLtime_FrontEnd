@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
+import { useUserInfoState } from "../context/UserInfoContext";
 import styles from "./MyPageForm.module.css";
-import { UserState } from '../context/UserInfoContext';
 
 function MyPageForm(){
-  const userInfoState = useContext(UserState);
+  const user=useUserInfoState();
   const multiMajors=['심화전공', '복수전공','복수심화전공','부전공','연계전공','*해당없음*'];
   const majors=['소프트웨어학부','컴퓨터정보공학부','정보융합학부','*해당없음*'];
   const [MultiMajors,setMultiMajors]=useState(
@@ -11,7 +11,7 @@ function MyPageForm(){
       multiMajorName:'',
       majorName:''
     });
-  const [Majors,setMajors]=useState({major:userInfoState.users[0].department});
+  const [Majors,setMajors]=useState({major:user.department});
   const onChange=(event)=>{
     if(event.target.id==='multiMajorName'){
       // console.log(event.target.value);
@@ -38,20 +38,20 @@ function MyPageForm(){
     <div className={styles.box}>
       <div>
         <h2>내 정보</h2>
-        <ul><li className={styles.index}>{userInfoState.users[0].email}</li></ul>
+        <ul><li className={styles.index}>{user.email}</li></ul>
       </div>
       <div className={styles.smallbox}>
         <ul>
-            <li><span>학번</span>{userInfoState.users[0].stdnum}</li>
+            <li><span>학번</span>{user.number}</li>
             <li>
               <div>
                 <span>비밀번호</span>
-                {userInfoState.users[0].password}
+                {user.password}
                 <button className={styles.btn}>비밀번호 변경</button> 
               </div>
             </li>
             {/* <li>{email}</li> */}
-            <li><span>학과(학부)</span>{userInfoState.users[0].department}</li>
+            <li><span>학과(학부)</span>{user.department}</li>
             <form onSubmit={onSubmit}>
               <select defaultValue={localStorage.getItem('multiMajorName')} id='multiMajorName' className={styles.dropdown} onChange={onChange} >
                 <option>--- 다전공 ---</option>

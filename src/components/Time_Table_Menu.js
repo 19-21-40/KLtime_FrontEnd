@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { UserTableProvider } from "../context/UserTableContext";
 import ModifyTimeTableModal from "../components/ModifyTimeTableModal";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import styled, { css } from "styled-components";
@@ -312,7 +311,6 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
 
     return (
         <Total_Container>
-            <UserTableProvider>
                 <Select_container>
                     <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
@@ -358,7 +356,6 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                     </Time_table_box>
                     <Add_Button onClick={addTimeTable}>+</Add_Button>
                 </Time_table_list>
-            </UserTableProvider>
         </Total_Container>
     );
 
