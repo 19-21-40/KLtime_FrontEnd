@@ -54,13 +54,6 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
   const [FuT, setFuT] = useState();
 
   useEffect(() => {
-    console.log("시작");
-    console.log(Already_num);
-    console.log(Full_num);
-
-    console.log(Al);
-    console.log(Fu);
-    console.log("끝");
 
   }, [Already_num, Full_num, Al, Fu]);
   // 모달창 노출

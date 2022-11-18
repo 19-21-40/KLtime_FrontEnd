@@ -74,8 +74,6 @@ const Component_position = styled.div`
     width: 1600px;
     height: 1100px;
 
-    text-align: center;
-
     background: #FFFFFF;
 
     border: 1px solid #D9D9D9;
@@ -162,7 +160,6 @@ const Design_Box = styled.div`
 
 const Right_component = styled.div`
     display:flex;
-    flex-direction: column;
 
     width: 750px;
 
@@ -173,6 +170,8 @@ const Right_component = styled.div`
     margin-right:20px;
 
 `;
+
+
 
 const TimeTableHeader = styled.div`
     position:absolute;
@@ -189,7 +188,10 @@ const TableName = styled.div`
 
 const TimeTableBody = styled.div`
     
-    position: absolute;
+    display:flex;
+    justify-content: center;
+
+    position: relative;
 
     top: 7%;
     width : 100%;
@@ -199,6 +201,13 @@ const TimeTableBody = styled.div`
 
     box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
     border-radius: 50px;
+`
+
+const TimeTableContainer = styled.div`
+    width : 670px;
+    
+    display: flex;
+    
 `
 
 const Box_container = styled.div`
@@ -430,7 +439,9 @@ function MainPage() {
                             </Link>
                         </TimeTableHeader>
                         <TimeTableBody>
-                            <TimeTable width={670} height={900} />
+                            <TimeTableContainer>
+                                <TimeTable width={670} height={893} />
+                            </TimeTableContainer>
                         </TimeTableBody>
                     </Right_component>
                     <Box_container>

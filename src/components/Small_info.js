@@ -10,42 +10,59 @@ const Small_info_Container = styled.div`
     weight: 100px;
     height: 100px;
 `;
+const LogoutButton = styled.button`
+    position: absolute;
+    right: 20%;
+    top: 30%;
+    width : 100px;
+    height: 45px;
+    line-height : 45px; // 텍스트 수직가운데 정렬
+    text-align:center;
+    font-size: 16px;
+    /* 이미지,버튼박스 색상 */
+
+    border: none;
+    background: #D9D9D9;
+    border-radius: 20px;
+
+    cursor: pointer;
+`;
 
 const ModifyButton = styled.div`
-position: absolute;
-right: 5%;
-top: 30%;
-width : 145px;
-height: 45px;
-line-height : 45px; // 텍스트 수직가운데 정렬
-text-align:center;
+    position: absolute;
+    right: 10%;
+    top: 30%;
+    width : 145px;
+    height: 45px;
+    line-height : 45px; // 텍스트 수직가운데 정렬
+    text-align:center;
 
-/* 이미지,버튼박스 색상 */
+    /* 이미지,버튼박스 색상 */
 
-background: #D9D9D9;
-border-radius: 20px;
+    background: #D9D9D9;
+    border-radius: 20px;
 
-cursor: pointer;
+    cursor: pointer;
 `;
 
 const KlasButton = styled.div`
-position: absolute;
-right: 15%;
-top: 30%;
-width : 145px;
-height: 45px;
-line-height : 45px; // 텍스트 수직가운데 정렬
-text-align:center;
+    position: absolute;
+    right: 0%;
+    top: 30%;
+    width : 145px;
+    height: 45px;
+    line-height : 45px; // 텍스트 수직가운데 정렬
+    text-align:center;
 
-cursor: pointer;
+    cursor: pointer;
 
 
 
-/* 이미지,버튼박스 색상 */
+    /* 이미지,버튼박스 색상 */
 
-background: #D9D9D9;
-border-radius: 20px;
-`
+    background: #D9D9D9;
+    border-radius: 20px;
+    `
 
 const Student_info = styled.ul`
     display: flex;
@@ -62,12 +79,10 @@ const Student_info = styled.ul`
 `;
 
 const Info_list = styled.span`
-    margin: 30px;
+    margin-right: 30px;
 `;
 
-const LogoutButton = styled.button`
-    cursor: pointer;
-`;
+
 
 function Small_info( {name, number, klas, setKlas} ){
     const navigate=useNavigate()
@@ -90,16 +105,21 @@ function Small_info( {name, number, klas, setKlas} ){
     return(
         <Small_info_Container>
             <Student_info>
+
                 <li><Info_list>학번: {number}</Info_list></li>
                 <li><Info_list>이름: {name} <LogoutButton onClick={onClick}>🚪</LogoutButton> </Info_list></li>
+
             </Student_info>
-            <KlasButton onClick={ () =>  {
-                showKlas()
-            }} >KLAS 연동하기</KlasButton>
+            <LogoutButton onClick={ () => {
+                window.localStorage.clear();
+                window.location.href="/login";
+            }}>로그아웃</LogoutButton>
             <ModifyButton onClick={ () =>  {
                 showEdit()
             }} >계정정보 수정하기</ModifyButton>
-            {/* <Klas_Box>{klas ? <Klas/> : <></>}</Klas_Box> */}
+            <KlasButton onClick={ () =>  {
+                showKlas()
+            }} >KLAS 연동하기</KlasButton>      
         </Small_info_Container>
     );
 }

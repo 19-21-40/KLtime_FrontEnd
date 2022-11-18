@@ -107,7 +107,7 @@ const Button_to_main = styled.button`
 const Right_Container = styled.div`
     display: flex;
     width : 760px;
-    height: 891px;
+    height: 950px;
 
     position: relative;
     top: 113px;
@@ -119,13 +119,6 @@ const Right_Container = styled.div`
     border-radius: 50px;
 `;
 
-const Detail_Button = styled.button`
-    
-`;
-
-const Back_Button = styled.button`
-    
-`;
 
 
 
@@ -226,7 +219,7 @@ function MyTimeTable() {
                             setClickedLecture={setClickedLecture}
                             setOpenDetail={setOpenDetail}
                             width={670}
-                            height={713.46}
+                            height={910}
                         />
                     </Right_Container>
                 </Total_Container>

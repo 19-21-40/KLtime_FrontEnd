@@ -148,7 +148,16 @@ const TimeZoneLayout = styled.div`
         border-bottom: 1px solid #e5e5e5;
     }
 `
+const NoTimeLectureList = styled.div`
+    display: flex;
+`
 
+const NoTimeLecture = styled.div`
+    margin-right: 15px;
+    color: red;
+    font-size: 20px;
+    font-weight: 800;
+`
 
 
 
@@ -502,6 +511,9 @@ function TimeTable({
                     </div>
                 </div> */}
             </div>
+            <NoTimeLectureList>
+                {userTable.totalTimeTable.find(timeTable => timeTable.id === userTable.selectedId).lectureList?.map((lecture)=> {if(lecture.lectureTimes.length == 0) return <NoTimeLecture>{lecture.lectureName}</NoTimeLecture>})}
+            </NoTimeLectureList>
         </TimeTableContainer>
     )
 }

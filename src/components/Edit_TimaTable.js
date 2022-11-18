@@ -15,7 +15,7 @@ import backImage from "../image/Back.png"
 
 const Total_Container = styled.div `
     width: 750px;
-    height: 891px;
+    height: 950px;
 
     display: flex;
     flex-direction: column;

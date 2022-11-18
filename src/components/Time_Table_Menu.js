@@ -15,7 +15,7 @@ import userEvent from "@testing-library/user-event";
 // `;
 const Total_Container = styled.div`
     width: 750px;
-    height: 891px;
+    height: 950px;
 
     display: flex;
     flex-direction: column;
@@ -113,6 +113,7 @@ const Edit_button = styled.button`
 
     position: relative;
     left: 100px;
+    bottom: 10px;
 
     text-align: center;
     cursor: pointer;
