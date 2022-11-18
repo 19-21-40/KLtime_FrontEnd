@@ -1,93 +1,56 @@
-import React, { useRef, useReducer, useMemo, useCallback , createContext} from 'react';
-import SignupFrom from '../components/SignUp';
-import UserList from '../components/Userinfo';
+import React, { useRef, useReducer, useMemo, useContext, createContext } from 'react';
 
 const initialState = {
-  inputs: {
-    stdnum: '',
-    password: '',
-    pw_c: '',
+    name:'',
+    number:'',
+    semester:'',
+    grade:0,
     department: '',
     email: '',
-  }
-};
+    multiMajor:'',
+    multDept:''
+  };
 
 
-function userinfoReducer(state,action){
-  switch(action.type){
-    case 'CREATE_USER':
+function userinfoReducer(state, action) {
+  switch (action.type) {
+    case 'LOAD_USER':
+      console.log(action)
       return {
-        users: state.users.concat(action.user)
-      };
+        ...state,
+        name:action.name,
+        number:action.number,
+      }
+    case 'LOGOUT':
+      return initialState;
     default:
       return state;
   }
 }
 
-// const UserInfoStateContext=createContext();
-// const UserInfoDispatchContext=createContext();
 
-// export function UserInfoProvider({ children }) {
-//   const [state, dispatch] = useReducer(userinfoReducer, initialState);
-//   return (
-//     <UserInfoStateContext.Provider value={state}>
-//       <UserInfoDispatchContext.Provider value={dispatch}>
-//         {children}
-//       </UserInfoDispatchContext.Provider>
-//     </UserInfoStateContext.Provider>
-//   );
-// }
 
-// export function useUserInfoState() {
-//   return useContext(UserInfoStateContext);
-// }
-
-// export function useUserInfoDispatch() {
-//   return useContext(UserInfoDispatchContext);
-// }
-
-export const UserDispatch = createContext(null);
-export const UserState = createContext(null);
+const UserInfoDispatchContext = createContext();
+const UserInfoStateContext = createContext();
 
 export function UserInfoProvider({ children }) {
   const [state, dispatch] = useReducer(userinfoReducer, initialState);
-  
-  const { users } = state;
-  // const nextId = useRef(4);
-
-  // const onChange = useCallback(e => {
-  //   const { name, value } = e.target;
-  //   dispatch({
-  //     type: 'CHANGE_INPUT',
-  //     name,
-  //     value
-  //   });
-  // }, []);
-  
-  // const onClick = useCallback(() => {
-  //   dispatch({
-  //     type: 'CREATE_USER',
-  //     user: {
-  //       id: nextId.current,
-  //       stdnum,
-  //       password,
-  //       department,
-  //       email
-  //     }
-  //   });
-  //   nextId.current += 1;
-  // }, [stdnum, password, department, email]);
 
   return (
     <div>
-      <UserState.Provider value={state}>
-        <UserDispatch.Provider value={dispatch} >
+      <UserInfoStateContext.Provider value={state}>
+        <UserInfoDispatchContext.Provider value={dispatch} >
           {children}
-          {/* <UserList users={users} /> */}
-        </UserDispatch.Provider>
-      </UserState.Provider>
+        </UserInfoDispatchContext.Provider>
+      </UserInfoStateContext.Provider>
     </div>
   );
 }
 
-export default UserInfoProvider;
+export function useUserInfoState() {
+  return useContext(UserInfoStateContext);
+}
+
+export function useUserInfoDispatch() {
+  return useContext(UserInfoDispatchContext);
+}

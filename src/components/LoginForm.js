@@ -1,57 +1,85 @@
 import PropTypes from "prop-types";
 import React, {useState, useContext} from "react";
 import useInputs from "../hooks/useInputs";
-import { UserState } from '../context/UserInfoContext';
+import { useUserInfoDispatch,useUserInfoState } from '../context/UserInfoContext';
 import axios from "axios";
 import { useEffect } from "react";
 import { API_BASE_URL } from "../app-config";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
+const Input = styled.input`
+    width: 300px;
+    height: 50px;
+    padding: 5px 20px;1-
+
+    border-radius: 25px;
+    background: rgb(255,255,255);
+
+    font-size:20px;
+`
+
+const Button = styled.button`
+
+    width: 100%;
+    height: 50px;
+    margin-top:50px;
+    background: #8b0b02;
+    
+    padding: 6px;
+    border-radius: 20px;
+
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+
+    cursor: pointer;
+`
+
+
 
 function LoginFrom() {
-    const [{ stdnum, password }, onChange, reset] = useInputs({
-        stdnum: '',
+    let navigate = useNavigate();
+    const [{ number, password }, onChange, reset] = useInputs({
+        number: '',
         password: '',
     });
-    const userInfoState = useContext(UserState);
-    // const [stdnum_1, setStdnum] = useState("");
-    // const [pw, setPw] = useState("");
+
     useEffect(()=>{
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
             if (accessToken && accessToken !== null) {
-                window.location.href="/"
+                navigate("/");
             }
     },[])
 
-    const onClick_l = () => {
-        axios.post(`${API_BASE_URL}/auth/sign_in`,{number:stdnum,password:password})
+    
+    
+    const onClick = () => {
+        axios.post(`${API_BASE_URL}/auth/sign_in`,{number:number,password:password})
         .then(res=>{
             localStorage.setItem("ACCESS_TOKEN",res.data.token)
-            window.location.href="/"
+            navigate("/");
         })
     }
 
     return(
     <div>
-        <h1>시간표 추천 로그인</h1>  
         <div>
         <div>
-            <label htmlFor="stdnum">학번<br/></label>
-            <input onChange={onChange} id="stdnum" type="text" name="stdnum" value={stdnum} placeholder="학번을 입력하시오." />
+            <label htmlFor="number">학번<br/></label>
+            <Input onChange={onChange} id="number" type="text" name="number" value={number} placeholder="학번을 입력하시오." />
         </div>
         <div>
             <label htmlFor="password">비밀번호<br/></label>
-            <input  onChange={onChange} id="password" type="password" name="password" value={password} placeholder="비밀번호를 입력하시오." />
+            <Input  onChange={onChange} id="password" type="password" name="password" value={password} placeholder="비밀번호를 입력하시오." />
         </div>
         </div>
         <div>
-        <button onClick={onClick_l} >로그인</button>
-        <button>비밀번호 찾기</button>
+        <Button onClick={onClick} >로그인</Button>
+        <Button>비밀번호 찾기</Button>
         </div>
     </div>
     );
 }
-//가입하기 눌렀을 때state 초기화
-// LoginForm.propTypes={
-//   text: PropTypes.string.isRequired,
-// }
 
 export default LoginFrom;

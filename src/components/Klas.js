@@ -44,7 +44,7 @@ const Button = styled.button`
 
     width: 100%;
     height: 50px;
-
+    margin-top:50px;
     background: #8b0b02;
     
     padding: 6px;
@@ -68,13 +68,18 @@ function reducer(state, action) {
                 error: null
             };
         // 불러오는데에 성공했을 때는 action.data를 저장해줍니다.
-        case 'SUCCESS':
+        case 'Klas SUCCESS':
             return {
-                loading: false,
+                loading: true,
                 data: action.data,
                 error: null
             };
         // 에러가 발생하면 action.error를 전달해주겠습니다.
+        case 'SUCCESS':
+            return {
+                ...state,
+                loading: false
+            };
         case 'ERROR':
             return {
                 loading: false,
@@ -151,7 +156,7 @@ function Klas() {
                                     });
                                     await Promise.all(promises);
                                     dispatch({
-                                        type: 'SUCCESS', data: {
+                                        type: 'Klas SUCCESS', data: {
                                             klasTookLectureListDTOList: resData.data,
                                             klasTimeTableDTO: klasTimeTableDTO
                                         }
@@ -168,7 +173,9 @@ function Klas() {
                                     }
                                     ).then(
                                         () => {
+                                            dispatch("SUCCESS");
                                             window.location.href="/";}
+                                            
                                     );
                                 })
 

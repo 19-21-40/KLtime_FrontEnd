@@ -13,6 +13,7 @@ import { useUserTableState, useUserTableDispatch } from '../context/UserTableCon
 import { API_BASE_URL } from "../app-config";
 import KLTimeLogo from "../image/KLTimeLogo.png"
 import LoginBg from "../image/loginbg.jpg"
+import { useUserInfoDispatch, useUserInfoState } from "../context/UserInfoContext";
 
 
 const Head_line = styled.div`
@@ -26,7 +27,7 @@ const Head_line = styled.div`
     left: 0px;
     top: 0px;
 
-    background: #A7A7A7;
+    background: #8b0b02;
 `;
 
 const Head_component = styled.div`
@@ -201,9 +202,10 @@ const TimeTableBody = styled.div`
 `
 
 const Box_container = styled.div`
+    
     display: flex;
     justify-content:center;
-    align-items:center;
+    // align-items:center;
 
 `
 
@@ -215,8 +217,8 @@ const Klas_Box = styled.div`
     position: absolute;
     z-index: 10;
 
-    width: 680px;
-    height: 900px;
+    width: 800px;
+    height: 700px;
 
     border-radius: 20px;
 
@@ -257,13 +259,33 @@ const GoTable_Btn = styled.button`
 `;
 
 function MainPage() {
-
-    const dispatch = useUserTableDispatch();
+    const userDispatch=useUserInfoDispatch();
+    const tableDispatch = useUserTableDispatch();
     const state = useUserTableState();
+    const user=useUserInfoState();
+
+
 
     useEffect(() => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
         if (accessToken && accessToken !== null) {
+            axios.get(`${API_BASE_URL}/api/loadUser`, {
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
+                }, withCredentials: true,
+            }).then(res => {
+                userDispatch({
+                type:'LOAD_USER',
+                number:res.data.number,
+                // email:res.data.email,
+                // department:res.data.departmentName,
+                // grade:res.data.grade,
+                name:res.data.name
+            })})
+
 
             axios.get(`${API_BASE_URL}/api/timetable/2022/2학기/totalTimeTableList`, {
                 headers: {
@@ -272,24 +294,19 @@ function MainPage() {
                     'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res => {
-                dispatch({
+                tableDispatch({
                     type: 'READ_TOTAL_TIMETABLE',
-                    totalTimeTable: res.data.totalTableList,
+                    totalTimeTable: res.data.totalTableList,    
                 });
-            }
-            );
+            });
         } else {
             window.location.href = "/Login"
         }
-
-
-
     }, []);
 
     useEffect(() => {
-
         const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary == true).id;
-        dispatch({
+        tableDispatch({
             type: 'READ_TABLE',
             id: primaryId,
         });
@@ -352,14 +369,14 @@ function MainPage() {
             }
         }
         , []);
-
+    
 
     return (
         <>
             <Head_line>
                 <Head_component>
                         <Logo_Image src={KLTimeLogo} onClick={() => window.location.href="/"}/>
-                    <Small_info name="신재민" std_num={2021203022} klas={klas} setKlas={setKlas} />
+                    <Small_info name={user.name} number={user.number} klas={klas} setKlas={setKlas} />
                 </Head_component>
             </Head_line>
             <Body_line>
@@ -373,7 +390,7 @@ function MainPage() {
                         <Body_Chart_Box>
                             <Upper_Body_Chart_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" section="main" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
+                                    <Piechart  Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" section="main" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
                                 </Design_Box>
                                 <Design_Box>
                                     <Piechart Full_num={999} Already_num={999} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />

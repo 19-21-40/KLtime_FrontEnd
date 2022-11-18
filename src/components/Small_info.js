@@ -67,7 +67,7 @@ const LogoutButton = styled.button`
     cursor: pointer;
 `;
 
-function Small_info( {name, std_num, klas, setKlas} ){
+function Small_info( {name, number, klas, setKlas} ){
 
     const [Edit, setEdit] = useState(false);//계정정보 수정
 
@@ -83,7 +83,7 @@ function Small_info( {name, std_num, klas, setKlas} ){
     return(
         <Small_info_Container>
             <Student_info>
-                <li><Info_list>학번: {std_num}</Info_list></li>
+                <li><Info_list>학번: {number}</Info_list></li>
                 <li><Info_list>이름: {name} <LogoutButton>🚪</LogoutButton> </Info_list></li>
             </Student_info>
             <KlasButton onClick={ () =>  {

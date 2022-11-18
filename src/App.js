@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import Edit_TimeTable from "./components/Edit_TimaTable";
 import { UserTableProvider } from "./context/UserTableContext";
+import { UserInfoProvider } from "./context/UserInfoContext";
 
 
 // function Copyright(){
@@ -29,32 +30,31 @@ import { UserTableProvider } from "./context/UserTableContext";
 function App() {
 
   return (
-    <UserTableProvider>
-      <Router>
-    <Routes>
-      <Route path="/" element={
-      <MainPage/>
-      }>
-      </Route>
-      <Route path="/MyTimeTable" element={
-      <MyTimeTable/>
-      }>
-      </Route>
-    
-      {/* <Route path="/EditTimeTable" element={<Edit_TimeTable/>}>
-      </Route> */}
-      <Route path="/SignUp" element={<SignUp />}>
-      </Route>
-      <Route path="/Login" element={<Login />}>
-      </Route>
-      <Route path="/MyPage" element={<MyPage />}>
-      </Route>
-      <Route path="/PasswdSearch" element={<PasswdSearch />}>
-      </Route>
-    </Routes>
-    {/* <Copyright/> */}
-  </Router>
-  </UserTableProvider>)
+    <UserInfoProvider>
+      <UserTableProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={
+              <MainPage />
+            }>
+            </Route>
+            <Route path="/MyTimeTable" element={
+              <MyTimeTable />
+            }>
+            </Route>
+            <Route path="/SignUp" element={<SignUp />}>
+            </Route>
+            <Route path="/Login" element={<Login />}>
+            </Route>
+            <Route path="/MyPage" element={<MyPage />}>
+            </Route>
+            <Route path="/PasswdSearch" element={<PasswdSearch />}>
+            </Route>
+          </Routes>
+          {/* <Copyright/> */}
+        </Router>
+      </UserTableProvider>
+    </UserInfoProvider>)
 }
 
 export default App;
