@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Klas from "./Klas";
 
@@ -57,6 +58,7 @@ const Student_info = styled.ul`
     line-height: 133px;
     font-weight: 900;
     font-size: 23px;
+    color:white;
 `;
 
 const Info_list = styled.span`
@@ -68,6 +70,7 @@ const LogoutButton = styled.button`
 `;
 
 function Small_info( {name, number, klas, setKlas} ){
+    const navigate=useNavigate()
 
     const [Edit, setEdit] = useState(false);//계정정보 수정
 
@@ -79,12 +82,16 @@ function Small_info( {name, number, klas, setKlas} ){
         setKlas(true);    
     };
 
+    const onClick=()=>{
+        localStorage.removeItem("ACCESS_TOKEN");
+        navigate("/Login")
+    }
 
     return(
         <Small_info_Container>
             <Student_info>
                 <li><Info_list>학번: {number}</Info_list></li>
-                <li><Info_list>이름: {name} <LogoutButton>🚪</LogoutButton> </Info_list></li>
+                <li><Info_list>이름: {name} <LogoutButton onClick={onClick}>🚪</LogoutButton> </Info_list></li>
             </Student_info>
             <KlasButton onClick={ () =>  {
                 showKlas()

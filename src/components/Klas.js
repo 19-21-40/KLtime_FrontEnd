@@ -189,9 +189,6 @@ function Klas() {
             dispatch({ type: 'ERROR', error: e });
         }
 
-
-
-
     }
 
 
