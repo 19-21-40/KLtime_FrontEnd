@@ -8,9 +8,6 @@ const Design_Box = styled.div`
     width: ${props => `${props.Width}px`};
     height: ${props => `${props.Height}px`};
     // border: 2px solid black;
-    flex-direction:column;
-    justify-content: center;
-    align-items: center;
     border-radius: 20px;
     margin-bottom: 25px;
     margin-left: 5px;
@@ -33,6 +30,9 @@ const Text_box = styled.div`
     justify-content: center;
     text-align:center;
 
+    // margin: auto 0;
+    margin-top: ${props => `${props.margin_t}px`};
+    margin-left: 5%;
     h1 {
       font-size: ${props => `${props.font_1}px`};
       margin: 0 0 10px 0;
@@ -45,7 +45,7 @@ const Text_box = styled.div`
     
 `;
 
-function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2 }) {
+function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2, margin_t}) {
 
   const [modalOpen, setModalOpen] = useState(false);//모달
   const [Al, setAl] = useState(Already_num);
@@ -125,7 +125,8 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
           }}
           labelPosition={0}
         />
-        <Text_box font_1={font_1} font_2={font_2} >
+        
+        <Text_box font_1={font_1} font_2={font_2} margin_t={margin_t} >
           <h1>{Kind}</h1>
           <h2>기준 학점 : {FuT}</h2>
           <h2>이수 학점 : {AlT}</h2>

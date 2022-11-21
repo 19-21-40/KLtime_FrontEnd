@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import { API_BASE_URL } from "../app-config";
 import userEvent from "@testing-library/user-event";
+import BookMark from "../image/Bookmark.png"
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
 // const Logo_Image = styled.div`
@@ -58,6 +59,9 @@ const Time_table_list = styled.div`
     width: 100%;
     height: 686px;
 
+    justify-content: center;
+    // align-items: center;
+
     position: absolute;
     top:130px;
     left: 1.8%;
@@ -70,8 +74,8 @@ const Time_table_box = styled.div`
     display: flex;
     flex-direction: column;
 
-    width: 160px;
-    height: 140px;
+    width: 200px;
+    height: 180px;
 
     margin: 10px;
 
@@ -122,8 +126,8 @@ const Edit_button = styled.button`
 `;
 
 const Add_Button = styled.button`
-    width: 160px;
-    height: 140px;
+    width: 200px;
+    height: 180px;
     border: 2px solid black;
     border-radius: 10px;
     margin: 10px;
@@ -151,10 +155,6 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         setCountIndex(idx);
         setActivate(true);
     };
-
-    const DefaultActivate = () => {
-        setActivate(false);
-    }
 
     const update_Table = (id) => {
         console.log(userTableState);
@@ -313,23 +313,31 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         // setInnerText({year: year,semester: semester, tableName: name});
     }
 
+    const BookMarker = () => {
+        userTableDispatch({
+            type: 'PRIMARY_TABLE',
+        });
+    }
+
+    const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id;
+
     return (
         <Total_Container>
                 <Select_container>
                     <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
-                        <option>2022</option>
-                        <option>2021</option>
-                        <option>2020</option>
-                        <option>2019</option>
+                        <option key={2022}>2022</option>
+                        <option key={2021}>2021</option>
+                        <option key={2020}>2020</option>
+                        <option key={2019}>2019</option>
                     </Select>
                     <Select defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
-                        <option>1학기</option>
-                        <option>계절학기(하계)</option>
-                        <option>2학기</option>
-                        <option>계절학기(동계)</option>
+                        <option key={1}>1학기</option>
+                        <option key={1.5}>계절학기(하계)</option>
+                        <option key={2}>2학기</option>
+                        <option key={2.5}>계절학기(동계)</option>
                     </Select>
-                    <Bookmark_Btn>책갈피</Bookmark_Btn>
+                    <Bookmark_Btn onClick={BookMarker}>책갈피</Bookmark_Btn>
                 </Select_container>
                 <Time_table_list>
                     {userTableState.totalTimeTable.map((table, idx) => {
@@ -342,6 +350,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                                     handleOnClick(e, idx)
                                     update_Table(table.id)
                                 }}>
+                                {primaryId == table.id && <div>안녕 나는 프라이머리</div>}
                                 <Delete_button onClick={(event) => {
                                     onRemove(table.id, table.tableName)
                                     event.stopPropagation()
