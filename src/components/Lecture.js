@@ -33,69 +33,55 @@ const DualMode = styled.div`
     }
 `;
 const ContentBox = styled(DualMode)`
-    ${props =>
-        props.blockhover ?
+  ${(props) =>
+    props.blockhover
+      ? props.isCardMode
+        ? css`
+            height: 100%;
+            border-radius: 5px;
+            background-color: ${props.backgroundColor};
 
-            (props.isCardMode ?
-                css`
-            height:100%;
-            border-radius:5px;
-            background-color:${props.backgroundColor};
-
-            &:hover{background-color:rgba(55,53,47,0.25);}
-        `
-
-        :
-        css`
+            &:hover {
+              background-color: rgba(55, 53, 47, 0.25);
+            }
+          `
+        : css`
             // backgroundColor:white;
-            ${props=>
-                props.clicked?
-                `background-color:rgba(190, 190, 191, 0.5);`
-
-                :
-                css`
-            // backgroundColor:white;
-            ${props =>
-                        props.clicked ?
-                            `background-color:rgba(190, 190, 191, 0.8);`
-                            :
-                            `background-color:${props.backgroundColor};
-                &:hover{background-color:#f8f8f8;}`
-                    };
+            ${(props) =>
+              props.clicked
+                ? `background-color:rgba(190, 190, 191, 0.5);`
+                : `background-color:${props.backgroundColor};
+                &:hover{background-color:#f8f8f8;}`};
             // &:hover{background-color:#f8f8f8;}
             // 수정해야함
-            &:active{background-color:rgba(190, 190, 191, 0.5);}
-        `)
-            :
-            (props.isCardMode ?
-                css`
-                height:100%;
-                border-radius:5px;
-                background-color:${props.backgroundColor};
-    
-                //&:hover{background-color:rgba(55,53,47,0.25);}
-            `
+            &:active {
+              background-color: rgba(190, 190, 191, 0.5);
+            }
+          `
+      : props.isCardMode
+      ? css`
+          height: 100%;
+          border-radius: 5px;
+          background-color: ${props.backgroundColor};
 
-            :
-            css`
-                ${props=>
-                    props.clicked?
-                    `background-color:rgba(190, 190, 191, 0.5);`
-                    :
-                    (props.isDup?
-                    `opacity:0.5;
+          //&:hover{background-color:rgba(55,53,47,0.25);}
+        `
+      : css`
+          ${(props) =>
+            props.clicked
+              ? `background-color:rgba(190, 190, 191, 0.5);`
+              : props.isDup
+              ? `opacity:0.5;
                     background-color:${props.backgroundColor}
-                    `:
-                    (props.hovered?
-                        `background-color:#f8f8f8;`
-                        :
-                        ``)
-                        )
-                };
-                // 수정해야함
-                &:active{background-color:rgba(190, 190, 191, 0.7);}
-            `)
-    }
+                    `
+              : props.hovered
+              ? `background-color:#f8f8f8;`
+              : ``};
+          // 수정해야함
+          &:active {
+            background-color: rgba(190, 190, 191, 0.7);
+          }
+        `}
 `;
 
 const Content = styled(ContentBox)`
@@ -160,9 +146,9 @@ function Lecture({
     isDup
 }) {
 
-    const [clicked,setClicked]=useState(false);
-    const state=useUserTableState();
-    const [hovered,setHovered]=useState(isHovered);
+    const [clicked, setClicked] = useState(false);
+    const state = useUserTableState();
+    const [hovered, setHovered] = useState(isHovered);
 
 
     useEffect(() => {
@@ -170,11 +156,11 @@ function Lecture({
     }, [state.selectedId, isClicked])
 
 
-    
+
     //추가 11/18 (수연)
-    useEffect(()=>{
+    useEffect(() => {
         setHovered(isHovered);
-    },[isHovered])
+    }, [isHovered])
 
     return (
         <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
@@ -183,13 +169,13 @@ function Lecture({
             // onMouseLeave={onHovered}
             onMouseLeave={notHovered}
             onClick={
-                clicked?()=>{}:()=>{
-                onClick();
-                setClicked(true);
+                clicked ? () => { } : () => {
+                    onClick();
+                    setClicked(true);
                 }
-                
+
             }
-            >
+        >
             <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} hovered={hovered} isDup={isDup} >
                 <Content isCardMode={isCardMode}>
                     {isListMode ?
