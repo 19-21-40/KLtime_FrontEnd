@@ -8,7 +8,7 @@ import { hover } from "@testing-library/user-event/dist/hover";
 
 //styled-components
 
-const LectureList_container = styled.div`
+const LectureListContainer = styled.div`
   position: relative;
   
   display: flex;
@@ -76,12 +76,8 @@ function LectureList({fold
   const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
 
 
-  //추가 11/18 (수연)
-  // const hoveredLectures = state.searchedLectures;
+  //추가(수연)
   const [hovereds,setHovereds]=useState(state.searchedLectures.map(()=>false));
-
-  //   setHovered(false);
-  // },[clickeds]);
 
   const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
@@ -126,11 +122,6 @@ function LectureList({fold
       id:state.searchedLectures[index].id,
     });
     hovereds[index]=true;
-    // setHovereds[index](true);
-    
-    // setHovereds(hovereds.map(hovered=>hovereds.indexof(hovered)===index?true:hovered));
-    console.log(hovereds);
-    // setHovereds(state.searchedLectures[index].id);  //수연 추가
   }
 
   //수연 추가
@@ -146,7 +137,7 @@ function LectureList({fold
   }
 
   return (
-    <LectureList_container>
+    <LectureListContainer>
       {/* <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} /> */}
       <DualMode isCardMode={isCardMode}>
         <LineTablehead>
@@ -185,19 +176,20 @@ function LectureList({fold
                 key={searchedLecture.id} 
                 isCardMode={isCardMode}
                 isListMode={true}//수정
+                backgroundColor="white"
                 onClick={() => onClick(index, searchedLecture.id)}
                 onHovered={()=>onHovered(index)}//수정
                 notHovered={()=>notHovered(index)}//수연 추가
                 isClicked={clickeds[index]}
-                backgroundColor={searchedLecture.dup==true?"rgba(190, 190, 191, 0.8)":"rgb(255, 255, 255)"}
                 isHovered={hovereds[index]}
+                isDup={searchedLecture.dup} //수연 추가
                 />
             ))}
         </LineTable>
         </div>
 
       </DualMode>
-    </LectureList_container>
+    </LectureListContainer>
   );
 }
 

@@ -49,14 +49,14 @@ const ContentBox=styled(DualMode)`
             // backgroundColor:white;
             ${props=>
                 props.clicked?
-                `background-color:rgba(190, 190, 191, 0.8);`
+                `background-color:rgba(190, 190, 191, 0.5);`
                 :
                 `background-color:${props.backgroundColor};
                 &:hover{background-color:#f8f8f8;}`
             };
             // &:hover{background-color:#f8f8f8;}
             // 수정해야함
-            &:active{background-color:rgba(190, 190, 191, 0.8);}
+            &:active{background-color:rgba(190, 190, 191, 0.5);}
         `)
         :
         (props.isCardMode ?
@@ -69,21 +69,22 @@ const ContentBox=styled(DualMode)`
             `
             :
             css`
-                // backgroundColor:white;
                 ${props=>
                     props.clicked?
-                    `background-color:rgba(190, 190, 191, 0.8);`
+                    `background-color:rgba(190, 190, 191, 0.5);`
                     :
+                    (props.isDup?
+                    `opacity:0.5;
+                    background-color:${props.backgroundColor}
+                    `:
                     (props.hovered?
                         `background-color:#f8f8f8;`
                         :
-                        `background-color:${props.backgroundColor};`
-                    )
-                    
-                    
+                        ``)
+                        )
                 };
                 // 수정해야함
-                &:active{background-color:rgba(190, 190, 191, 0.8);}
+                &:active{background-color:rgba(190, 190, 191, 0.7);}
             `)
     }
 `;
@@ -146,7 +147,8 @@ function Lecture({
     onHovered,
     isClicked,
     notHovered,
-    isHovered //수연 11/18 추가
+    isHovered, //수연 11/18 추가
+    isDup
 }) {
     const [clicked,setClicked]=useState(false);
     const state=useUserTableState();
@@ -177,7 +179,7 @@ function Lecture({
                 
             }
             >
-            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} hovered={hovered}  >
+            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} hovered={hovered} isDup={isDup} >
                 <Content isCardMode={isCardMode}>
                     {isListMode?
                     <>
