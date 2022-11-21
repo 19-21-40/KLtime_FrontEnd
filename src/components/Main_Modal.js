@@ -298,6 +298,7 @@ const Main_Modal = ( { closeModal, section } ) => {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));

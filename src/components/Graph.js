@@ -113,6 +113,7 @@ console.log(Al,Fu)
           ]}
           startAngle={-90}
           // reveal={12/60*100} //퍼센트 치수
+
           reveal={100-(Al / Fu * 100)}
           lineWidth={35} //도넛 두께
           // background="#f3f3f3"
@@ -120,10 +121,11 @@ console.log(Al,Fu)
           lengthAngle={-360}
           animationDuration={1000}
           // rounded
+
           animate
           label={({ dataEntry }) => `${Math.round(dataEntry?.value)}%`}
           labelStyle={{
-            fontSize: "26px",
+            fontSize: "24px",
             fill: "#33333",
           }}
           labelPosition={0}
