@@ -130,6 +130,10 @@ const Add_Button = styled.button`
     cursor:pointer;
 `;
 
+const Bookmark_Btn = styled.button`
+
+`;
+
 function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText, setBlockHover }) {
 
     const userTableDispatch = useUserTableDispatch();
@@ -325,6 +329,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                         <option>2학기</option>
                         <option>계절학기(동계)</option>
                     </Select>
+                    <Bookmark_Btn>책갈피</Bookmark_Btn>
                 </Select_container>
                 <Time_table_list>
                     {userTableState.totalTimeTable.map((table, idx) => {
