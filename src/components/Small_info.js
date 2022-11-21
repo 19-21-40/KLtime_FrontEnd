@@ -2,44 +2,49 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Klas from "./Klas";
+import EditButton from "../image/Edit.png"
 
 const Small_info_Container = styled.div`
     display: flex;
     justify-content: center;
+
+    background-color: transparent;
     align-items: center;
     weight: 100px;
     height: 100px;
 `;
 const LogoutButton = styled.button`
     position: absolute;
-    right: 20%;
+    right: 5%;
     top: 30%;
     width : 100px;
     height: 45px;
-    line-height : 45px; // 텍스트 수직가운데 정렬
+    
     text-align:center;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 600;
     /* 이미지,버튼박스 색상 */
 
+    color: white;
     border: none;
-    background: #D9D9D9;
+    background-color: transparent;
     border-radius: 20px;
 
     cursor: pointer;
 `;
 
-const ModifyButton = styled.div`
-    position: absolute;
-    right: 10%;
-    top: 30%;
-    width : 145px;
-    height: 45px;
+const ModifyButton = styled.img`
+    position: relative;
+    top: 45%;
+    right: 10px;
     line-height : 45px; // 텍스트 수직가운데 정렬
     text-align:center;
 
+    height: 25px;
+    width: 25px;
+
     /* 이미지,버튼박스 색상 */
 
-    background: #D9D9D9;
     border-radius: 20px;
 
     cursor: pointer;
@@ -47,21 +52,23 @@ const ModifyButton = styled.div`
 
 const KlasButton = styled.div`
     position: absolute;
-    right: 0%;
+    right: 13%;
     top: 30%;
     width : 145px;
     height: 45px;
     line-height : 45px; // 텍스트 수직가운데 정렬
     text-align:center;
 
-    cursor: pointer;
-
-
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
 
     /* 이미지,버튼박스 색상 */
+    background-color: transparent;
 
-    background: #D9D9D9;
     border-radius: 20px;
+
+    cursor: pointer;
     `
 
 const Student_info = styled.ul`
@@ -79,7 +86,7 @@ const Student_info = styled.ul`
 `;
 
 const Info_list = styled.span`
-    margin-right: 30px;
+    margin-right: 10px;
 `;
 
 
@@ -105,15 +112,14 @@ function Small_info( {name, number, klas, setKlas} ){
     return(
         <Small_info_Container>
             <Student_info>
-
-                <li><Info_list>학번: {number}</Info_list></li>
-                <li><Info_list>이름: {name} </Info_list></li>
-
+                <ModifyButton src={EditButton} onClick={ () =>  {
+                    showEdit()
+                }} />
+                <li><Info_list>{name} </Info_list></li>  
+                <li><Info_list>({number})</Info_list></li>
             </Student_info>
             <LogoutButton onClick={onClick}>로그아웃</LogoutButton>
-            <ModifyButton onClick={ () =>  {
-                showEdit()
-            }} >계정정보 수정하기</ModifyButton>
+            
             <KlasButton onClick={ () =>  {
                 showKlas()
             }} >KLAS 연동하기</KlasButton>      

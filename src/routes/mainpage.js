@@ -36,6 +36,8 @@ const Head_component = styled.div`
     position: absolute;
     width: 1600px;
     height: 100%;
+
+    background-color: transparent;
     
 `;
 
