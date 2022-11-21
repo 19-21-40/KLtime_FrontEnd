@@ -232,12 +232,12 @@ function DayNameZone({ selectedTable }) {
 function Period({ period, selectedTable }) {
     let height;
     const hour = 48;
-    if (period < 7) height = `${hour * 1.5}px`
-    else if (period === 0) {
+    if (period === 0) {
         if (selectedTable.times.length === 16) height = `${hour}px`
         else height = `${hour * 1.5}px`
     }
     else if (period === -1) height = `${hour * ((selectedTable.times.length - 17) + 0.5)}px`
+    else if (period < 7) height = `${hour * 1.5}px`
     else if (period === 12) height = `${hour * 11 / 6}px`
     else height = `${hour * 5 / 6}px`
 

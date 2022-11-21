@@ -38,6 +38,9 @@ const Input = styled.input`
     background: rgb(255,255,255);
 
     font-size:20px;
+    &:disabled{
+        background-color:rgba(200, 200, 200, 0.9);
+    }
 `
 
 const Button = styled.button`
