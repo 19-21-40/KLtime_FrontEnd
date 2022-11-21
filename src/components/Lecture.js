@@ -10,7 +10,7 @@ const DualMode = styled.div`
             css`
         // position: absolute; //리스트에서 카드모드일때는 안되게 해야함
         overflow: hidden;
-        cursor: pointer;
+        cursor: ${props.blockhover ? "pointer" : "default"};
         box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 5%) 0px 2px 4px;
         width:${props => props.width};
         height:${props => props.height};
@@ -164,6 +164,7 @@ function Lecture({
             onMouseEnter={onHovered}
             onMouseLeave={onHovered}
             onClick={LectureClick}
+            blockhover={blockhover}
         >
             <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} >
                 <Content isCardMode={isCardMode}>
