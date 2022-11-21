@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Edit_TimeTable from "./components/Edit_TimaTable";
 import { UserTableProvider } from "./context/UserTableContext";
 import { UserInfoProvider } from "./context/UserInfoContext";
+import "./App.css";
 
 
 // function Copyright(){

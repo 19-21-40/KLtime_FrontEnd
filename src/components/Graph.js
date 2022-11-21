@@ -36,11 +36,13 @@ const Text_box = styled.div`
     h1 {
       font-size: ${props => `${props.font_1}px`};
       margin: 0 0 10px 0;
+      font-weight:normal;
     }
 
     h2 {
       font-size: ${props => `${props.font_2}px`};
       margin: 0 0 10px 0;
+      font-weight:normal;
     }
     
 `;
@@ -53,9 +55,7 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
   const [AlT, setAlT] = useState();
   const [FuT, setFuT] = useState();
 
-  useEffect(() => {
 
-  }, [Already_num, Full_num, Al, Fu]);
   // 모달창 노출
 
   useEffect(() => {
@@ -94,7 +94,7 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
   };
 
 
-
+console.log(Al,Fu)
 
   return (
     <Design_Box Width={Width} Height={Height} >
@@ -106,17 +106,20 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
           data={[
             {
               value: Al / Fu * 100,
-              color: "#8b0b02",
-              name: "name1",
+              // color: "#8b0b02",
+              color:"#f3f3f3"
+              
             },
           ]}
-          startAngle={270}
+          startAngle={-90}
           // reveal={12/60*100} //퍼센트 치수
-          reveal={Al / Fu * 100}
+          reveal={100-(Al / Fu * 100)}
           lineWidth={35} //도넛 두께
-          background="#f3f3f3"
-          lengthAngle={(360)}
-          rounded
+          // background="#f3f3f3"
+          background="#8b0b02"
+          lengthAngle={-360}
+          animationDuration={1000}
+          // rounded
           animate
           label={({ dataEntry }) => `${Math.round(dataEntry?.value)}%`}
           labelStyle={{

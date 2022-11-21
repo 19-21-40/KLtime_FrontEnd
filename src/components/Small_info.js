@@ -13,16 +13,17 @@ const Small_info_Container = styled.div`
     weight: 100px;
     height: 100px;
 `;
-const LogoutButton = styled.button`
+const LogoutButton = styled.div`
     position: absolute;
     right: 5%;
     top: 30%;
     width : 100px;
+    line-height : 45px;
     height: 45px;
     
     text-align:center;
     font-size: 20px;
-    font-weight: 600;
+    // font-weight: 600;
     /* 이미지,버튼박스 색상 */
 
     color: white;
@@ -60,7 +61,7 @@ const KlasButton = styled.div`
     text-align:center;
 
     font-size: 20px;
-    font-weight: 600;
+    // font-weight: 600;
     color: white;
 
     /* 이미지,버튼박스 색상 */
@@ -80,7 +81,7 @@ const Student_info = styled.ul`
 
 
     line-height: 133px;
-    font-weight: 900;
+    // font-weight: 900;
     font-size: 23px;
     color:white;
 `;
