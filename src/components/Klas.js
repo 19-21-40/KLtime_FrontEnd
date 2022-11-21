@@ -1,6 +1,6 @@
 import { useContext, useReducer, useState } from "react";
 import useInputs from "../hooks/useInputs";
-import { UserState } from '../context/UserInfoContext';
+import { UserState, useUserInfoState } from '../context/UserInfoContext';
 import { call } from "../service/ApiService";
 import { JSEncrypt } from 'jsencrypt';
 import axios from "axios";
@@ -92,7 +92,7 @@ function reducer(state, action) {
 }
 
 function Klas() {
-
+    const user=useUserInfoState();
     const [state, dispatch] = useReducer(reducer, {
         loading: false,
         data: null,
@@ -100,7 +100,7 @@ function Klas() {
     });
     const page = "https://klas.kw.ac.kr";
     const [{ loginId, loginPwd }, onChange, reset] = useInputs({
-        loginId: '',
+        loginId: user.number,
         loginPwd: '',
     });
     const { loading, data, error } = state;
@@ -208,7 +208,7 @@ function Klas() {
                                 <KwangWoonTextLogo_ src={KwangWoon_text_logo} />
                                 <InputContainer>
                                     {/* <Label htmlFor="stdnum">학번<br /></Label> */}
-                                    <Input onChange={onChange} id="loginId" type="text" name="loginId" value={loginId} placeholder="학번을 입력하시오." />
+                                    <Input onChange={onChange} id="loginId" type="text" name="loginId" value={loginId} placeholder="학번을 입력하시오."disabled={true}/>
                                 </InputContainer>
                                 <InputContainer>
                                     {/* <Label htmlFor="password">비밀번호<br /></Label> */}

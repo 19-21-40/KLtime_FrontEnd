@@ -91,10 +91,10 @@ const Info_list = styled.span`
 
 
 
-function Small_info( {name, number, klas, setKlas} ){
+function Small_info( {name, number, setEdit, setKlas} ){
     const navigate=useNavigate()
 
-    const [Edit, setEdit] = useState(false);//계정정보 수정
+    
 
     const showEdit = () => {
         setEdit(true);    

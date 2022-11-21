@@ -7,7 +7,6 @@ import {
 import Login from "./routes/Login"
 import SignUp from "./routes/SignUp";
 import MyTimeTable from "./routes/MyTimeTable";
-import MyPage from "./routes/MyPage";
 import PasswdSearch from "./routes/PasswdSearch";
 import MainPage from "./routes/mainpage";
 import Typography from "@mui/material/Typography";
@@ -45,8 +44,6 @@ function App() {
             <Route path="/SignUp" element={<SignUp />}>
             </Route>
             <Route path="/Login" element={<Login />}>
-            </Route>
-            <Route path="/MyPage" element={<MyPage />}>
             </Route>
             <Route path="/PasswdSearch" element={<PasswdSearch />}>
             </Route>
