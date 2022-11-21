@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 import styled from "styled-components";
 import axios from "axios";
 
-import MyPage from '../routes/MyPage';
 import Klas_Peristalsis from './Klas_Peristalsis';
 import { API_BASE_URL } from '../app-config';
 

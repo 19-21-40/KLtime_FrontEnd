@@ -20,6 +20,9 @@ function userinfoReducer(state, action) {
         ...state,
         name:action.name,
         number:action.number,
+        email:action.email,
+        grade:action.grade,
+        department:action.departmentName
       }
     case 'LOGOUT':
       return initialState;
