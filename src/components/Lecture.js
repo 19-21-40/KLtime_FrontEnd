@@ -74,10 +74,14 @@ const ContentBox=styled(DualMode)`
                     props.clicked?
                     `background-color:rgba(190, 190, 191, 0.8);`
                     :
-                    `background-color:${props.backgroundColor};
-                    &:hover{background-color:#f8f8f8;}`
+                    (props.hovered?
+                        `background-color:#f8f8f8;`
+                        :
+                        `background-color:${props.backgroundColor};`
+                    )
+                    
+                    
                 };
-                // &:hover{background-color:#f8f8f8;}
                 // 수정해야함
                 &:active{background-color:rgba(190, 190, 191, 0.8);}
             `)
@@ -140,20 +144,31 @@ function Lecture({
     onClick,
     onDeleteClick,
     onHovered,
-    isClicked
+    isClicked,
+    notHovered,
+    isHovered //수연 11/18 추가
 }) {
     const [clicked,setClicked]=useState(false);
     const state=useUserTableState();
+    const [hovered,setHovered]=useState(isHovered);
+
 
     useEffect(()=>{
         setClicked(isClicked);
     },[state.selectedId,isClicked])
 
+    
+    //추가 11/18 (수연)
+    useEffect(()=>{
+        setHovered(isHovered);
+    },[isHovered])
+
 
     return (
         <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
             onMouseEnter={onHovered}
-            onMouseLeave={onHovered}
+            // onMouseLeave={onHovered}
+            onMouseLeave={notHovered}
             onClick={
                 clicked?()=>{}:()=>{
                 onClick();
@@ -162,7 +177,7 @@ function Lecture({
                 
             }
             >
-            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} >
+            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} hovered={hovered}  >
                 <Content isCardMode={isCardMode}>
                     {isListMode?
                     <>
