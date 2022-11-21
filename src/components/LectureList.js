@@ -4,10 +4,11 @@ import Lecture from "./Lecture";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
 import styled ,{css}  from "styled-components";
 import axios from "axios";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 //styled-components
 
-const LectureList_container = styled.div`
+const LectureListContainer = styled.div`
   position: relative;
   
   display: flex;
@@ -74,6 +75,10 @@ function LectureList({fold
   const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
   const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
 
+
+  //추가(수연)
+  const [hovereds,setHovereds]=useState(state.searchedLectures.map(()=>false));
+
   const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
   useEffect(()=>{
@@ -115,11 +120,24 @@ function LectureList({fold
     dispatch({
       type: 'PREVIEW_LECTURE',
       id:state.searchedLectures[index].id,
-    })
+    });
+    hovereds[index]=true;
+  }
+
+  //수연 추가
+  const notHovered=(index)=>{
+    //추가
+    dispatch({
+      type: 'PREVIEW_LECTURE',
+      id:state.searchedLectures[index].id,
+    });
+    hovereds[index]=false;
+    // setHovereds[index](false);
+    // setHovereds(hovereds.map(hovered=>hovereds.indexOf(hovered)===index?false:hovered));
   }
 
   return (
-    <LectureList_container>
+    <LectureListContainer>
       {/* <ToggleBtn onClick={()=>{setIsCardMode(!isCardMode)}} /> */}
       <DualMode isCardMode={isCardMode}>
         <LineTablehead>
@@ -158,17 +176,20 @@ function LectureList({fold
                 key={searchedLecture.id} 
                 isCardMode={isCardMode}
                 isListMode={true}//수정
+                backgroundColor="white"
                 onClick={() => onClick(index, searchedLecture.id)}
                 onHovered={()=>onHovered(index)}//수정
+                notHovered={()=>notHovered(index)}//수연 추가
                 isClicked={clickeds[index]}
-                backgroundColor={searchedLecture.dup==true?"rgba(190, 190, 191, 0.8)":"rgb(255, 255, 255)"}
+                isHovered={hovereds[index]}
+                isDup={searchedLecture.dup} //수연 추가
                 />
             ))}
         </LineTable>
         </div>
 
       </DualMode>
-    </LectureList_container>
+    </LectureListContainer>
   );
 }
 

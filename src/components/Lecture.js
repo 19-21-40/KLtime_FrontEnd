@@ -44,6 +44,14 @@ const ContentBox = styled(DualMode)`
 
             &:hover{background-color:rgba(55,53,47,0.25);}
         `
+
+        :
+        css`
+            // backgroundColor:white;
+            ${props=>
+                props.clicked?
+                `background-color:rgba(190, 190, 191, 0.5);`
+
                 :
                 css`
             // backgroundColor:white;
@@ -56,7 +64,7 @@ const ContentBox = styled(DualMode)`
                     };
             // &:hover{background-color:#f8f8f8;}
             // 수정해야함
-            &:active{background-color:rgba(190, 190, 191, 0.8);}
+            &:active{background-color:rgba(190, 190, 191, 0.5);}
         `)
             :
             (props.isCardMode ?
@@ -67,19 +75,25 @@ const ContentBox = styled(DualMode)`
     
                 //&:hover{background-color:rgba(55,53,47,0.25);}
             `
-                :
-                css`
-                // backgroundColor:white;
-                ${props =>
-                        props.clicked ?
-                            `background-color:rgba(190, 190, 191, 0.8);`
-                            :
-                            `background-color:${props.backgroundColor};
-                    &:hover{background-color:#f8f8f8;}`
-                    };
-                // &:hover{background-color:#f8f8f8;}
+
+            :
+            css`
+                ${props=>
+                    props.clicked?
+                    `background-color:rgba(190, 190, 191, 0.5);`
+                    :
+                    (props.isDup?
+                    `opacity:0.5;
+                    background-color:${props.backgroundColor}
+                    `:
+                    (props.hovered?
+                        `background-color:#f8f8f8;`
+                        :
+                        ``)
+                        )
+                };
                 // 수정해야함
-                &:active{background-color:rgba(190, 190, 191, 0.8);}
+                &:active{background-color:rgba(190, 190, 191, 0.7);}
             `)
     }
 `;
@@ -140,33 +154,43 @@ function Lecture({
     onClick,
     onDeleteClick,
     onHovered,
-    isClicked
+    isClicked,
+    notHovered,
+    isHovered, //수연 11/18 추가
+    isDup
 }) {
-    const [clicked, setClicked] = useState(false);
-    const state = useUserTableState();
+
+    const [clicked,setClicked]=useState(false);
+    const state=useUserTableState();
+    const [hovered,setHovered]=useState(isHovered);
+
 
     useEffect(() => {
         setClicked(isClicked);
     }, [state.selectedId, isClicked])
 
-    const LectureClick = () => {
-        if(!clicked){
-            onClick();
-            setClicked(true);
-        }
-        if(!isListMode){
-            onClick();
-        }
-    }
+
+    
+    //추가 11/18 (수연)
+    useEffect(()=>{
+        setHovered(isHovered);
+    },[isHovered])
 
     return (
         <DualMode isCardMode={isCardMode} width={width} height={height} top={top} backgroundColor={backgroundColor}
             onMouseEnter={onHovered}
-            onMouseLeave={onHovered}
-            onClick={LectureClick}
-            blockhover={blockhover}
-        >
-            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} >
+
+            // onMouseLeave={onHovered}
+            onMouseLeave={notHovered}
+            onClick={
+                clicked?()=>{}:()=>{
+                onClick();
+                setClicked(true);
+                }
+                
+            }
+            >
+            <ContentBox isCardMode={isCardMode} clicked={clicked} backgroundColor={backgroundColor} blockhover={blockhover} hovered={hovered} isDup={isDup} >
                 <Content isCardMode={isCardMode}>
                     {isListMode ?
                         <>
