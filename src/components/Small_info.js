@@ -18,11 +18,12 @@ const LogoutButton = styled.div`
     right: 5%;
     top: 30%;
     width : 100px;
+    line-height : 45px;
     height: 45px;
     
     text-align:center;
     font-size: 20px;
-    font-weight: 600;
+    // font-weight: 600;
     /* 이미지,버튼박스 색상 */
 
     color: white;
@@ -60,7 +61,7 @@ const KlasButton = styled.div`
     text-align:center;
 
     font-size: 20px;
-    font-weight: 600;
+    // font-weight: 600;
     color: white;
 
     /* 이미지,버튼박스 색상 */
@@ -79,8 +80,8 @@ const Student_info = styled.ul`
     right: 25%;
 
 
-    line-height: 50px;
-    font-weight: 900;
+    line-height: 133px;
+
     font-size: 23px;
     color:white;
 
