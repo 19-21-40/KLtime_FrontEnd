@@ -129,15 +129,15 @@ const initialState = {
     },
     totalTimeTable: [
         {
-            id:1,
-            tableName:"시간표1",
-            lectureList:[],
+            id: 1,
+            tableName: "시간표1",
+            lectureList: [],
             primary: false,
         },
         {
-            id:2,
-            tableName:"시간표2",
-            lectureList:[],
+            id: 2,
+            tableName: "시간표2",
+            lectureList: [],
             primary: true,
         },
     ],
@@ -203,6 +203,22 @@ function timeTableReducer(state, action) {
                             tableName: action.tableName
                         }
                         : timeTable),
+            }
+        case 'PRIMARY_TABLE'://시간표 primary 수정
+            return {
+                ...state,
+                totalTimeTable: state.totalTimeTable.map(timeTable =>
+                    
+                    timeTable.id === state.selectedId ?
+                        {
+                            ...timeTable,
+                            primary: true,
+                        }
+                        : 
+                        {
+                            ...timeTable,
+                            primary: false,
+                        }),
             }
         case 'DELETE_TABLE'://시간표 삭제
             let isFirstIndex = false;
