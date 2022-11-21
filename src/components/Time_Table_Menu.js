@@ -205,7 +205,8 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 userTableDispatch({
                     type: 'READ_TABLE',
                     id: primaryId,
-                })
+                });
+
 
     }, [userTableState.totalTimeTable])
 
@@ -324,7 +325,20 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         userTableDispatch({
             type: 'PRIMARY_TABLE',
         });
+
+        const primaryTableName = userTableState.totalTimeTable.find(timeTable => timeTable.id == userTableState.selectedId).tableName;
+
+        axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/changePrimary/${primaryTableName}`, null,{
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+                'Authorization': "Bearer " + accessToken,
+            }, withCredentials: true,
+        }).then(res => {
+        }
+        );
     }
+
 
     const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id;
 
