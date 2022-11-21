@@ -20,10 +20,10 @@ const Small_info_Container = styled.div`
 `;
 const LogoutButton = styled.div`
     position: relative;
-    right: 10%;
+    right: 13%;
     width : 100px;
-    line-height : 45px;
     height: 45px;
+    line-height : 45px;
     
     text-align:center;
     font-size: 20px;
@@ -40,6 +40,8 @@ const LogoutButton = styled.div`
 
 const ModifyButton = styled.img`
     position: relative;
+    top: 8px;
+
     right: 10px;
     line-height : 45px; // 텍스트 수직가운데 정렬
     text-align:center;
@@ -76,14 +78,15 @@ const KlasButton = styled.div`
 
 const Student_info = styled.div`
     display: flex;
-    height: 30px;
+    
+    height: 45px;
     list-style: none;
     position: relative;
     
     right: 25%;
 
-
-    font-size: 23px;
+    line-height: 45px;
+    font-size: 20px;
     color:white;
 
     cursor: pointer;
