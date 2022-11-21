@@ -17,6 +17,24 @@ import { useUserInfoDispatch, useUserInfoState } from "../context/UserInfoContex
 import UserInfo from "../components/UserInfo";
 
 
+const Background = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: lightgray;
+    opacity: 0.7;
+    
+`;  
+
 const Head_line = styled.div`
     
     display:flex;
@@ -178,10 +196,10 @@ const Right_component = styled.div`
 
 const TimeTableHeader = styled.div`
     position:absolute;
+    top: -5px;
 
     display:flex;
 
-    margin-bottom:100px;
 `;
 
 const TableName = styled.div`
@@ -255,11 +273,13 @@ const UserInfo_Box = styled.div`
     position: absolute;
     z-index: 10;
 
-    width: 800px;
-    height: 700px;
+    width: 1200px;
+    height: 900px;
 
     border-radius: 20px;
     background-color: rgb(255, 255,255 );
+
+    
 `;
 
 const P_Button = styled.button`
@@ -280,10 +300,26 @@ const P_Button = styled.button`
     background-color: transparent;
     
     cursor: pointer;
+
+    z-index:3;
 `;
 
 const GoTable_Btn = styled.button`
+    
+    position: relative;
+    left: 200px;
 
+    width: 250px;
+    height: 60px;
+
+    font-size:17px;
+    font-weight:700;
+    color:white;
+    background: #B81D24;
+    border-radius: 20px;
+    border:none;
+
+    cursor: pointer;
 `;
 
 function MainPage() {
@@ -424,7 +460,7 @@ function MainPage() {
                                     <Piechart Full_num={data?.gradcondition.mainCredit} Already_num={data?.credit.mainCredit} Kind="전공학점" section="main" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
                                 </Design_Box>
                                 <Design_Box>
-                                    <Piechart Full_num={999} Already_num={999} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
+                                    <Piechart Full_num={data?.gradcondition.multiCredit} Already_num={data?.credit.multiCredit} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
                                 </Design_Box>
                             </Upper_Body_Chart_Box>
                             <Lower_Body_Chart_Box>
@@ -467,8 +503,8 @@ function MainPage() {
                         </TimeTableBody>
                     </Right_component>
                     <Box_container>
-                        {edit ? <UserInfo_Box><UserInfo /> <P_Button onClick={onClose} >X</P_Button></UserInfo_Box> : <></>}
-                        {klas ? <Klas_Box><Klas /> <P_Button onClick={onClose} >X</P_Button></Klas_Box> : <></>}
+                        {edit ? <><Background></Background> <UserInfo_Box><UserInfo setEdit={setEdit}/> </UserInfo_Box></> : <></>}
+                        {klas ? <><Background></Background><Klas_Box><Klas /> <P_Button onClick={onClose} >X</P_Button></Klas_Box></> : <></>}
                     </Box_container>
                 </Component_position>
             </Body_line>

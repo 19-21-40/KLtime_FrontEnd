@@ -113,14 +113,13 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
           startAngle={270}
           // reveal={12/60*100} //퍼센트 치수
           reveal={Al / Fu * 100}
-          lineWidth={35} //도넛 두께
+          lineWidth={40} //도넛 두께
           background="#f3f3f3"
           lengthAngle={(360)}
-          rounded
           animate
           label={({ dataEntry }) => `${Math.round(dataEntry?.value)}%`}
           labelStyle={{
-            fontSize: "26px",
+            fontSize: "24px",
             fill: "#33333",
           }}
           labelPosition={0}

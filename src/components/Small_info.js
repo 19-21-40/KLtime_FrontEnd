@@ -47,7 +47,7 @@ const ModifyButton = styled.img`
 
     border-radius: 20px;
 
-    cursor: pointer;
+    
 `;
 
 const KlasButton = styled.div`
@@ -73,16 +73,18 @@ const KlasButton = styled.div`
 
 const Student_info = styled.ul`
     display: flex;
-    height: 100%;
+    height: 30px;
     list-style: none;
     position: absolute;
     right: 25%;
 
 
-    line-height: 133px;
+    line-height: 50px;
     font-weight: 900;
     font-size: 23px;
     color:white;
+
+    cursor: pointer;
 `;
 
 const Info_list = styled.span`
@@ -111,10 +113,10 @@ function Small_info( {name, number, setEdit, setKlas} ){
 
     return(
         <Small_info_Container>
-            <Student_info>
-                <ModifyButton src={EditButton} onClick={ () =>  {
+            <Student_info  onClick={ () =>  {
                     showEdit()
-                }} />
+                }}>
+                <ModifyButton src={EditButton} />
                 <li><Info_list>{name} </Info_list></li>  
                 <li><Info_list>({number})</Info_list></li>
             </Student_info>
