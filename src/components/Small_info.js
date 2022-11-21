@@ -5,6 +5,11 @@ import Klas from "./Klas";
 import EditButton from "../image/Edit.png"
 
 const Small_info_Container = styled.div`
+
+    position: relative;
+    top: 10%;
+    left: 65%;
+
     display: flex;
     justify-content: center;
 
@@ -14,9 +19,8 @@ const Small_info_Container = styled.div`
     height: 100px;
 `;
 const LogoutButton = styled.div`
-    position: absolute;
-    right: 5%;
-    top: 30%;
+    position: relative;
+    right: 10%;
     width : 100px;
     line-height : 45px;
     height: 45px;
@@ -36,7 +40,6 @@ const LogoutButton = styled.div`
 
 const ModifyButton = styled.img`
     position: relative;
-    top: 45%;
     right: 10px;
     line-height : 45px; // 텍스트 수직가운데 정렬
     text-align:center;
@@ -52,9 +55,8 @@ const ModifyButton = styled.img`
 `;
 
 const KlasButton = styled.div`
-    position: absolute;
+    position: relative;
     right: 13%;
-    top: 30%;
     width : 145px;
     height: 45px;
     line-height : 45px; // 텍스트 수직가운데 정렬
@@ -72,15 +74,14 @@ const KlasButton = styled.div`
     cursor: pointer;
     `
 
-const Student_info = styled.ul`
+const Student_info = styled.div`
     display: flex;
     height: 30px;
     list-style: none;
-    position: absolute;
+    position: relative;
+    
     right: 25%;
 
-
-    line-height: 133px;
 
     font-size: 23px;
     color:white;
@@ -118,8 +119,8 @@ function Small_info( {name, number, setEdit, setKlas} ){
                     showEdit()
                 }}>
                 <ModifyButton src={EditButton} />
-                <li><Info_list>{name} </Info_list></li>  
-                <li><Info_list>({number})</Info_list></li>
+                <div><Info_list>{name} </Info_list></div>  
+                <div><Info_list>({number})</Info_list></div>
             </Student_info>
             <LogoutButton onClick={onClick}>로그아웃</LogoutButton>
             
