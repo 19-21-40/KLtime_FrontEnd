@@ -204,7 +204,7 @@ const TimeTableHeader = styled.div`
 
 const TableName = styled.div`
     font-size:50px;
-    font-weight: 900;
+    // font-weight: 900;
 `;
 
 const TimeTableBody = styled.div`
