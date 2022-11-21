@@ -13,7 +13,7 @@ const Small_info_Container = styled.div`
     weight: 100px;
     height: 100px;
 `;
-const LogoutButton = styled.button`
+const LogoutButton = styled.div`
     position: absolute;
     right: 5%;
     top: 30%;
