@@ -27,7 +27,7 @@ const Head_line = styled.div`
     left: 0px;
     top: 0px;
 
-    background: #A7A7A7;
+    background: #8b0b02;
 `;
 
 const Head_component = styled.div`
