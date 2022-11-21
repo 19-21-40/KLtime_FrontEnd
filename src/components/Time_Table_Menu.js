@@ -6,6 +6,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../app-config";
 import userEvent from "@testing-library/user-event";
 import BookMark from "../image/Bookmark.png"
+import { style } from "@mui/system";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
 // const Logo_Image = styled.div`
@@ -90,6 +91,10 @@ const Time_table_box = styled.div`
 
 `;
 
+const Tag = styled.div`
+    position: absolute;
+`
+
 const Time_table_info = styled.div`
     margin-top: 10px;
     margin-bottom: 20px;    
@@ -103,7 +108,7 @@ const Delete_button = styled.button`
     height: 30px;
 
     position: relative;
-    left: 120px;
+    left: 160px;
 
     cursor: pointer;
     font-size: 30px;
@@ -116,8 +121,8 @@ const Edit_button = styled.button`
     height: 30px;
 
     position: relative;
-    left: 100px;
-    bottom: 10px;
+    left: 130px;
+    top: 30px;
 
     text-align: center;
     cursor: pointer;
@@ -135,7 +140,9 @@ const Add_Button = styled.button`
 `;
 
 const Bookmark_Btn = styled.button`
-
+    position: relative;
+    width: 80px;
+    height: 50px;
 `;
 
 function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText, setBlockHover }) {
@@ -350,7 +357,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                                     handleOnClick(e, idx)
                                     update_Table(table.id)
                                 }}>
-                                {primaryId == table.id && <div>안녕 나는 프라이머리</div>}
+                                {primaryId == table.id && <Tag>안녕 나는 프라이머리</Tag>}
                                 <Delete_button onClick={(event) => {
                                     onRemove(table.id, table.tableName)
                                     event.stopPropagation()
