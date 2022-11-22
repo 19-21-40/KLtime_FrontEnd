@@ -193,6 +193,10 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 semester: "1학기"
             },
         });
+
+        console.log(semesterRef);
+        semesterRef.current.value = "1학기";
+        semesterRef.current.defaultValue = "1학기";
         // setInnerText({...innerText, year : e.target.value});
     };
 
@@ -350,20 +354,21 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         );
     }
 
+    const semesterRef = useRef(null);
 
     const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id;
 
     return (
         <Total_Container>
                 <Select_container>
-                    <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
+                    <Select defaultValue={userTableState.currentSet.year}  onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
                         <option key={2022}>2022</option>
                         <option key={2021}>2021</option>
                         <option key={2020}>2020</option>
                         <option key={2019}>2019</option>
                     </Select>
-                    <Select defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
+                    <Select ref={semesterRef} defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
                         <option key={1}>1학기</option>
                         <option key={1.5}>계절학기(하계)</option>
                         <option key={2}>2학기</option>
