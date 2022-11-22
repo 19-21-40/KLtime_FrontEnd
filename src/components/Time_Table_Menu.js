@@ -116,6 +116,17 @@ const Delete_button = styled.button`
     border: none;
 `;
 
+const None = styled.div`
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: 160px;
+    cursor: pointer;
+    font-size: 30px;
+    background-color: transparent;
+    border: none;
+`
+
 const Edit_button = styled.button`
     width: 50px;
     height: 30px;
@@ -266,10 +277,10 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
             selectedId: nextNumber.current,
         });
 
-        
+
         // 시간표 이름과 student정보를 백으로 던져줌
         if (accessToken && accessToken !== null) {
-        axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`, {
+        axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`,null, {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
@@ -372,10 +383,11 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                                     update_Table(table.id)
                                 }}>
                                 {primaryId == table.id && <Tag>안녕 나는 프라이머리</Tag>}
-                                <Delete_button onClick={(event) => {
+                                {primaryId != table.id ? <Delete_button onClick={(event) => {
                                     onRemove(table.id, table.tableName)
                                     event.stopPropagation()
-                                }}>x</Delete_button>
+                                }}>x</Delete_button> : <None></None>
+                                }
                                 <Time_table_info>
                                     {table.tableName}
                                 </Time_table_info>
