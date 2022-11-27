@@ -106,7 +106,7 @@ const Component_position = styled.div`
 const Left_component = styled.div`
     display:flex;
     flex-direction: column;
-
+    align-items: center;
     width: 680px;
     height: 100%;
 
@@ -150,7 +150,7 @@ const Upper_Body_Chart_Box = styled.div`
 
 const Lower_Body_Chart_Box = styled.div`
     display:flex;
-    width:667px;
+    width:100%;
 
     position:relative;
     top: 33px;
@@ -464,7 +464,7 @@ function MainPage() {
                                 </Design_Box>
                                 <Design_Box>
 
-                                    <Piechart Full_num={data?.gradcondition.multiCredit} Already_num={data?.credit.multiCredit} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
+                                    <Piechart Full_num={0} Already_num={999} Kind="부전공학점" section="sub" Chart_size={150} Width={320} Height={207.2} Top_css={35} Left_css={5} font_1={30} font_2={20} />
                                 </Design_Box>
                             </Upper_Body_Chart_Box>
                             <Lower_Body_Chart_Box>

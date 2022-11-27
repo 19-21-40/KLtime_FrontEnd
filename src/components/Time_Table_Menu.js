@@ -123,6 +123,17 @@ const Delete_button = styled.button`
     border: none;
 `;
 
+const None = styled.div`
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: 160px;
+    cursor: pointer;
+    font-size: 30px;
+    background-color: transparent;
+    border: none;
+`
+
 const Edit_button = styled.button`
     width: 50px;
     height: 30px;
@@ -205,6 +216,10 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 semester: "1학기"
             },
         });
+
+        console.log(semesterRef);
+        semesterRef.current.value = "1학기";
+        semesterRef.current.defaultValue = "1학기";
         // setInnerText({...innerText, year : e.target.value});
     };
 
@@ -289,10 +304,10 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
             selectedId: nextNumber.current,
         });
 
-        
+
         // 시간표 이름과 student정보를 백으로 던져줌
         if (accessToken && accessToken !== null) {
-        axios.get(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`, {
+        axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`,null, {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Accept': '*/*',
@@ -362,20 +377,21 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         );
     }
 
+    const semesterRef = useRef(null);
 
     const primaryId = userTableState.totalTimeTable.find(timeTable => timeTable.primary==true).id;
 
     return (
         <Total_Container>
                 <Select_container>
-                    <Select defaultValue={userTableState.currentSet.year} onChange={SelectYear}>
+                    <Select defaultValue={userTableState.currentSet.year}  onChange={SelectYear}>
                     // 학생의 학번부터 생성되게 해야함
                         <option key={2022}>2022</option>
                         <option key={2021}>2021</option>
                         <option key={2020}>2020</option>
                         <option key={2019}>2019</option>
                     </Select>
-                    <Select defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
+                    <Select ref={semesterRef} defaultValue={userTableState.currentSet.semester} onChange={SelectSemester}>
                         <option key={1}>1학기</option>
                         <option key={1.5}>계절학기(하계)</option>
                         <option key={2}>2학기</option>
@@ -397,10 +413,11 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                                     update_Table(table.id)
                                 }}>
                                 {primaryId == table.id && <Tag src={BookMark_color}/>}
-                                <Delete_button onClick={(event) => {
+                                {primaryId != table.id ? <Delete_button onClick={(event) => {
                                     onRemove(table.id, table.tableName)
                                     event.stopPropagation()
-                                }}>x</Delete_button>
+                                }}>x</Delete_button> : <None></None>
+                                }
                                 <Time_table_info>
                                     {table.tableName}
                                 </Time_table_info>

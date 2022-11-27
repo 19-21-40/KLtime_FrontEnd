@@ -47,9 +47,12 @@ const DayNameLayout = styled.div`
 
     .dayNameZone{
         margin-left: 42px;
-        margin-right: 50px;
+        margin-right: 40px;
         position: relative;
         height: 100%;
+        font-family:"BMJUA";
+        font-size:16px;
+        text-align:center;
     }
     
     

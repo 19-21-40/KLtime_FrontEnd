@@ -120,8 +120,6 @@ console.log(Al,Fu)
           background="#8b0b02"
           lengthAngle={-360}
           animationDuration={1000}
-          // rounded
-
           animate
           label={({ dataEntry }) => `${Math.round(dataEntry?.value)}%`}
           labelStyle={{
