@@ -5,7 +5,8 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import { API_BASE_URL } from "../app-config";
 import userEvent from "@testing-library/user-event";
-import BookMark from "../image/Bookmark.png"
+import BookMark_black from "../image/Bookmark.png"
+import BookMark_color from "../image/Bookmark_color.png"
 import { style } from "@mui/system";
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
@@ -72,6 +73,8 @@ const Time_table_list = styled.div`
 
 const Time_table_box = styled.div`
 
+    position: relative;
+
     display: flex;
     flex-direction: column;
 
@@ -91,8 +94,12 @@ const Time_table_box = styled.div`
 
 `;
 
-const Tag = styled.div`
+const Tag = styled.img`
+    width: 30px;
     position: absolute;
+
+    margin-left: 15px;
+    top: -13px;
 `
 
 const Time_table_info = styled.div`
@@ -139,10 +146,26 @@ const Add_Button = styled.button`
     cursor:pointer;
 `;
 
-const Bookmark_Btn = styled.button`
+const BookMark_Btn_Container = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: relative;
-    width: 80px;
-    height: 50px;
+    left: 180px;
+
+    width: 45px;
+    height: 50px;    
+    border: 1px solid gray;
+
+    cursor: pointer;
+`;
+
+const Bookmark_Btn = styled.img`
+    position: relative;
+    width: 25px;
+    height: 40px;
+
 `;
 
 function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText, setBlockHover }) {
@@ -358,7 +381,9 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                         <option key={2}>2학기</option>
                         <option key={2.5}>계절학기(동계)</option>
                     </Select>
-                    <Bookmark_Btn onClick={BookMarker}>책갈피</Bookmark_Btn>
+                    <BookMark_Btn_Container onClick={BookMarker}>
+                        <Bookmark_Btn src={BookMark_black} />
+                    </BookMark_Btn_Container>
                 </Select_container>
                 <Time_table_list>
                     {userTableState.totalTimeTable.map((table, idx) => {
@@ -371,7 +396,7 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                                     handleOnClick(e, idx)
                                     update_Table(table.id)
                                 }}>
-                                {primaryId == table.id && <Tag>안녕 나는 프라이머리</Tag>}
+                                {primaryId == table.id && <Tag src={BookMark_color}/>}
                                 <Delete_button onClick={(event) => {
                                     onRemove(table.id, table.tableName)
                                     event.stopPropagation()

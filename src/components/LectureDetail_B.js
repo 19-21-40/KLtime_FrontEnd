@@ -1,7 +1,10 @@
 import { style } from "@mui/system";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Xbutton from "../image/XButton.png"
+import axios from "axios";
+import { API_BASE_URL } from "../app-config";
+import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 
 const Total_Container = styled.div`
     width: 750px;
@@ -77,15 +80,6 @@ const Lecture_Info = styled.div`
     height: 350px;
 `;
 
-const Recomend_Zone = styled.div`
-    
-    height: 100px;
-
-    position: relative;
-    top: 100px;
-    left: 50px;
-`;
-
 const Detail_Text = styled.div`
     position: relative;
     display: flex;
@@ -136,6 +130,64 @@ const Detail_Text = styled.div`
     
 `;
 
+const Recomend_Zone = styled.div`
+    display: flex;
+
+    width: 90%;
+    height: 350px;
+
+    position: relative;
+    top: 100px;
+    left: 50px;
+
+`;
+
+const Title = styled.div`
+    width: 100%;
+    font-size: 25px;
+
+`;
+
+const Body = styled.div`
+
+    width: 100%;
+    font-size: 20px;
+    color: gray;
+
+    margin-top: 15px;
+    margin-bottom: 50px;
+`;
+
+const Lecture = styled.div`
+    
+    display: flex;
+    width: 660px;
+
+    margin-bottom: 7px;
+
+    > div {
+        width: 200px;
+    }
+
+    #section { 
+        width: 38px;
+        margin-right: 10px;
+    }
+
+    #credit { 
+        width: 60px;
+    }
+
+    #level {
+        width: 70px;
+    }
+`;
+
+
+const Reco_Info = styled.div`
+
+`;
+
 function LectureDetail_B({
     top,
     left,
@@ -144,11 +196,46 @@ function LectureDetail_B({
     setOpenLectureDetail,
     setOpenDetail,
 }) {
-    
+    const userTableDispatch = useUserTableDispatch(); //
+    const userTableState = useUserTableState();
+
+    const [recList1, setRecList1] = useState([]);
+    const [recList2, setRecList2] = useState([]);
+
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
     const Close = () => {
         setOpenLectureDetail(false);
         setOpenDetail(true);
     }
+
+    useEffect( () => {
+        if (accessToken && accessToken !== null) {
+            axios.post(`${API_BASE_URL}/api/recommend/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/lectureList1/${lecture.id}`,null,{
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken,
+                }, withCredentials: true,
+            }).then(res=> {
+                console.log(res.data);
+                setRecList1(res.data.lectureList);
+            }
+            );
+
+            axios.post(`${API_BASE_URL}/api/recommend/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/lectureList2/${lecture.id}`,null,{
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': '*/*',
+                    'Authorization': "Bearer " + accessToken,
+                }, withCredentials: true,
+            }).then(res=> {
+                console.log(res.data);
+                setRecList2(res.data.lectureList);
+            }
+            );
+         }
+    }, [lecture])
 
     return (
         <Total_Container>
@@ -186,7 +273,32 @@ function LectureDetail_B({
                     </Lecture_Info>
                 </Lecture_Zone>
                 <Recomend_Zone>
-                    <div>추추추추천천천천들들들들어어어어갈갈갈갈거거거거</div>
+                    <Reco_Info>
+                        <Title>이 과목을 들은 학생들이 가장 많이 담은 과목</Title>
+                        <Body>
+                            {recList1?.map( (lecture) => 
+                            <Lecture key={lecture.id + lecture.lectureName}>
+                                <div id="number">{lecture.id}</div>
+                                <div id="lectureName">{lecture.lectureName}</div>
+                                <div id="section">{lecture.section}</div>
+                                <div id="credit">{lecture.credit}학점</div>
+                                <div id="level">난이도 {lecture.level}</div>
+                            </Lecture>)
+                            }
+                        </Body>
+                        <Title>이 과목을 들은 소프트웨어학부 2학년이 가장 많이 담은 과목</Title>
+                        <Body>
+                        {recList2?.map( (lecture) => 
+                            <Lecture key={lecture.id + lecture.lectureName}>
+                                <div id="number">{lecture.id}</div>
+                                <div id="lectureName">{lecture.lectureName}</div>
+                                <div id="section">{lecture.section}</div>
+                                <div id="credit">{lecture.credit}학점</div>
+                                <div id="level">난이도 {lecture.level}</div>
+                            </Lecture>)
+                            }
+                        </Body>
+                    </Reco_Info>
                 </Recomend_Zone>
             </Body_Container>
         </Total_Container>

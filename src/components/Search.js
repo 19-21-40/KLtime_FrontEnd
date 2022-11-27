@@ -67,7 +67,17 @@ const FoldButton = styled.button`
 
 `
 
+const Row = styled.div`
+    display: flex;
+    width: 100%;
+
+    position: relative;
+    left: 30px;
+    margin-bottom: 20px;
+`;
+
 const Select = styled.div`
+
     width: 252px;
     height: 31px;
     display: flex;
@@ -90,6 +100,7 @@ const Select = styled.div`
 
 const SearchCollection = styled.div`
     display:flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -99,6 +110,9 @@ const SearchCollection = styled.div`
     position: relative;
     flex-wrap: wrap;
     
+`
+const SearchContainer = styled.div`
+    display: flex;
 `
 
 const Searchbar = styled.input`
@@ -157,8 +171,10 @@ const initialInputs = {
     input: '',
     credit: 'null',
     section: 'null',
+    college: 'null',
     department: 'null',
     level: 'null',
+    whatDay: 'null',
 };
 
 const searchInputReducer = (state, action) => {
@@ -194,6 +210,11 @@ const searchInputReducer = (state, action) => {
                 ...state,
                 level: action.level,
             }
+        case 'WHATDAY':
+            return{
+                ...state,
+                whatDay: action.whatDay,
+            }
         default:
             return state;
     };
@@ -209,10 +230,30 @@ function Search({fold, setFold})
     const inputref = useRef(null); //
     const iconListref = useRef([]);
 
+    const [collegeName, SetCollegeName] = useState("전체");
+    const [departmentList, setDepartmentList] = useState([]);
 
     const [searchInputs, inputDispatch] = useReducer(searchInputReducer, initialInputs);
 
-    
+    useEffect(() => {
+        if(collegeName === "전체"){
+            setDepartmentList([]);
+        }else if(collegeName === "소프트웨어융합대학"){
+            setDepartmentList(["소프트웨어학부", "컴퓨터정보공학부", "정보융합학부"]);
+        }else if(collegeName === "전자정보공과대학"){
+            setDepartmentList(["전자공학과", "전자통신공학과", "전기공학과", "전자융합공학과", "전자재료공학과", "로봇학부"]);
+        }else if(collegeName === "공과대학"){
+            setDepartmentList(["건축공학과", "환경공학과", "화학공학과", "건축학과"]);
+        }else if(collegeName === "자연과학대학"){
+            setDepartmentList(["수학과", "화학과", "전자바이오물리학과", "스포츠융합과학과", "정보콘텐츠학과"]);
+        }else if(collegeName === "인문사회과학대학"){
+            setDepartmentList(["국어국문학과","영어산업학과","미디어커뮤니케이션학부", "산업심리학과", "동북아문화산업학부"]);
+        }else if(collegeName === "정책법학대학"){
+            setDepartmentList(["행정학과", "법학부", "국제학부", "자산관리학과"]);
+        }else if(collegeName === "경영대학"){
+            setDepartmentList(["경영학부", "국제통상학부"]);
+        }
+    }, [collegeName]);
 
     const clickFold = () => {
         if(fold){
@@ -241,11 +282,12 @@ function Search({fold, setFold})
                 }else{
                     newCredit = 'null';
                 }
-                   
                 inputDispatch({type: 'CREDIT', credit: newCredit});
                 break;
             case 'section':
                 inputDispatch({type: 'SECTION', section: event.target.value});
+                break;
+            case 'college':
                 break;
             case 'department':
                 inputDispatch({type: 'department', department: event.target.value});
@@ -258,6 +300,9 @@ function Search({fold, setFold})
                     newLevel = 'null';
                 }
                 inputDispatch({type: 'LEVEL', level: newLevel});
+                break;
+            case 'whatDay' :
+                inputDispatch({type: 'WHATDAY', whatDay: event.target.value});
                 break;
         }
     }
@@ -324,7 +369,7 @@ function Search({fold, setFold})
         if(searchInputs.department !== 'null')
         {
             result = result.filter((lecture)=> {
-                return lecture.department === searchInputs.department;                
+                return lecture.department.includes(searchInputs.department);                
             })
   
             newIconList = newIconList.filter(obj => { return obj.type !== "department"; } );
@@ -347,6 +392,14 @@ function Search({fold, setFold})
         }else{
             newIconList = newIconList.filter(obj => {return obj.type !== "level";});
         }; 
+
+        // 요일 입력에 의한 처리
+        if(searchInputs.whatDay !== 'null'){
+            result = result.filter( lecture => {return lecture.lectureTimes.some( times => times.day == searchInputs.whatDay) ;} );
+
+        }else{
+
+        }
         
 
         userTableDispatch({type: 'SEARCH_LECTURE', searchedLectures: result});
@@ -362,51 +415,92 @@ function Search({fold, setFold})
             </SelectIcon>
             <FoldButton onClick={clickFold}>{fold ? "↓" : '^'}</FoldButton>
             {!fold && <SearchCollection>
+                <Row>
+                    <Select>
+                        <SearchText>소속대학</SearchText>
+                        <select value={collegeName} name="college" onChange={e => SetCollegeName(e.target.value)}>
+                            <option value={"전체"}>전체</option>
+                            <option value={"소프트웨어융합대학"}>소프트웨어융합대학</option>
+                            <option value={"전자정보공과대학"}>전자정보공과대학</option>
+                            <option value={"공과대학"}>공과대학</option>
+                            <option value={"자연과학대학"}>자연과학대학</option>
+                            <option value={"인문사회과학대학"}>인문사회과학대학</option>
+                            <option value={"정책법학대학"}>정책법학대학</option>
+                            <option value={"경영대학"}>경영대학</option>
+
+                        </select>
+                    </Select>
+                    <Select>
+                        <SearchText>전공/영역</SearchText>
+                        <select value={searchInputs.department} name="department" onChange={handle_InputsChange}>
+                            <option value={"null"}>전체</option>
+                            <option value={"교직"}>교직</option>
+                            <option value={"군사학"}>군사학</option>
+                            <option value={"창업"}>창업</option>
+                            <option value={"공통"}>공통</option>
+                            <option value={"융합교과목"}>융합교과목</option>
+                            {
+                                departmentList.map(__department => <option value={__department}>{__department}</option> )
+                            }      
+                        </select>
+                    </Select>
+                </Row>
+                <Row>
                 <Select>
-                    <SearchText>학점</SearchText>
-                    <select value={searchInputs.credit} name="credit" onChange={handle_InputsChange}>
-                        <option value={'null'}>전체</option>
-                        <option value={2}>2학점</option>
-                        <option value={3}>3학점</option>
-                    </select>
-                </Select>
-                <Select>
-                    <SearchText>구분</SearchText>
-                    <select value={searchInputs.section} name="section" onChange={handle_InputsChange}>
-                        <option value={"null"}>전체</option>
-                        <option value={"전필"}>전필</option>
-                        <option value={"전선"}>전선</option>
-                        <option value={"교필"}>교필</option>
-                        <option value={"교선"}>교선</option>
-                        <option value={"일선"}>일선</option>
-                    </select>
-                </Select>
-                <Select>
-                    <SearchText>소속</SearchText>
-                    <select value={searchInputs.department} name="department" onChange={handle_InputsChange}>
-                        <option value={"null"}>전체</option>
-                        <option value={"전체공통"}>전체공통</option>
-                        <option value={"소프트웨어학부"}>소프트웨어학부</option>
-                        <option value={"정보융합학부"}>정보융합학부</option>
-                    </select>
-                </Select>
-                <Select>
-                    <SearchText>난이도</SearchText>
-                    <select value={searchInputs.level} name="level" onChange={handle_InputsChange}>
-                        <option value={"null"}>전체</option>
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
-                    </select>
-                </Select>
-                <Select>
-                    <SearchText>강의/교수명</SearchText>
-                    <select name="searchItem" value={searchInputs.searchItem} onChange={handle_InputsChange}>
-                        <option>강의명</option>
-                        <option>교수명</option>
-                    </select>
-                </Select>
-                <Searchbar ref={inputref} name="input" placeholder={searchInputs.searchItem} type="text" onChange={handle_InputsChange}/>
+                        <SearchText>난이도</SearchText>
+                        <select value={searchInputs.level} name="level" onChange={handle_InputsChange}>
+                            <option value={"null"}>전체</option>
+                            <option value={1}>1</option>
+                            <option value={2}>2</option>
+                            <option value={3}>3</option>
+                        </select>
+                    </Select>
+                    <Select>
+                        <SearchText>학점</SearchText>
+                        <select value={searchInputs.credit} name="credit" onChange={handle_InputsChange}>
+                            <option value={'null'}>전체</option>
+                            <option value={2}>2학점</option>
+                            <option value={3}>3학점</option>
+                        </select>
+                    </Select>
+                </Row> 
+                <Row>
+                    <Select>
+                        <SearchText>구분</SearchText>
+                        <select value={searchInputs.section} name="section" onChange={handle_InputsChange}>
+                            <option value={"null"}>전체</option>
+                            <option value={"전필"}>전필</option>
+                            <option value={"전선"}>전선</option>
+                            <option value={"교필"}>교필</option>
+                            <option value={"교선"}>교선</option>
+                            <option value={"일선"}>일선</option>
+                        </select>
+                    </Select>
+                    <Select>
+                        <SearchText>요일</SearchText>
+                        <select value={searchInputs.whatDay} name="whatDay" onChange={handle_InputsChange}>
+                            <option value={"null"}>전체</option>
+                            <option value={"월"}>월</option>
+                            <option value={"화"}>화</option>
+                            <option value={"수"}>수</option>
+                            <option value={"목"}>목</option>
+                            <option value={"금"}>금</option>
+                            <option value={"토"}>토</option>
+                        </select>
+                    </Select>
+                </Row>
+                <Row>
+                    <SearchContainer>
+                        <Select>
+                            <SearchText>강의/교수명</SearchText>
+                            <select name="searchItem" value={searchInputs.searchItem} onChange={handle_InputsChange}>
+                                <option>강의명</option>
+                                <option>교수명</option>
+                            </select>
+                        </Select>
+                        <Searchbar ref={inputref} name="input" placeholder={searchInputs.searchItem} type="text" onChange={handle_InputsChange}/>
+                    </SearchContainer>
+                </Row>
             </SearchCollection>}
         </Total_Container>
     );
