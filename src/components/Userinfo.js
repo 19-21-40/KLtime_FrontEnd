@@ -244,7 +244,7 @@ function UserInfo({ setEdit }) {
           <Hr />
           <ButtonContainer>
             <Button>저장</Button>
-            <Button onClick={() => setEdit(false)} background="gray">회원탈퇴</Button>
+            <Button onClick={() => setEdit(false)} >회원탈퇴</Button>
           </ButtonContainer>
         </Content>
         <P_Button onClick={() => setEdit(false)} >X</P_Button>

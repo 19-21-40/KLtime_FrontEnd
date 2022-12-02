@@ -103,6 +103,8 @@ const LoginButton = styled.button`
     border-radius: 20px;
     border: none;
 
+    background: #B81D24;
+
     color: white;
     font-size: 15px;
     font-weight: 800;
@@ -121,7 +123,7 @@ const FindButton = styled.button`
     border-radius: 20px;
     border: none;
 
-    background-color: gray;
+    background: #B81D24;
 
     color: white;
     font-size: 15px;
@@ -169,7 +171,7 @@ function LoginFrom() {
                     </TotalInputContainer>
                     <TotalButtonContainer>
                         <LoginButton onClick={onClick} >로그인</LoginButton>
-                        <FindButton>비밀번호 찾기</FindButton>
+                        <FindButton>회원가입</FindButton>
                     </TotalButtonContainer>
                 </Body>
             </Box>
