@@ -11,7 +11,82 @@ import axios from "axios";
 import { API_BASE_URL } from "../app-config";
 import editImage from "../image/Group.png"
 import backImage from "../image/Back.png"
+import { useUserInfoState } from "../context/UserInfoContext";
 
+const Background = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: lightgray;
+    opacity: 0.7;
+    
+`; 
+
+const Box_container = styled.div`
+
+    position: absolute;
+    top: 50%;
+    left: 70%;
+
+    display: flex;
+    align-items:center;
+
+`
+
+const Notice_Box = styled.div`
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    position: absolute;
+    z-index: 2;
+
+    width: 500px;
+    height: 300px;
+
+    border-radius: 20px;
+    background-color: rgb(255, 255,255 );
+`;
+
+const Close = styled.button`
+    
+    position: relative;
+
+    left: 450px;
+    bottom: 120px;
+    border: none;
+    color : gray;
+    background-color : transparent;
+    font-size: 30px;
+    
+    cursor : pointer;
+
+    z-index : 3;
+    
+`;
+
+const Warning = styled.div`
+
+    position: relative;
+    bottom : 50px;
+    font-size: 60px;
+    color: #8b0b02;
+`;
+
+const Content = styled.div`
+    font-size: 20px;
+    text-align: center;
+`;
 
 const Total_Container = styled.div `
     width: 750px;
@@ -168,15 +243,16 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
-
-    const [selectedLectures,setSelectedLectures]=useState([]);
+    
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
-    const [hoveredLecture,setHoveredLecture]=useState();
     
     const [edit, setEdit] = useState(false);
     const [newName, setNewName] = useState( " " );
     const [fold, setFold] = useState(false);
+
+    const [openNotice, setOpenNotice] = useState(false);
+    const [notice, setNotice] = useState("");
 
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
@@ -189,6 +265,10 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     useEffect (() => {
         setNewName(tableName);
     }, []);
+
+    useEffect (() => {
+        console.log("야야야");
+    }, [openNotice]);
 
 
     const changeTableName = (e) => {
@@ -236,8 +316,14 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
                 />
             </Search_box>
             <LectureList_box>
-                <LectureList fold={fold}/>
+                <LectureList setOpenNotice={setOpenNotice} setNotice={setNotice} fold={fold}/>
             </LectureList_box>
+            {openNotice ? 
+            <Box_container>
+                <Close onClick={() => setOpenNotice(false)}>x</Close>
+                <Background></Background> <Notice_Box> <Warning>Warning!</Warning><Content>{notice} <br /> 강의 추가시 주의하세요! </Content></Notice_Box>
+            </Box_container>  : <></>}
+            
         </Total_Container>
     )
 }

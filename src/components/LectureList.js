@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Lecture from "./Lecture";
 //추가
-import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext'; 
+import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
+import { useUserInfoState } from "../context/UserInfoContext"; 
 import styled ,{css}  from "styled-components";
 import axios from "axios";
 import { hover } from "@testing-library/user-event/dist/hover";
@@ -64,7 +65,7 @@ const LineTable=styled.div`
   
 `;
 
-function LectureList({fold
+function LectureList({fold, setOpenNotice, setNotice
 }) {
   
   const [isCardMode,setIsCardMode]=useState(false); //토글버튼 만들 때 쓰일 것
@@ -72,6 +73,8 @@ function LectureList({fold
   //추가
   const dispatch=useUserTableDispatch();
   const state=useUserTableState();
+  const userInfo = useUserInfoState();
+
   const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
   const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
 
@@ -83,15 +86,34 @@ function LectureList({fold
 
   useEffect(()=>{
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
-    console.log(state.searchedLectures)
-    console.log(state.searchedLectures.filter(lecture=>lecture.dup==true))
   },[state.selectedId, state.totalTimeTable])
 
   
 
-  const onClick = (index, lectureId) => {
+  const onClick = (index, lectureId, lecture) => {
     
     //추가
+    console.log(lecture);
+    console.log(userInfo);
+    if(lecture.notes.includes("외국인")){
+      setOpenNotice(true);
+      setNotice("외국인만 수강가능 과목입니다!");
+    }else if(lecture.notes.includes("타학과생 수강불가") || lecture.notes.includes("타과생 신청불가")){
+      setOpenNotice(true);
+      setNotice("타학과생 수강불가 과목입니다!");
+    }else if(lecture.notes.includes("체육특기자만")){
+      setOpenNotice(true);
+      setNotice("체육특기자만 수강가능 과목입니다!");
+    }else if(lecture.department.includes("과") ||  lecture.department.includes("부")){ 
+      
+      /* 타학과 과목 처리 userInfo로 바꿀것.
+      if(!lecture.department.includes("소프트웨어학부") ){
+        setOpenNotice(true);
+        setNotice(`${lecture.department} 해당 과목입니다.`);
+      }
+      */
+    }
+
     
     dispatch({
       type: 'ADD_LECTURE',
@@ -177,7 +199,7 @@ function LectureList({fold
                 isCardMode={isCardMode}
                 isListMode={true}//수정
                 backgroundColor="white"
-                onClick={() => onClick(index, searchedLecture.id)}
+                onClick={() => onClick(index, searchedLecture.id, searchedLecture)}
                 onHovered={()=>onHovered(index)}//수정
                 notHovered={()=>notHovered(index)}//수연 추가
                 isClicked={clickeds[index]}
