@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import LectureDetail_B from "../components/LectureDetail_B";
 import { API_BASE_URL } from "../app-config";
-import KLTimeLogo from "../image/KLTimeLogo.png"
+import KLTimeLogo_white from "../image/KLTimeLogo_white.png"
 import { useUserInfoState } from "../context/UserInfoContext";
 
 const Head_line = styled.div`
@@ -187,7 +187,7 @@ function MyTimeTable() {
                 <Head_component>
                     <nav>
                         <Link to="/">
-                            <Logo_Image src={KLTimeLogo} />
+                            <Logo_Image src={KLTimeLogo_white} />
                         </Link>
                     </nav>
                     <Small_info name={user.name} number={user.number} />

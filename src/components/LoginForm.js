@@ -118,7 +118,7 @@ const LoginButton = styled.button`
     cursor: pointer;
 `
 
-const FindButton = styled.button`
+const SignUpButton = styled.button`
     width: 130px;
     height: 50px;
     padding: 6px;
@@ -177,7 +177,7 @@ function LoginFrom() {
                         </TotalInputContainer>
                         <TotalButtonContainer>
                             <LoginButton onClick={onClick} >로그인</LoginButton>
-                            <FindButton>회원가입</FindButton>
+                            <SignUpButton onClick={()=>navigate("/SignUp")}>회원가입</SignUpButton>
                         </TotalButtonContainer>
                     </Body>
                 </Box>
