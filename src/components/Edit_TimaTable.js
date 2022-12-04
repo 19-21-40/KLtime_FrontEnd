@@ -11,6 +11,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../app-config";
 import editImage from "../image/Group.png"
 import backImage from "../image/Back.png"
+import grad_Img from "../image/grad-soft-19.png"
 import { useUserInfoState } from "../context/UserInfoContext";
 
 const Background = styled.div`
@@ -34,11 +35,25 @@ const Background = styled.div`
 const Box_container = styled.div`
 
     position: absolute;
-    top: 50%;
+
+    top: 25%;
     left: 70%;
 
     display: flex;
     align-items:center;
+
+    #notice {
+        bottom: 30%;
+        width: 500px;
+        height: 300px;
+    }
+
+    #grad {
+        top: 20%;
+        right: 150px;
+        width: 800px;
+        height: 800px;
+    }
 
 `
 
@@ -48,21 +63,37 @@ const Notice_Box = styled.div`
     justify-content:center;
     align-items:center;
 
-    position: absolute;
+    position: relative;
     z-index: 2;
-
-    width: 500px;
-    height: 300px;
 
     border-radius: 20px;
     background-color: rgb(255, 255,255 );
+
+    
+`;
+
+const Close2 = styled.button`
+    
+    position: relative;
+
+    left: 75%;
+    bottom: 350px;
+    border: none;
+    color : gray;
+    background-color : transparent;
+    font-size: 30px;
+    
+    cursor : pointer;
+
+    z-index : 3;
+    
 `;
 
 const Close = styled.button`
     
     position: relative;
 
-    left: 450px;
+    left: 90%;
     bottom: 120px;
     border: none;
     color : gray;
@@ -86,6 +117,34 @@ const Warning = styled.div`
 const Content = styled.div`
     font-size: 20px;
     text-align: center;
+`;
+
+const Table = styled.table`
+    width: 440px;
+    border-collapse: collapse;
+
+    margin-bottom: 50px;
+`;
+
+const Caption = styled.caption`
+    font-size: 25px;
+    margin-bottom: 15px;
+`;
+
+const Thead = styled.thead`
+    height: 40px;
+`;
+const Tbody = styled.tbody`
+`;
+const Th = styled.th`
+    text-align: center;
+    border: 1px solid lightgray;
+`;
+
+const Td = styled.td`
+height: 30px;
+    text-align: center;
+    border: 1px solid lightgray;
 `;
 
 const Total_Container = styled.div `
@@ -197,11 +256,14 @@ const GR_Button = styled.button`
     top: 60px;
     right: 40px;
 
-    background: #D9D9D9;
+    background-color: #8b0b02;
     border: 1px;
     border-radius: 20px;
 
     font-size: 18px;
+    color: white;
+
+    cursor: pointer;
 `;
 
 const EditContainer = styled.div`
@@ -251,10 +313,56 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     const [newName, setNewName] = useState( " " );
     const [fold, setFold] = useState(false);
 
+    const [openGrad, setOpenGrad] = useState(false);
+
     const [openNotice, setOpenNotice] = useState(false);
     const [notice, setNotice] = useState("");
 
+    const [data, setData] = useState(
+        {
+            "gradcondition": {
+                "admissionYear": 999,
+                "gradCredit": 999,
+                "mainCredit": 999,
+                "essBalCredit": 999,
+                "basicCredit": 999,
+                "multiCredit": null
+            },
+            "credit": {
+                "totalCredit": 0,
+                "mainCredit": 0,
+                "multiCredit": 0,
+                "essbalCredit": 0,
+                "essCredit": 0,
+                "balCredit": 0,
+                "basicCredit": 0,
+                "mathCredit": 0,
+                "scienceCredit": 0
+            }
+        }
+    );
+
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
+    useEffect(
+        () => {
+            if (accessToken && accessToken !== null) {
+
+                axios.get(`${API_BASE_URL}/api/gradConditionAndCredit`, {
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'Accept': '*/*',
+                        'Authorization': "Bearer " + accessToken
+                    }, withCredentials: true,
+                }).then(res => {
+                    setData(res.data);
+                }
+                );
+            } else {
+                window.location.href = "/Login"
+            }
+        }
+        , []);
 
     const Edit_click = () => {
         setEdit(!edit);
@@ -308,7 +416,43 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
                         <InputTableName value={newName} maxLength={15} onChange={ (e) => setNewName(e.target.value)}/>
                     </form> : <TableInfo_2>{newName} <Edit_Name_Button src={editImage} onClick={Edit_click} width={25} />
                     </TableInfo_2>}
-                    <GR_Button>졸업요건 확인</GR_Button>
+                    <GR_Button onClick={() => setOpenGrad(true)}>졸업요건 확인</GR_Button>
+                    {openGrad ? 
+                    <Box_container>
+                        <Close2 onClick={() => setOpenGrad(false)}>x</Close2>
+                        <Background></Background> 
+                        <Notice_Box id="grad">
+                            <Table>
+                                <Caption>졸업요건(졸업학점/내학점)</Caption>
+                                <Thead>
+                                    <tr>
+                                        <Th>총학점</Th>
+                                        <Th>주전공</Th>
+                                        <Th>복수전공</Th>
+                                        <Th>균형+필수</Th>
+                                        <Th>기초교양</Th>
+                                    </tr>
+                                </Thead>
+                                <Tbody>
+                                    <tr>
+                                        <Td>{data.gradcondition.gradCredit}</Td>
+                                        <Td>{data.gradcondition.mainCredit}</Td>
+                                        <Td>{data.gradcondition.multiCredit}</Td>
+                                        <Td>{data.gradcondition.essBalCredit}</Td>
+                                        <Td>{data.gradcondition.basicCredit}</Td>
+                                    </tr>
+                                    <tr>
+                                        <Td>{data.credit.totalCredit}</Td>
+                                        <Td>{data.credit.mainCredit}</Td>
+                                        <Td>{data.credit.multiCredit}</Td>
+                                        <Td>{data.credit.essBalCredit}</Td>
+                                        <Td>{data.credit.basicCredit}</Td>
+                                    </tr>
+                                </Tbody>
+                            </Table>
+                            <img src={grad_Img}/>
+                            </Notice_Box>
+                    </Box_container>  : <></>}
             </Headcomponent>
             <Search_box>
                 <Search
@@ -321,7 +465,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
             {openNotice ? 
             <Box_container>
                 <Close onClick={() => setOpenNotice(false)}>x</Close>
-                <Background></Background> <Notice_Box> <Warning>Warning!</Warning><Content>{notice} <br /> 강의 추가시 주의하세요! </Content></Notice_Box>
+                <Background></Background> <Notice_Box id="notice"> <Warning>Warning!</Warning><Content>{notice} <br /> 강의 추가시 주의하세요! </Content></Notice_Box>
             </Box_container>  : <></>}
             
         </Total_Container>
