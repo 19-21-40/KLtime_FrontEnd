@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import useInputs from "../hooks/useInputs";
-import { useUserInfoDispatch,useUserInfoState } from '../context/UserInfoContext';
+import { useUserInfoDispatch, useUserInfoState } from '../context/UserInfoContext';
 import axios from "axios";
 import { useEffect } from "react";
 import { API_BASE_URL } from "../app-config";
@@ -37,24 +37,30 @@ const Total = styled.div`
 
 const Box = styled.div`
 
-    width: 500px;
-    height: 800px;
+    box-sizing: border-box;
+    /* 이미지,버튼박스 색상 */
 
+    border: 1px solid #D9D9D9;
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+
+    width: 800px;
+    height: 450px;
+    padding:50px;
+    justify-content: space-evenly;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
 
-    background-color: white;
 }
 
 
 `
 
 const HeadLogo = styled.img`
-    
+
 `;
 
 const Body = styled.div`
@@ -138,45 +144,45 @@ function LoginFrom() {
         password: '',
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
-            if (accessToken && accessToken !== null) {
-                navigate("/");
-            }
-    },[])
-
-    
-    
-    const onClick = () => {
-        axios.post(`${API_BASE_URL}/auth/sign_in`,{number:number,password:password})
-        .then(res=>{
-            localStorage.setItem("ACCESS_TOKEN",res.data.token)
+        if (accessToken && accessToken !== null) {
             navigate("/");
-        })
+        }
+    }, [])
+
+
+
+    const onClick = () => {
+        axios.post(`${API_BASE_URL}/auth/sign_in`, { number: number, password: password })
+            .then(res => {
+                localStorage.setItem("ACCESS_TOKEN", res.data.token)
+                navigate("/");
+            })
     }
 
-    return(
-    <>
-        <Total>
-            <Box>
-                <HeadLogo src={KLTimeLogo}/>
-                <Body>
-                    <TotalInputContainer>
-                        <InputContainer>
-                            <input onChange={onChange} id="number" type="text" name="number" value={number} placeholder="학번을 입력하시오." />
-                        </InputContainer>
-                        <InputContainer>
-                            <input  onChange={onChange} id="password" type="password" name="password" value={password} placeholder="비밀번호를 입력하시오." />
-                        </InputContainer>
-                    </TotalInputContainer>
-                    <TotalButtonContainer>
-                        <LoginButton onClick={onClick} >로그인</LoginButton>
-                        <FindButton>회원가입</FindButton>
-                    </TotalButtonContainer>
-                </Body>
-            </Box>
-        </Total>
-    </>
+    return (
+        <>
+            <Total>
+                <Box>
+                    <HeadLogo src={KLTimeLogo} />
+                    <Body>
+                        <TotalInputContainer>
+                            <InputContainer>
+                                <input onChange={onChange} id="number" type="text" name="number" value={number} placeholder="학번을 입력하시오." />
+                            </InputContainer>
+                            <InputContainer>
+                                <input onChange={onChange} id="password" type="password" name="password" value={password} placeholder="비밀번호를 입력하시오." />
+                            </InputContainer>
+                        </TotalInputContainer>
+                        <TotalButtonContainer>
+                            <LoginButton onClick={onClick} >로그인</LoginButton>
+                            <FindButton>회원가입</FindButton>
+                        </TotalButtonContainer>
+                    </Body>
+                </Box>
+            </Total>
+        </>
     );
 }
 
