@@ -11,7 +11,7 @@ import Klas from "../components/Klas";
 import { Link } from "react-router-dom";
 import { useUserTableState, useUserTableDispatch } from '../context/UserTableContext';
 import { API_BASE_URL } from "../app-config";
-import KLTimeLogo from "../image/KLTimeLogo.png"
+import KLTimeLogo_white from "../image/KLTimeLogo_white.png"
 import LoginBg from "../image/loginbg.jpg"
 import { useUserInfoDispatch, useUserInfoState } from "../context/UserInfoContext";
 import UserInfo from "../components/UserInfo";
@@ -445,7 +445,7 @@ function MainPage() {
         <>
             <Head_line>
                 <Head_component>
-                    <Logo_Image src={KLTimeLogo} onClick={() => window.location.href = "/"} />
+                    <Logo_Image src={KLTimeLogo_white} onClick={() => window.location.href = "/"} />
                     <Small_info name={user.name} number={user.number} setEdit={setEdit} setKlas={setKlas} />
                 </Head_component>
             </Head_line>
