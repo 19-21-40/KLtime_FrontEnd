@@ -65,7 +65,6 @@ const Body_line = styled.div`
 
 const Total_Container = styled.div`
     display: flex;
-    flec
 
     position: relative;
     width: 1600px;
