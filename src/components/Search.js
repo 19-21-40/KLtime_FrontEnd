@@ -266,7 +266,6 @@ function Search({fold, setFold})
 
     const handle_InputsChange = (event) => {
         
-        console.log(event.target.value);
         switch(event.target.name){
             case 'searchItem':
                 inputDispatch({type: 'SEARCH_ITEM', searchItem: event.target.value, input: ''});
@@ -395,7 +394,7 @@ function Search({fold, setFold})
 
         // 요일 입력에 의한 처리
         if(searchInputs.whatDay !== 'null'){
-            result = result.filter( lecture => {return lecture.lectureTimes.some( times => times.day == searchInputs.whatDay) ;} );
+            result = result.filter( lecture => {return lecture.lectureTimes?.some( times => times.day == searchInputs.whatDay) ;} );
 
         }else{
 

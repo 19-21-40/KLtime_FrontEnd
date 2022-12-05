@@ -373,6 +373,13 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         setEdit(!edit);
     }
 
+    const closeNotice = () => {
+        setOpenNotice(false);
+        requiredLectureDispatch({
+            type:'RESET',
+          });
+    }
+
 
     const tableName = userTableState.totalTimeTable.find( timeTable => timeTable.id == userTableState.selectedId ).tableName;
     useEffect (() => {
@@ -472,7 +479,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
             </LectureList_box>
             {openNotice ? 
             <Box_container>
-                <Close onClick={() => setOpenNotice(false)}>x</Close>
+                <Close onClick={() => closeNotice()}>x</Close>
                 <Background></Background> <Notice_Box id="notice"> <Warning>Warning!</Warning><Content>{notice} <br /> 강의 추가시 주의하세요! </Content></Notice_Box>
             </Box_container>  : <></>}
             

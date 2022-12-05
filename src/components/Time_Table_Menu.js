@@ -155,6 +155,8 @@ const Add_Button = styled.button`
     border-radius: 10px;
     margin: 10px;
     cursor:pointer;
+
+    font-size: 50px;
 `;
 
 const BookMark_Btn_Container = styled.div`

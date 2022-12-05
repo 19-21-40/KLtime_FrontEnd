@@ -92,16 +92,8 @@ function LectureList({fold, setOpenNotice, setNotice
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
   },[state.selectedId, state.totalTimeTable])
 
-  useEffect(() => {
-    requiredLectureDispatch(
-      {
-          type:'RESET',
-      }
-  );
-  }, [])
 
   useEffect(()=>{
-    console.log(requiredLectureState.isProblem);
 
     if(requiredLectureState.isProblem == false){
       // 아무것도 안함
@@ -146,10 +138,7 @@ function LectureList({fold, setOpenNotice, setNotice
     }
 
     
-    dispatch({
-      type: 'ADD_LECTURE',
-      lecture:state.searchedLectures[index],
-    });
+    
     const currentTableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
 
     if (accessToken && accessToken !== null) {
@@ -161,8 +150,15 @@ function LectureList({fold, setOpenNotice, setNotice
                   'Authorization': "Bearer " + accessToken,
               }, withCredentials: true,
           }).then(res=> {
+            dispatch({
+              type: 'ADD_LECTURE',
+              lecture:state.searchedLectures[index],
+            });
           }
-          );
+          ).catch( (error) => {
+            setOpenNotice(true);
+            setNotice(error.response.data.error);
+          });
     }else {
       
     }

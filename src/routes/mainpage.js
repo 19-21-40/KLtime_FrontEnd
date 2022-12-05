@@ -405,6 +405,8 @@ function MainPage() {
                 "essBalCredit": 999,
                 "basicCredit": 999,
                 "multiCredit": 0,
+                "mathCredit":999,
+                "scienceCredit": 0
             },
             "credit": {
                 "totalCredit": 0,
@@ -473,8 +475,8 @@ function MainPage() {
                                             <Piechart canOpen={data?.gradcondition.basicCredit==0 ? false : true } Full_num={data?.gradcondition.basicCredit} Already_num={data?.credit.basicCredit} Kind="기초학점" section="basic" Chart_size={150} Width={325} Height={160} Top_css={35} Left_css={5} font_1={30} font_2={20} margin_t={10} />
                                         </Su_Body_Chart_Box>
                                         <Sl_Body_Chart_Box>
-                                            <Piechart canOpen={true} Full_num={0} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} margin_t={10} />
-                                            <Piechart canOpen={true} Full_num={0} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} margin_t={10} />
+                                            <Piechart canOpen={data?.gradcondition.mathCredit} Full_num={0} Already_num={data?.credit.mathCredit} Kind="수학" section="math" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} margin_t={10} />
+                                            <Piechart canOpen={data?.credit.scienceCredit} Full_num={0} Already_num={data?.credit.scienceCredit} Kind="기초과학" section="basicScience" Chart_size={100} Width={162.5} Height={80} Top_css={35} Left_css={15} font_1={25} font_2={15} margin_t={10} />
                                         </Sl_Body_Chart_Box>
                                     </Small_Body_Chart_Box>
                                 </Design_Box>
