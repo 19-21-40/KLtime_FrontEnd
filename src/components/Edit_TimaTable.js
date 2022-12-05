@@ -350,11 +350,6 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     useEffect(
         () => {
 
-            requiredLectureDispatch(
-                {
-                    type:'RESET',
-                }
-            );
 
             if (accessToken && accessToken !== null) {
 
@@ -384,9 +379,6 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         setNewName(tableName);
     }, []);
 
-    useEffect (() => {
-        console.log("야야야");
-    }, [openNotice]);
 
 
     const changeTableName = (e) => {
@@ -414,6 +406,12 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
         setOpenSelect(true);
         setOpenDetail(false);
         setBlockHover(false);
+
+        requiredLectureDispatch({
+            type:'RESET',
+          });
+        setOpenNotice(false);
+        setNotice("");
     }
     
     return (

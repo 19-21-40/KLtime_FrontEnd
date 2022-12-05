@@ -93,9 +93,11 @@ function LectureList({fold, setOpenNotice, setNotice
   },[state.selectedId, state.totalTimeTable])
 
   useEffect(() => {
-    requiredLectureDispatch({
-      type:'RESET'
-    });
+    requiredLectureDispatch(
+      {
+          type:'RESET',
+      }
+  );
   }, [])
 
   useEffect(()=>{
@@ -103,6 +105,7 @@ function LectureList({fold, setOpenNotice, setNotice
 
     if(requiredLectureState.isProblem == false){
       // 아무것도 안함
+
     }else{
       setOpenNotice(true);
       setNotice(`${requiredLectureState.beforeNeed}을(를) 선이수 해야합니다.`);
@@ -137,6 +140,9 @@ function LectureList({fold, setOpenNotice, setNotice
         setNotice(`${lecture.department} 해당 과목입니다.`);
       }
       */
+    }else{
+      setOpenNotice(false);
+      setNotice("");
     }
 
     
