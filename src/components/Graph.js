@@ -19,6 +19,8 @@ const Full_box = styled.div`
     top: ${props => `${props.Top_css}px`};
     // height: 300;
     // flex-direction: column;
+
+    cursor: ${props => (props.CanOpen ? 'pointer' : 'default')};
 `;
 
 const Text_box = styled.div`
@@ -47,14 +49,14 @@ const Text_box = styled.div`
     
 `;
 
-function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2, margin_t}) {
+function Piechart({ canOpen, Already_num, Full_num, Kind, Chart_size, Width, Height, Top_css, Left_css, section, font_1, font_2, margin_t}) {
 
   const [modalOpen, setModalOpen] = useState(false);//모달
   const [Al, setAl] = useState(Already_num);
   const [Fu, setFu] = useState(Full_num);
   const [AlT, setAlT] = useState();
   const [FuT, setFuT] = useState();
-
+  const [CanOpen, setCanOpen] = useState(canOpen);
 
   // 모달창 노출
 
@@ -79,8 +81,11 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
     }
   }, [Already_num, Full_num]);
 
+
   const showModal = () => {
-    if (modalOpen == false) {
+    if(CanOpen == false){
+      setModalOpen(false);
+    }else if (modalOpen == false) {
       setModalOpen(true);
     }
 
@@ -94,11 +99,9 @@ function Piechart({ Already_num, Full_num, Kind, Chart_size, Width, Height, Top_
   };
 
 
-console.log(Al,Fu)
-
   return (
     <Design_Box Width={Width} Height={Height} >
-      <Full_box onClick={() => {
+      <Full_box CanOpen={CanOpen} onClick={() => {
         showModal()
       }} Top_css={Top_css} >
         <PieChart

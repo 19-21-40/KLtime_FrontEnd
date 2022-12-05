@@ -15,6 +15,7 @@ import Edit_TimeTable from "./components/Edit_TimaTable";
 import { UserTableProvider } from "./context/UserTableContext";
 import { UserInfoProvider } from "./context/UserInfoContext";
 import "./App.css";
+import { RequiredLectureProvider } from "./context/RequiredLectureContext";
 
 
 // function Copyright(){
@@ -32,6 +33,7 @@ function App() {
   return (
     <UserInfoProvider>
       <UserTableProvider>
+        <RequiredLectureProvider>
         <Router>
           <Routes>
             <Route path="/" element={
@@ -51,6 +53,7 @@ function App() {
           </Routes>
           {/* <Copyright/> */}
         </Router>
+        </RequiredLectureProvider>
       </UserTableProvider>
     </UserInfoProvider>)
 }

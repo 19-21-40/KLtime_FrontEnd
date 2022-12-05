@@ -15,7 +15,6 @@ const initialState = {
 function userinfoReducer(state, action) {
   switch (action.type) {
     case 'LOAD_USER':
-      console.log(action)
       return {
         ...state,
         name:action.name,

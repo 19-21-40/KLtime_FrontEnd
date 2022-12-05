@@ -294,11 +294,15 @@ function TimeTableDayBlock({ selectedTable, lectures, day, onClick, blockhover }
     const previewLecture = userTable.searchedLectures.find(lecture => lecture.id == userTable.previewId);
     const dispatch = useUserTableDispatch();
     const state = useUserTableState();
+
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+    const tableName = state.totalTimeTable.find(timeTable => timeTable.id == state.selectedId).tableName;
+
     const onDeleteClick = (id) => {
         if (window.confirm("강의를 삭제하시겠습니까?")) {
 
-            const tableName = state.totalTimeTable.find(timeTable => timeTable.id == state.selectedId).tableName;
-            const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
+            
 
             dispatch({ type: "DELETE_LECTURE", id });
             if (accessToken && accessToken !== null) {

@@ -1,9 +1,6 @@
 import TimeTable from "../components/TimeTable";
 import LectureList from "../components/LectureList";
 import { useEffect, useState, useRef, useReducer, createContext } from "react";
-import Search from "../components/Search";
-import SelectTimeTable from "../components/SelectTimeTable"
-import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 import axios from "axios";
@@ -14,7 +11,10 @@ import { useUserTableState, useUserTableDispatch } from '../context/UserTableCon
 import LectureDetail_B from "../components/LectureDetail_B";
 import { API_BASE_URL } from "../app-config";
 import KLTimeLogo_white from "../image/KLTimeLogo_white.png"
+import Klas from "../components/Klas";
+import LoginBg from "../image/loginbg.jpg"
 import { useUserInfoState } from "../context/UserInfoContext";
+import UserInfo from "../components/UserInfo";
 
 const Head_line = styled.div`
     
@@ -118,7 +118,96 @@ const Right_Container = styled.div`
     border-radius: 50px;
 `;
 
+const Background = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
 
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: lightgray;
+    opacity: 0.7;
+    
+`;  
+
+const Box_container = styled.div`
+    
+    display: flex;
+    justify-content:center;
+    // align-items:center;
+
+`
+
+const Klas_Box = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    position: absolute;
+    z-index: 10;
+
+    width: 800px;
+    height: 700px;
+
+    border-radius: 20px;
+
+    background: #000 url(${LoginBg}) no-repeat 0 0 !important;
+    background-image: url(${LoginBg});
+    background-position-x: 0px;
+    background-position-y: 0px;
+    background-size: 100% !important;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(0, 0, 0);
+`;
+
+const UserInfo_Box = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    position: absolute;
+    z-index: 10;
+
+    width: 1200px;
+    height: 900px;
+
+    border-radius: 20px;
+    background-color: rgb(255, 255,255 );
+
+    
+`;
+
+const P_Button = styled.button`
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+
+    position:absolute;
+    top:30px;
+    right: 30px;
+
+    border: none;
+    
+    font-size: 30px;
+    color:gray;
+    background-color: transparent;
+    
+    cursor: pointer;
+
+    z-index:3;
+`;
 
 
 
@@ -141,6 +230,14 @@ function MyTimeTable() {
     const [clickedLecture, setClickedLecture] = useState();
     const [countIndex, setCountIndex] = useState(0);
     const [activate, setActivate] = useState(true);
+
+    const [klas, setKlas] = useState(false);//Klas 연동하기
+    const [edit, setEdit] = useState(false);//계정정보 수정
+
+    const onClose = () => {
+        setEdit(false);
+        setKlas(false);
+    }
 
     const nextNumber = useRef(1);
     
@@ -190,7 +287,7 @@ function MyTimeTable() {
                             <Logo_Image src={KLTimeLogo_white} />
                         </Link>
                     </nav>
-                    <Small_info name={user.name} number={user.number} />
+                    <Small_info name={user.name} number={user.number} setEdit={setEdit} setKlas={setKlas}  />
                 </Head_component>
             </Head_line>
             <Body_line>
@@ -211,6 +308,10 @@ function MyTimeTable() {
                             <LectureDetail_B setOpenLectureDetail={setOpenLectureDetail} setOpenDetail={setOpenDetail} lecture={clickedLecture} backgroundColor={clickedLecture.backgroundColor} />
                         </div>}
                     </Left_Container>
+                    <Box_container>
+                        {edit ? <><Background></Background> <UserInfo_Box><UserInfo setEdit={setEdit}/> </UserInfo_Box></> : <></>}
+                        {klas ? <><Background></Background><Klas_Box><Klas /> <P_Button onClick={onClose} >X</P_Button></Klas_Box></> : <></>}
+                    </Box_container>
                     <Right_Container>
                         <TimeTable
                             blockhover={blockhover}
@@ -222,7 +323,9 @@ function MyTimeTable() {
                         />
                     </Right_Container>
                 </Total_Container>
+                
             </Body_line>
+            
         </>
     )
 }

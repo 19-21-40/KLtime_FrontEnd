@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Lecture from "./Lecture";
 //추가
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
+import { useRequiredLectureState, useRequiredLectureDispatch } from "../context/RequiredLectureContext";
 import { useUserInfoState } from "../context/UserInfoContext"; 
 import styled ,{css}  from "styled-components";
 import axios from "axios";
+import { API_BASE_URL } from '../app-config';
 import { hover } from "@testing-library/user-event/dist/hover";
 
 //styled-components
@@ -74,6 +76,8 @@ function LectureList({fold, setOpenNotice, setNotice
   const dispatch=useUserTableDispatch();
   const state=useUserTableState();
   const userInfo = useUserInfoState();
+  const requiredLectureState = useRequiredLectureState();
+  const requiredLectureDispatch = useRequiredLectureDispatch();
 
   const selectedLectures=state.totalTimeTable.find(timeTable=>timeTable.id===state.selectedId).lectureList
   const [clickeds,setClickeds]=useState(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
@@ -88,13 +92,34 @@ function LectureList({fold, setOpenNotice, setNotice
     setClickeds(state.searchedLectures.map(seachedLecture=>selectedLectures.some(lecture=>lecture.id===seachedLecture.id)));
   },[state.selectedId, state.totalTimeTable])
 
-  
+  useEffect(() => {
+    requiredLectureDispatch({
+      type:'RESET'
+    });
+  }, [])
+
+  useEffect(()=>{
+    console.log(requiredLectureState.isProblem);
+
+    if(requiredLectureState.isProblem == false){
+      // 아무것도 안함
+    }else{
+      setOpenNotice(true);
+      setNotice(`${requiredLectureState.beforeNeed}을(를) 선이수 해야합니다.`);
+    }
+
+  },[requiredLectureState])
 
   const onClick = (index, lectureId, lecture) => {
     
-    //추가
-    console.log(lecture);
     console.log(userInfo);
+
+    requiredLectureDispatch({
+      type:'SEARCH',
+      lectureName: lecture.lectureName,
+      department:'소프트웨어학부'
+    });
+
     if(lecture.notes.includes("외국인")){
       setOpenNotice(true);
       setNotice("외국인만 수강가능 과목입니다!");
@@ -122,7 +147,7 @@ function LectureList({fold, setOpenNotice, setNotice
     const currentTableName = state.totalTimeTable.find( timeTable => timeTable.id == state.selectedId ).tableName;
 
     if (accessToken && accessToken !== null) {
-      axios.post(`http://localhost:8080/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`,
+      axios.post(`${API_BASE_URL}/api/timetable/${state.currentSet.year}/${state.currentSet.semester}/addLecture/${currentTableName}/${lectureId}`,
         null,{
               headers: {
                   'Content-type': 'application/json; charset=UTF-8',

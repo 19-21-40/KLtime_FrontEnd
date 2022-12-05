@@ -7,11 +7,13 @@ import { UserTableProvider } from "../context/UserTableContext";
 import Time_Table_Menu from "../components/Time_Table_Menu";
 import styled from "styled-components";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
+import { useRequiredLectureDispatch } from "../context/RequiredLectureContext";
 import axios from "axios";
 import { API_BASE_URL } from "../app-config";
 import editImage from "../image/Group.png"
 import backImage from "../image/Back.png"
 import grad_Img from "../image/grad-soft-19.png"
+
 import { useUserInfoState } from "../context/UserInfoContext";
 
 const Background = styled.div`
@@ -305,6 +307,7 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
     
     const userTableDispatch = useUserTableDispatch(); //
     const userTableState = useUserTableState();
+    const requiredLectureDispatch = useRequiredLectureDispatch();
     
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
@@ -346,6 +349,13 @@ function Edit_TimeTable({totalLectures, tableId, setOpenSelect, setOpenDetail, s
 
     useEffect(
         () => {
+
+            requiredLectureDispatch(
+                {
+                    type:'RESET',
+                }
+            );
+
             if (accessToken && accessToken !== null) {
 
                 axios.get(`${API_BASE_URL}/api/gradConditionAndCredit`, {

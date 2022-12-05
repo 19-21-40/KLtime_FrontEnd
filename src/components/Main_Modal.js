@@ -126,81 +126,8 @@ const Main_Modal = ( { closeModal, section } ) => {
 //['사회와경제', Array(28)]
     const [lectureList, setLectureList] = useState(
         [[
-            "전공", 
+            "", 
             [
-                {
-
-                    id: 1,
-                    name: "디지털논리",
-                    sectionDetail:"",
-                    level: 2,
-                    section: "전선",
-                    credit: 3,
-                    notes: ""
-                },
-                {
-                    id: 2,
-                    name: "법과생활",
-                    sectionDetail:"",
-                    level: 1,
-                    section: "교선",
-                    credit: 3,
-                    notes: ""
-                },
-                {
-                    id: 3,
-                    name: "이산구조",
-                    sectionDetail:"",
-                    level: 2,
-                    section: "전선",
-                    credit: 3,
-                    notes: ""
-                },
-                {
-                    id: 4,
-                    name: "고급프로그래밍",
-                    sectionDetail:"",
-                    level: 2,
-                    section: "전선",
-                    credit: 3,
-                    notes: ""
-                },
-                {
-                    id: 5,
-                    name: "데이터베이스",
-                    sectionDetail:"",
-                    level: 3,
-                    section: "전선",
-                    credit: 3,
-                    notes: ""
-                },
-                {
-                    id: 6,
-                    name: "리눅스활용실습",
-                    sectionDetail:"",
-                    level: 2,
-                    section: "전필",
-                    credit: 2,
-                    notes: ""
-                },
-                {
-                    id: 7,
-                    name: "빅데이터언어",
-                    sectionDetail:"",
-                    level: 2,
-                    section: "일선",
-                    credit: 3,
-                    notes: ""
-                },
-                {
-                    id: 8,
-                    name: "대학화학및실험1",
-                    sectionDetail:"",
-                    level: 1,
-                    section: "기필",
-                    credit: 3,
-                    notes: ""
-                },
             ]
         ]]
     );
@@ -209,7 +136,6 @@ const Main_Modal = ( { closeModal, section } ) => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
         if(accessToken && accessToken !== null) {
         if(section=="total"){
-            
         }else if(section == "main"){
 
         axios.get(`${API_BASE_URL}/api/mainLectureList`,  {
@@ -219,7 +145,6 @@ const Main_Modal = ( { closeModal, section } ) => {
                     'Authorization': "Bearer " + accessToken
                 }, withCredentials: true,
             }).then(res=>{
-                console.log(Object.entries(res.data.data));
                 setLectureList(Object.entries(res.data.data));
             }
             
@@ -239,8 +164,7 @@ const Main_Modal = ( { closeModal, section } ) => {
                 }, withCredentials: true,
             }).then(res=>{
                 setLectureList(Object.entries(res.data.data));
-            }
-                
+            }  
             );
         }else if(section == "math"){
             axios.get(`${API_BASE_URL}/api/mathLectureList`, {
@@ -309,7 +233,7 @@ const Main_Modal = ( { closeModal, section } ) => {
 
 
         }else{
-            console.log("아무것도 안함");
+            
         }
     }else{
         window.location.href="/Login"
