@@ -234,7 +234,7 @@ function LectureDetail_B({
                 setRecList2(res.data.lectureList);
             }
             );
-         }
+        }
     }, [lecture])
 
     return (

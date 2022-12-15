@@ -412,7 +412,7 @@ function Search({fold, setFold})
             <SelectIcon>
                 <SearchIcon iconList={iconListref.current} inputDispatch={inputDispatch}/>
             </SelectIcon>
-            <FoldButton onClick={clickFold}>{fold ? "↓" : '^'}</FoldButton>
+            <FoldButton onClick={clickFold}>{fold ? "⬇️" : '⬆️'}</FoldButton>
             {!fold && <SearchCollection>
                 <Row>
                     <Select>
