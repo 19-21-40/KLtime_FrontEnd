@@ -8,6 +8,10 @@ import userEvent from "@testing-library/user-event";
 import BookMark_black from "../image/Bookmark.png"
 import BookMark_color from "../image/Bookmark_color.png"
 import { style } from "@mui/system";
+import { Circles } from 'react-loader-spinner';
+import FadeLoader from "react-spinners/FadeLoader";
+import { useNavigate } from "react-router-dom";
+
 // import KwangWoon_Logo from '../components/image/KwangWoon_Logo.png'
 
 // const Logo_Image = styled.div`
@@ -181,136 +185,119 @@ const Bookmark_Btn = styled.img`
 
 `;
 
-function reducer(state, action) {
-    switch (action.type) {
-        // 발생할 수 있는 상황 LOADING, SUCCESS, ERROR에 대한 case를 만들어 줍니다.
-        // 로딩중 상태 업데이트
-        case 'LOADING':
-            return {
-                loading: true,
-                data: null,
-                error: null
-            };
-        // 불러오는데에 성공했을 때는 action.data를 저장해줍니다.
-        case 'Klas SUCCESS':
-            return {
-                loading: true,
-                data: action.data,
-                error: null
-            };
-        // 에러가 발생하면 action.error를 전달해주겠습니다.
-        case 'SUCCESS':
-            return {
-                ...state,
-                loading: false
-            };
-        case 'ERROR':
-            return {
-                loading: false,
-                data: null,
-                error: action.error
-            };
-        default:
-            throw new Error(`Unhandled action type: ${action.type}`);
-    }
-}
+const Background = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items:center;
 
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: lightgray;
+    opacity: 0.7;
+    
+`; 
+
+const Box_container = styled.div`
+
+    position: absolute;
+
+    top: 25%;
+    left: 70%;
+
+    display: flex;
+    align-items:center;
+
+    #notice {
+        bottom: 30%;
+        width: 500px;
+        height: 300px;
+    }
+
+    #grad {
+        top: 20%;
+        right: 150px;
+        width: 800px;
+        height: 800px;
+    }
+
+`
+
+const Notice_Box = styled.div`
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    position: relative;
+    z-index: 2;
+
+    border-radius: 20px;
+    background-color: rgb(255, 255,255 );
+
+    
+`;
+
+const Close = styled.button`
+    
+    position: relative;
+
+    left: 90%;
+    bottom: 120px;
+    border: none;
+    color : gray;
+    background-color : transparent;
+    font-size: 30px;
+    
+    cursor : pointer;
+
+    z-index : 3;
+    
+`;
+
+const Waiting = styled.div`
+    position: relative;
+    bottom : 50px;
+    font-size: 60px;
+    color: green;
+`;
+
+const Content = styled.div`
+    font-size: 20px;
+    text-align: center;
+`;
 
 function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nextNumber, setTableId, setOpenSelect, setOpenDetail, innerText, setInnerText, setBlockHover }) {
 
-    const [state, dispatch] = useReducer(reducer, {
-        loading: false,
-        data: null,
-        error: null
-    });
+    const [openWating, setOpenWating] = useState(false);
+    const navigate=useNavigate();
 
-    const { loading, data, error } = state;
+    const closeWating = () => {
+        setOpenWating(false);
+    }
 
     const onClick = () => {
+        // navigate("/MyTimeTable")
+        setOpenWating(true);
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
-        dispatch({ type: 'LOADING' });
-        try {
-            // if (accessToken && accessToken !== null) {
-            //     const encrypt = new JSEncrypt();
-            //     axios.post(
-            //         //publicKey를 받아옴
-            //         '/proxy/usr/cmn/login/LoginSecurity.do', "", {
-            //         headers: {
-            //             'Content-type': 'application/json; charset=UTF-8',
-            //             'Accept': '*/*',
-            //         },
-            //         withCredentials: true
-            //     }).then((response) => {
-            //         //로그인을 시행
-            //         let login = JSON.stringify({
-            //             "loginId": loginId,
-            //             "loginPwd": loginPwd,
-            //             "storeIdYn": "N"
-            //         });
-            //         console.log(login);
-            //         encrypt.setPublicKey(response.data?.publicKey);
-            //         let loginToken = encrypt.encrypt(login);
-            //         let requestData = JSON.stringify({
-            //             "loginToken": loginToken,
-            //             "redirectUrl": "",
-            //             "redirectTabUrl": ""
-            //         })
-            //         console.log(requestData);
-            //         axios.post('/proxy/usr/cmn/login/LoginConfirm.do', requestData, {
-            //             headers: {
-            //                 'Content-type': 'application/json; charset=UTF-8',
-            //                 'Accept': '*/*',
-            //             }, withCredentials: true,
-            //         })
-            //             .then(() => {
-            //                 axios.post('/proxy/std/cps/inqire/AtnlcScreSungjukInfo.do')
-            //                     .then(async (resData) => {
-            //                         let klasTimeTableDTO = [];
-            //                         const promises = resData.data.map(async (value, index) => {
-            //                             if (value.hakgi < 3) {
-            //                                 await axios.post('/proxy/std/cmn/frame/StdHome.do', JSON.stringify({ "searchYearhakgi": `${value.thisYear},${value.hakgi}` }), {
-            //                                     headers: {
-            //                                         'Content-type': 'application/json; charset=UTF-8',
-            //                                         'Accept': '*/*',
-            //                                     }
-            //                                 }).then((d) => klasTimeTableDTO.push(d.data.atnlcSbjectList));
-            //                             }
-            //                         });
-            //                         await Promise.all(promises);
-            //                         dispatch({
-            //                             type: 'Klas SUCCESS', data: {
-            //                                 klasTookLectureListDTOList: resData.data,
-            //                                 klasTimeTableDTO: klasTimeTableDTO
-            //                             }
-            //                         });
-            //                         axios.post(`${API_BASE_URL}/api/Klas/link`, {
-            //                             klasTookLectureListDTOList: resData.data
-            //                             , klasTimeTableDTOListList: klasTimeTableDTO
-            //                         }, {
-            //                             headers: {
-            //                                 'Content-type': 'application/json; charset=UTF-8',
-            //                                 'Accept': '*/*',
-            //                                 'Authorization': "Bearer " + accessToken,
-            //                             },
-            //                         }
-            //                         ).then(
-            //                             () => {
-            //                                 dispatch("SUCCESS");
-            //                                 window.location.href="/";}
-                                            
-            //                         );
-            //                     })
-
-            //             }
-            //             )
-            //     });
-            // } else {
-            //     window.location.href = "/MyTimeTable"
-            // }
-        } catch (e) {
-            dispatch({ type: 'ERROR', error: e });
-        }
-
+        // dispatch({ type: 'LOADING' });
+        
+        axios.get(`${API_BASE_URL}/api/recommend/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/timeTable`, {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': '*/*',
+                'Authorization': "Bearer " + accessToken,
+            }, withCredentials: true,
+        }).then((res) => {
+            
+            // navigate("/MyTimeTable")
+            window.location.href = "/MyTimeTable"
+        })
     }
 
     const userTableDispatch = useUserTableDispatch();
@@ -565,6 +552,18 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                     </Time_table_box>
                     <Add_Button onClick={addTimeTable}>+</Add_Button>
                 </Time_table_list>
+                {openWating ? 
+                <Box_container>
+                    <Background></Background> <Notice_Box id="notice"> <Waiting>시간표 생성중</Waiting><Content><FadeLoader
+                            color="green"
+                            // loading={loading}
+                            // cssOverride={override}
+                            size={100}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        /></Content></Notice_Box>
+                </Box_container>  : <></>}
         </Total_Container>
     );
 
