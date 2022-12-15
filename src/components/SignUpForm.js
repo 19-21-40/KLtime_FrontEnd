@@ -203,33 +203,61 @@ const Sign_Up_Btn = styled.button`
 
 function SignupFrom() {
   const navigate=useNavigate();
-  const [{ department_num, std_name, password, password_check, std_email}, onChange, reset] = useInputs({
+  const [{ department_num, std_name, password, password_check, std_email, grade, semester}, onChange, reset] = useInputs({
     department_num: '',
     std_name:'',
     password: '',
     password_check: '',
     std_email: '',
+    grade: '',
+    semester: '',
   });
+
+const [collegeName, SetCollegeName] = useState("선택");
+const [departmentList, setDepartmentList] = useState([]);
+const [department, setDepartment] = useState("선택");
+
+useEffect(() => {
+  if(collegeName === "선택"){
+      setDepartmentList([]);
+  }else if(collegeName === "소프트웨어융합대학"){
+      setDepartmentList(["소프트웨어학부", "컴퓨터정보공학부", "정보융합학부"]);
+  }else if(collegeName === "전자정보공과대학"){
+      setDepartmentList(["전자공학과", "전자통신공학과", "전기공학과", "전자융합공학과", "전자재료공학과", "로봇학부"]);
+  }else if(collegeName === "공과대학"){
+      setDepartmentList(["건축공학과", "환경공학과", "화학공학과", "건축학과"]);
+  }else if(collegeName === "자연과학대학"){
+      setDepartmentList(["수학과", "화학과", "전자바이오물리학과", "스포츠융합과학과", "정보콘텐츠학과"]);
+  }else if(collegeName === "인문사회과학대학"){
+      setDepartmentList(["국어국문학과","영어산업학과","미디어커뮤니케이션학부", "산업심리학과", "동북아문화산업학부"]);
+  }else if(collegeName === "정책법학대학"){
+      setDepartmentList(["행정학과", "법학부", "국제학부", "자산관리학과"]);
+  }else if(collegeName === "경영대학"){
+      setDepartmentList(["경영학부", "국제통상학부"]);
+  }
+}, [collegeName]);
 
 const [equalPasswd, setEqualPassword] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
 
-  if (password.length>8&&password_check.length>8&&password == password_check) {
-      setEqualPassword(true);
+    if (password.length>8&&password_check.length>8&&password == password_check) {
+        setEqualPassword(true);
 
-  } else {
-    setEqualPassword(false);
-  }
-}, [password, password_check])
+    } else {
+      setEqualPassword(false);
+    }
+  }, [password, password_check])
 
 const onClick = () => {
   if(password == password_check){
     axios.post(`${API_BASE_URL}/auth/sign_up`,{
-      department_num: department_num,
-      std_name:std_name,
+      number: parseInt(department_num),
+      name:std_name,
       password: password,
-      std_email: std_email!=''?std_email+"@kw.ac.kr":null,
+      email: std_email!=''?std_email+"@kw.ac.kr":null,
+      departmentName: department,
+      grade:parseInt(grade),
     }).then(res=>{
       if(res.status==200){
         navigate("/Login")
@@ -283,41 +311,46 @@ return (
         <h1>학과 정보</h1>
       <SectionAndInput>
       <Section>단과 대학</Section>
-          <Select value="." name="collage">
-          <Option value={"null"}>선택</Option>
-          <Option value={"소프트웨어융합대학"}>소프트웨어융합대학</Option>
-          <Option value={"전자정보공과대학"}>전자정보공과대학</Option>
-          <Option value={"공과대학"}>공과대학</Option>
-          </Select>
+          <Select value={collegeName} name="college" onChange={e => SetCollegeName(e.target.value)}>
+              <Option value={"선택"}>선택</Option>
+              <Option value={"소프트웨어융합대학"}>소프트웨어융합대학</Option>
+              <Option value={"전자정보공과대학"}>전자정보공과대학</Option>
+              <Option value={"공과대학"}>공과대학</Option>
+              <Option value={"자연과학대학"}>자연과학대학</Option>
+              <Option value={"인문사회과학대학"}>인문사회과학대학</Option>
+              <Option value={"정책법학대학"}>정책법학대학</Option>
+              <Option value={"경영대학"}>경영대학</Option>
+            </Select>
           </SectionAndInput>
           <SectionAndInput>
           <Section>학부</Section>
-          <Select value="." name="collage">
-          <Option value={"null"}>선택</Option>
-          <Option value={"소프트웨어학부"}>소프트웨어학부</Option>
-          <Option value={"컴퓨터정보공학부"}>컴퓨터정보공학부</Option>
-          <Option value={"정보융합학부"}>정보융합학부</Option>
+          <Select value={department} name="department" onChange={e => setDepartment(e.target.value)}>
+            <Option value={"선택"}>선택</Option>
+            {
+              departmentList.map(__department => <option value={__department}>{__department}</option> )
+            }      
           </Select>
+          
           </SectionAndInput>
           <D_Info_Container>
           <SectionAndInput>
           <Section>학년</Section>
-          <D_Select value="." name="collage">
-          <Option value={"null"}>선택</Option>
-          <Option value={"1학년"}>1학년</Option>
-          <Option value={"2학년"}>2학년</Option>
-          <Option value={"3학년"}>3학년</Option>
-          <Option value={"4학년"}>4학년</Option>
+          <D_Select id="grade" name="grade" value={grade} onChange={onChange} >
+            <Option value={"null"}>선택</Option>
+            <Option value={1}>1학년</Option>
+            <Option value={2}>2학년</Option>
+            <Option value={3}>3학년</Option>
+            <Option value={4}>4학년</Option>
           </D_Select>
           </SectionAndInput>
           <SectionAndInput>
           <Section>학기</Section>
-          <D_Select value="." name="collage">
-          <Option value={"null"}>선택</Option>
-          <Option value={"1학기"}>1학기</Option>
-          <Option value={"여름학기"}>여름학기</Option>
-          <Option value={"2학기"}>2학기</Option>
-          <Option value={"겨울학기"}>겨울학기</Option>
+          <D_Select id="semester" name="semester" value={semester} onChange={onChange}>
+            <Option value={"null"}>선택</Option>
+            <Option value={"1학기"}>1학기</Option>
+            <Option value={"여름학기"}>여름학기</Option>
+            <Option value={"2학기"}>2학기</Option>
+            <Option value={"겨울학기"}>겨울학기</Option>
           </D_Select>
           </SectionAndInput>
           </D_Info_Container>

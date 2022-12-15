@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { useUserInfoState } from "../context/UserInfoContext";
 import useInputs from "../hooks/useInputs";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../app-config";
 
 const P_Button = styled.button`
   position: absolute;
@@ -143,6 +145,9 @@ const Hr = styled.hr`
 
 
 function UserInfo({ setEdit }) {
+
+  const navigate=useNavigate();
+
   const user = useUserInfoState();
 
   const [{ current_password, new_password, new_password_check }, onChange, reset] = useInputs({
@@ -173,6 +178,20 @@ function UserInfo({ setEdit }) {
     }
 
     setEdit(false);
+  }
+
+  const sign_out = () => {
+    setEdit(false);
+    axios.post(`${API_BASE_URL}/auth/sign_out`,{
+      number: user.number,
+    }).then(res=>{
+      if(res.status==200){
+        localStorage.removeItem("ACCESS_TOKEN");
+        navigate("/Login");
+      }else{
+        //error
+      } 
+    })
   }
 
   return (
@@ -244,7 +263,7 @@ function UserInfo({ setEdit }) {
           <Hr />
           <ButtonContainer>
             <Button>저장</Button>
-            <Button onClick={() => setEdit(false)} >회원탈퇴</Button>
+            <Button onClick={() => sign_out()} >회원탈퇴</Button>
           </ButtonContainer>
         </Content>
         <P_Button onClick={() => setEdit(false)} >X</P_Button>
