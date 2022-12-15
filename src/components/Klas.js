@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { Circles } from 'react-loader-spinner';
 import { API_BASE_URL } from "../app-config";
 import KwangWoon_text_logo from "../image/KwangwoonTextLogo.png"
+import FadeLoader from "react-spinners/FadeLoader";
 
 const KwangWoonTextLogo_ = styled.img`
     width: 200px;
@@ -197,14 +198,16 @@ function Klas() {
 
     return (
         <div>
-            {state.loading ? <Circles
-                            height="80"
-                            width="80"
-                            radius="9"
-                            color="green"
-                            ariaLabel="loading"
-                            wrapperStyle
-                            wrapperClass
+            {state.loading ? <FadeLoader
+                            color="white"
+                            // loading={loading}
+                            // cssOverride={override}
+                            size={500}
+                            height={15}
+                            width={5}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
                         /> : <>
                         <form>
                             <div>
