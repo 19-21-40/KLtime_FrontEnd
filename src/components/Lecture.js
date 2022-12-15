@@ -172,7 +172,7 @@ function Lecture({
             // onMouseLeave={onHovered}
             onMouseLeave={notHovered}
             onClick={
-                clicked ? () => { } : () => {
+                clicked ? () => { onClick(); } : () => {
                     onClick();
                     setClicked(true);
                 }
