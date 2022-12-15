@@ -13,7 +13,7 @@ import { API_BASE_URL } from "../app-config";
 import KLTimeLogo_white from "../image/KLTimeLogo_white.png"
 import Klas from "../components/Klas";
 import LoginBg from "../image/loginbg.jpg"
-import { useUserInfoState } from "../context/UserInfoContext";
+import { useUserInfoState, useUserInfoDispatch} from "../context/UserInfoContext";
 import UserInfo from "../components/UserInfo";
 
 const Head_line = styled.div`
@@ -215,6 +215,7 @@ function MyTimeTable() {
     const dispatch = useUserTableDispatch();
     const state = useUserTableState();
     const user=useUserInfoState();
+    const userDispatch = useUserInfoDispatch();
     const [selectedLectures, setSelectedLectures] = useState([]);
     // const [totalLectures, setTotalLectures]=useState(testtotalLectures);
     // const [searchedLectures, setSearchedLectures]=useState(testtotalLectures);
@@ -244,6 +245,20 @@ function MyTimeTable() {
 
 
     useEffect(() => {
+
+        const userInfomation = localStorage.getItem('USER_INFO');
+        const userObject = JSON.parse(userInfomation);
+
+        userDispatch({
+            type: 'LOAD_USER',
+            number: userObject.number,
+            email: userObject.email,
+            department: userObject.departmentName,
+            grade: userObject.grade,
+            name: userObject.name
+        })
+        
+
         const primaryId = state.totalTimeTable.find(timeTable => timeTable.primary == true).id
         setCountIndex(primaryId - 1);
         dispatch({

@@ -332,9 +332,9 @@ function MainPage() {
     const user = useUserInfoState();
 
 
-
     useEffect(() => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN");
+        
 
         if (accessToken && accessToken !== null) {
             axios.get(`${API_BASE_URL}/api/loadUser`, {
@@ -352,6 +352,7 @@ function MainPage() {
                     grade:res.data.grade,
                     name: res.data.name
                 })
+                localStorage.setItem("USER_INFO", JSON.stringify(res.data));
             })
 
 
