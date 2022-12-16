@@ -294,9 +294,22 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
                 'Authorization': "Bearer " + accessToken,
             }, withCredentials: true,
         }).then((res) => {
+
+            userTableDispatch({
+                type: 'CREATE_TABLE',
+                timeTable: {
+                    id: ++nextNumber.current,
+                    tableName: res.data.tableName,
+                    lectureList: res.data.lectureDtoList,
+                    primary: false,
+                },
+                selectedId: nextNumber.current,
+            });
+
             
+            closeWating();
             // navigate("/MyTimeTable")
-            window.location.href = "/MyTimeTable"
+            // window.location.href = "/MyTimeTable"
         })
     }
 
@@ -317,9 +330,6 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
     };
 
     const update_Table = (id) => {
-        console.log(userTableState);
-        console.log(id);
-        
         userTableDispatch({
             type: 'READ_TABLE',
             id: id,
