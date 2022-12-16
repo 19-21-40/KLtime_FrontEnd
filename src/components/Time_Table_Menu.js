@@ -441,6 +441,49 @@ function Time_Table_Menu({ countIndex, setCountIndex, activate, setActivate, nex
         isFirstAddTable.current = false;
     };
 
+    const addRECTable = () => {
+
+        // 시간표 이름이나 id값이 중복되는지 확인
+        nextNumber.current = userTableState.totalTimeTable.length;
+        nextNumber.current += 1;
+        userTableState.totalTimeTable.map(timeTable => {
+            if (timeTable.id == nextNumber.curret ||
+                timeTable.tableName == `시간표${nextNumber.current}`) {
+                nextNumber.current += 1;
+            }
+        })
+
+        
+
+        // dispatch로 state에 새로운 table 추가
+        // userTableDispatch({
+        //     type: 'CREATE_RECOMMEND_TABLE',
+        //     timeTable: {
+        //         id: nextNumber.current,
+        //         tableName: action.tableName ,
+        //         lectureList: action.lectureDtoList,
+        //         primary: false,
+        //     },
+        //     selectedId: nextNumber.current,
+        // });
+
+
+        // 시간표 이름과 student정보를 백으로 던져줌
+        // if (accessToken && accessToken !== null) {
+        // axios.post(`${API_BASE_URL}/api/timetable/${userTableState.currentSet.year}/${userTableState.currentSet.semester}/add/${newTableName}`,null, {
+        //     headers: {
+        //         'Content-type': 'application/json; charset=UTF-8',
+        //         'Accept': '*/*',
+        //         'Authorization': "Bearer " + accessToken,
+        //     }, withCredentials: true,
+        // }).then(res => {
+        // }
+        // );
+    // } else {
+
+    // }
+        isFirstAddTable.current = false;
+    };
 
     const onRemove = (id, tableName) => {
         if (userTableState.totalTimeTable.length != 1) {

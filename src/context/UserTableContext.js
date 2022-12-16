@@ -169,6 +169,12 @@ function timeTableReducer(state, action) {
                 totalTimeTable: state.totalTimeTable.concat(action.timeTable),
                 selectedId: action.selectedId,
             }
+        case 'CREATE_RECOMMEND_TABLE'://시간표 추가
+            return {
+                ...state,
+                totalTimeTable: state.totalTimeTable.concat(action.timeTable),
+                selectedId: action.selectedId,
+            }
         case 'READ_TABLE'://시간표 선택시 불러오기
             return {
                 ...state,

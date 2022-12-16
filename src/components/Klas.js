@@ -148,7 +148,7 @@ function Klas() {
                             axios.post('/proxy/std/cps/inqire/AtnlcScreSungjukInfo.do')
                                 .then(async (resData) => {
                                     let klasTimeTableDTO = [];
-                                    const promises = resData.data.map(async (value, index) => {
+                                    const promises = resData.data.reverse().map(async (value, index) => {
                                         if (value.hakgi < 3) {
                                             await axios.post('/proxy/std/cmn/frame/StdHome.do', JSON.stringify({ "searchYearhakgi": `${value.thisYear},${value.hakgi}` }), {
                                                 headers: {
