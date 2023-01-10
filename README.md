@@ -1,6 +1,13 @@
 # Klas Time
 <img width="209" alt="스크린샷 2023-01-10 오후 6 29 38" src="https://user-images.githubusercontent.com/99861250/211513787-c848504d-e681-4f8c-b207-65ffd8b2d0d1.png">
 
+## 관련 링크
+
+* Website
+  * [Klas_Time 링크]()
+* Design
+  * [Figma 링크](https://www.figma.com/proto/HPynkaqC25nf0ASySwoQ9W/%EC%B0%B8%EB%B9%9B%EB%B3%B4%EC%A1%B0-UI%2FUX?node-id=127%3A645&starting-point-node-id=12%3A1510)
+
 ## 👥팀 소개
 
 **Front-End**
@@ -16,8 +23,6 @@
 
 
 ## 📖프로젝트 소개
-
-<img width="918" alt="스크린샷 2023-01-10 오후 5 39 55" src="https://user-images.githubusercontent.com/99861250/211503027-10e32001-7040-4cf9-afd9-528a61aea5d4.png">
 
 **구현 계기**
 
@@ -36,6 +41,8 @@
 * Klas 연동을 통한 이전 시간표 불러오기의 편의성 재공
 * 수강신청에서 일어날 수 있는 여러 문제들의 사전 방지
 * 간편한 졸업요건 확인
+
+<img width="918" alt="스크린샷 2023-01-10 오후 5 39 55" src="https://user-images.githubusercontent.com/99861250/211503027-10e32001-7040-4cf9-afd9-528a61aea5d4.png">
 
 ## 💻기능 소개
 
