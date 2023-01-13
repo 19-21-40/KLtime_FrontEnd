@@ -1,6 +1,8 @@
 import { useRef, useReducer, useEffect, useState } from "react";
 import { useUserTableState, useUserTableDispatch} from '../context/UserTableContext';
 import styled from "styled-components";
+import upImage from "../image/up_vector.png"
+import downIamge from "../image/down_vector.png"
 
 
 const Total_Container = styled.div`
@@ -57,7 +59,7 @@ const Icon = styled.div`
     }
 `
 
-const FoldButton = styled.button`
+const FoldButton = styled.img`
     width: 30px;    
     height: 30px;
     
@@ -412,7 +414,7 @@ function Search({fold, setFold})
             <SelectIcon>
                 <SearchIcon iconList={iconListref.current} inputDispatch={inputDispatch}/>
             </SelectIcon>
-            <FoldButton onClick={clickFold}>{fold ? "⬇️" : '⬆️'}</FoldButton>
+            <FoldButton onClick={clickFold} src={fold? upImage : downIamge} />
             {!fold && <SearchCollection>
                 <Row>
                     <Select>
